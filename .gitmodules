@@ -1,6 +1,3 @@
-[submodule "submodules/Project.Utils"]
-	path = submodules/Project.Utils
-	url = https://github.com/MirrorTuneZM/Unreal.ObjectsEmitter.git
 [submodule "submodules/Unreal.ObjectsEmitter"]
 	path = submodules/Unreal.ObjectsEmitter
 	url = https://github.com/MirrorTuneZM/Unreal.ObjectsEmitter.git
