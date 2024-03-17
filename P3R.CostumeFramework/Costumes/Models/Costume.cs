@@ -1,0 +1,49 @@
+﻿namespace P3R.CostumeFramework.Costumes.Models;
+
+internal class Costume
+{
+    public Costume(Character character, int costumeId)
+    {
+        this.Character = character;
+        this.CostumeId = costumeId;
+    }
+
+    public Costume(int costumeId)
+    {
+        this.CostumeId = costumeId;
+    }
+
+    public Costume()
+    {
+    }
+
+    public int CostumeItemId { get; private set; }
+
+    public int CostumeId { get; set; }
+
+    public bool IsEnabled { get; set; }
+
+    public Character Character { get; set; } = Character.NONE;
+
+    public string? Name { get; set; }
+
+    public CostumeConfig Config { get; set; } = new();
+
+    public string? OwnerModId { get; set; }
+
+    public string? MusicScriptFile { get; set; }
+
+    public string? BattleThemeFile { get; set; }
+
+    public void SetCostumeItemId(int costumeItemId)
+    {
+        this.CostumeItemId = costumeItemId;
+        Log.Debug($"{this.Name} set to Costume Item ID: {this.CostumeItemId}");
+    }
+
+    public static bool IsItemIdCostume(int itemId) => itemId >= 0x8000 && itemId < 0x9000;
+
+    public static int GetCostumeItemId(int itemId) => itemId - 0x8000;
+
+    public static bool IsActive(Costume costume) => costume.IsEnabled && costume.Character != Character.NONE;
+}

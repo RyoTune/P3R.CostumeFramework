@@ -1,0 +1,25 @@
+{
+  "ModId": "P3R.CostumeFramework",
+  "ModName": "Costume Framework for P3R",
+  "ModAuthor": "zutomayofan50",
+  "ModVersion": "1.0.0",
+  "ModDescription": "Streamlines and enhances outfit mods!",
+  "ModDll": "P3R.CostumeFramework.dll",
+  "ModIcon": "Preview.png",
+  "ModR2RManagedDll32": "x86/P3R.CostumeFramework.dll",
+  "ModR2RManagedDll64": "x64/P3R.CostumeFramework.dll",
+  "ModNativeDll32": "",
+  "ModNativeDll64": "",
+  "IsLibrary": false,
+  "ReleaseMetadataFileName": "P3R.CostumeFramework.ReleaseMetadata.json",
+  "PluginData": {},
+  "IsUniversalMod": false,
+  "ModDependencies": [
+    "reloaded.sharedlib.hooks",
+    "Reloaded.Memory.SigScan.ReloadedII",
+    "Unreal.ObjectsEmitter.Reloaded"
+  ],
+  "OptionalDependencies": [],
+  "SupportedAppId": [ "p3r.exe" ],
+  "ProjectUrl": ""
+}
