@@ -122,7 +122,7 @@ internal unsafe class CostumeHooks
     /// <param name="filePath"></param>
     private void SetCostumeFilePath(Costume costume, string filePath, CostumeAssetType type)
     {
-        var newAssetPaths = new AssetFNames(filePath);
+        var newAssetPaths = new AssetFNames($"/Game/{filePath.Replace('\\', '/')}");
         var originalAssetPaths = new AssetFNames(GetAssetPath(costume, type));
 
         this.unreal.AssignFName(Mod.NAME, originalAssetPaths.AssetPath, newAssetPaths.AssetPath);
@@ -139,10 +139,10 @@ internal unsafe class CostumeHooks
     private static string GetAssetPath(Costume costume, CostumeAssetType type)
         => type switch
         {
-            CostumeAssetType.Base => $"/Game/Xrd777/Characters/Player/PC{costume.Character:0000}/Models/SK_PC{costume.Character:0000}_BaseSkeleton.uasset",
-            CostumeAssetType.Costume => $"/Game/Xrd777/Characters/Player/PC{costume.Character:0000}/Models/SK_PC{costume.Character:0000}_C{costume.CostumeId:000}.uasset",
-            CostumeAssetType.Hair => $"/Game/Xrd777/Characters/Player/PC{costume.Character:0000}/Models/SK_PC{costume.Character:0000}_H{costume.CostumeId:000}.uasset",
-            CostumeAssetType.Face => $"/Game/Xrd777/Characters/Player/PC{costume.Character:0000}/Models/SK_PC{costume.Character:0000}_F{costume.CostumeId:000}.uasset",
+            CostumeAssetType.Base => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(costume.Character)}/Models/SK_PC{GetCharIdString(costume.Character)}_BaseSkeleton.uasset",
+            CostumeAssetType.Costume => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(costume.Character)}/Models/SK_PC{GetCharIdString(costume.Character)}_C{costume.CostumeId:000}.uasset",
+            CostumeAssetType.Hair => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(costume.Character)}/Models/SK_PC{GetCharIdString(costume.Character)}_H{costume.CostumeId:000}.uasset",
+            CostumeAssetType.Face => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(costume.Character)}/Models/SK_PC{GetCharIdString(costume.Character)}_F{costume.CostumeId:000}.uasset",
             _ => throw new Exception()
         };
 
@@ -158,6 +158,8 @@ internal unsafe class CostumeHooks
         => Enum.Parse<Character>(flag.ToString());
     private static EquipFlag GetEquipFromChar(Character character)
         => Enum.Parse<EquipFlag>(character.ToString());
+
+    private static string GetCharIdString(Character character) => ((int)character).ToString("0000");
 }
 
 
