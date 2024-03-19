@@ -2,6 +2,8 @@
 
 internal class Costume
 {
+    private const string DEF_DESC = "[uf 0 5 65278][uf 2 1]Costume added with Costume Framework.[n][e]";
+
     public Costume(Character character, int costumeId)
     {
         this.Character = character;
@@ -26,6 +28,8 @@ internal class Costume
     public Character Character { get; set; } = Character.NONE;
 
     public string? Name { get; set; }
+
+    public string Description { get; set; } = DEF_DESC;
 
     public CostumeConfig Config { get; set; } = new();
 

@@ -38,8 +38,24 @@ internal class CostumeFactory
         }
 
         costume.Character = character;
+        costume.IsEnabled = true;
         costume.Name = name;
         costume.Config.Costume.MeshPath = $"/Game/Xrd777/Characters/Player/PC{character:0000}/Models/SK_PC{character:0000}_C{costumeId:000}.uasset";
+        return costume;
+    }
+
+    public Costume? CreateFromExisting(Character character, string name, string existingMesh)
+    {
+        var costume = this.GetAvailableCostume();
+        if (costume == null)
+        {
+            return null;
+        }
+
+        costume.Character = character;
+        costume.IsEnabled = true;
+        costume.Name = name;
+        costume.Config.Costume.MeshPath = existingMesh;
         return costume;
     }
 
@@ -64,6 +80,8 @@ internal class CostumeFactory
 
         SetCostumeFile(mod, Path.Join(costumeDir, "music.pme"), path => costume.MusicScriptFile = path, SetType.Full);
         SetCostumeFile(mod, Path.Join(costumeDir, "battle.theme.pme"), path => costume.BattleThemeFile = path, SetType.Full);
+
+        SetCostumeFile(mod, Path.Join(costumeDir, "description.msg"), path => costume.Description = File.ReadAllText(path), SetType.Full);
     }
 
     private static void SetCostumeFile(CostumeMod mod, string modFile, Action<string> setFile, SetType type = SetType.Relative)
