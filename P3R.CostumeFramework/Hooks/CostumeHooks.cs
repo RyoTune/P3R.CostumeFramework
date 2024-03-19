@@ -91,7 +91,7 @@ internal unsafe class CostumeHooks
                 var costumeAssetPath = AssetUtils.GetAssetPath(redirectCostume.Config.Costume.MeshPath);
                 if (costumeAssetPath.Length > 74)
                 {
-                    Log.Warning("Costume asset paths longer than 73 characters is currently unsupported.");
+                    Log.Warning($"Costume asset paths longer than 74 characters is currently unsupported.\nAsset: {costumeAssetPath}");
                     Log.Warning("Alternatively, use a shorter folder name and set the costume name in the \"config.yaml\".");
                     return;
                 }

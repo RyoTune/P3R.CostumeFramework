@@ -69,7 +69,17 @@ internal class CostumeFactory
     {
         // Load config first so costume asset stuff is
         // overwritten by actual files.
-        SetCostumeFile(mod, Path.Join(costumeDir, "config.yaml"), path => costume.Config = YamlSerializer.DeserializeFile<CostumeConfig>(path), SetType.Full);
+        SetCostumeFile(mod, Path.Join(costumeDir, "config.yaml"), path =>
+        {
+            var config = YamlSerializer.DeserializeFile<CostumeConfig>(path);
+
+            if (config.Name != null) costume.Name = config.Name;
+            if (config.Base.MeshPath != null) costume.Config.Base.MeshPath = config.Base.MeshPath;
+            if (config.Costume.MeshPath != null) costume.Config.Costume.MeshPath = config.Costume.MeshPath;
+            if (config.Face.MeshPath != null) costume.Config.Face.MeshPath = config.Face.MeshPath;
+            if (config.Hair.MeshPath != null) costume.Config.Hair.MeshPath = config.Hair.MeshPath;
+
+        }, SetType.Full);
 
         SetCostumeFile(mod, Path.Join(costumeDir, "base-mesh.uasset"), path => costume.Config.Base.MeshPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "base-anim.uasset"), path => costume.Config.Base.AnimPath = path);
