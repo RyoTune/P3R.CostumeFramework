@@ -9,6 +9,13 @@ internal static class YamlSerializer
         .WithNamingConvention(UnderscoredNamingConvention.Instance)
         .Build();
 
+    private static readonly ISerializer serializer = new SerializerBuilder()
+        .WithNamingConvention(UnderscoredNamingConvention.Instance)
+        .Build();
+
     public static T DeserializeFile<T>(string file)
         => deserializer.Deserialize<T>(File.ReadAllText(file));
+
+    public static void SerializeFile<T>(string file, T obj)
+        => File.WriteAllText(file, serializer.Serialize(obj));
 }
