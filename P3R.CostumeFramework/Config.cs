@@ -1,4 +1,5 @@
 ﻿using P3R.CostumeFramework.Template.Configuration;
+using P3R.CostumeFramework.Types;
 using System.ComponentModel;
 
 namespace P3R.CostumeFramework.Configuration;
@@ -17,6 +18,11 @@ public class Config : Configurable<Config>
     [DisplayName("Randomize Costumes")]
     [DefaultValue(false)]
     public bool RandomizeCostumes { get; set; } = false;
+
+    [DisplayName("Costume Filter")]
+    [Description("Filter out costumes in the game/randomization.")]
+    [DefaultValue(CostumeFilter.None)]
+    public CostumeFilter CostumeFilter { get; set; } = CostumeFilter.None;
 }
 
 /// <summary>
