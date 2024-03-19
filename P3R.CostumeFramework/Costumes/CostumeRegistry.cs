@@ -1,4 +1,5 @@
 ﻿using P3R.CostumeFramework.Costumes.Models;
+using P3R.CostumeFramework.Types;
 using System.Diagnostics.CodeAnalysis;
 
 namespace P3R.CostumeFramework.Costumes;
@@ -7,19 +8,20 @@ internal class CostumeRegistry
 {
     private readonly CostumeFactory costumeFactory;
 
-    public CostumeRegistry()
+    public CostumeRegistry(CostumeFilter filter)
     {
+        this.Costumes = new(filter);
         this.costumeFactory = new(this.Costumes);
     }
 
-    public GameCostumes Costumes { get; } = new();
+    public GameCostumes Costumes { get; }
 
     public Costume[] GetActiveCostumes()
-        => this.Costumes.Where(x => x.IsEnabled && x.Character != Character.NONE).ToArray();
+        => this.Costumes.Where(x => IsActiveCostume(x)).ToArray();
 
     public Costume? GetRandomCostume(Character character)
     {
-        var costumes = this.Costumes.Where(x => x.Character == character).ToArray();
+        var costumes = this.GetActiveCostumes().Where(x => x.Character == character).ToArray();
         if (costumes.Length < 1)
         {
             return null;
@@ -30,13 +32,20 @@ internal class CostumeRegistry
 
     public bool TryGetCostume(Character character, int costumeId, [NotNullWhen(true)] out Costume? costume)
     {
-        costume = this.Costumes.FirstOrDefault(x => IsValidCostume(x, character, costumeId));
+        costume = this.Costumes.FirstOrDefault(x => IsRequestedCostume(x, character, costumeId));
         if (costume != null)
         {
             return true;
         }
 
         return false;
+    }
+
+    public bool TryGetCostumeByItemId(int itemId, [NotNullWhen(true)] out Costume? costume)
+    {
+        var costumeItemId = Costume.GetCostumeItemId(itemId);
+        costume = this.Costumes.FirstOrDefault(x => x.CostumeItemId == costumeItemId && IsActiveCostume(x));
+        return costume != null;
     }
 
     public void RegisterMod(string modId, string modDir)
@@ -76,15 +85,19 @@ internal class CostumeRegistry
         }
     }
 
-    private static bool IsValidCostume(Costume costume,  Character character, int costumeId)
+    private static bool IsRequestedCostume(Costume costume, Character character, int costumeId)
     {
         if (costume.Character == character
             && costume.CostumeId == costumeId
-            && costume.IsEnabled)
+            && IsActiveCostume(costume))
         {
             return true;
         }
 
         return false;
     }
+
+    private static bool IsActiveCostume(Costume costume)
+        => costume.IsEnabled
+        && costume.Character != Character.NONE;
 }

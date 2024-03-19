@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using P3R.CostumeFramework.Types;
+using System.Collections;
 using System.Reflection;
 using System.Text.Json;
 
@@ -9,10 +10,18 @@ internal class GameCostumes : IReadOnlyList<Costume>
     private const int BASE_MOD_COSTUME_ID = 1000;
     private const int NUM_MOD_COSTUMES = 100;
 
+    private readonly CostumeFilter filterSetting;
+    private readonly Dictionary<CostumeFilter, int[]> filters = new()
+    {
+        [CostumeFilter.Non_Fanservice] = new[] { 102, 104, 106 }
+    };
+
     private readonly List<Costume> costumes = new();
 
-    public GameCostumes()
+    public GameCostumes(CostumeFilter filter)
     {
+        this.filterSetting = filter;
+
         var assembly = Assembly.GetExecutingAssembly();
         var resourceName = "P3R.CostumeFramework.Resources.costumes.json";
         using var stream = assembly.GetManifestResourceStream(resourceName)!;
@@ -28,7 +37,7 @@ internal class GameCostumes : IReadOnlyList<Costume>
         // Enable all existing costumes.
         foreach (var costume in this.costumes)
         {
-            costume.IsEnabled = true;
+            costume.IsEnabled = IsCostumeEnabled(costume);
         }
 
         // Add mod costume slots.
@@ -47,4 +56,25 @@ internal class GameCostumes : IReadOnlyList<Costume>
     public IEnumerator<Costume> GetEnumerator() => costumes.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => costumes.GetEnumerator();
+
+    private bool IsCostumeEnabled(Costume costume)
+    {
+        if (costume.CostumeId == 154
+            || costume.CostumeId == 501
+            || costume.CostumeId == 502
+            || costume.CostumeId == 503)
+        {
+            return false;
+        }
+
+        if (this.filters.TryGetValue(this.filterSetting, out var filter))
+        {
+            if (filter.Contains(costume.CostumeId))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
