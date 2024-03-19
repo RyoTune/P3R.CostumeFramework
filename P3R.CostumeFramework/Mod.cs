@@ -7,6 +7,7 @@ using Reloaded.Mod.Interfaces;
 using Reloaded.Mod.Interfaces.Internal;
 using System.Diagnostics;
 using System.Drawing;
+using Unreal.AtlusScript.Interfaces;
 using Unreal.ObjectsEmitter.Interfaces;
 
 namespace P3R.CostumeFramework;
@@ -25,6 +26,7 @@ public class Mod : ModBase
 
     private readonly CostumeService costumes;
     private readonly CostumeRegistry costumeRegistry;
+    private readonly CostumeDescService costumeDesc;
 
     public Mod(ModContext context)
     {
@@ -45,9 +47,11 @@ public class Mod : ModBase
         this.modLoader.GetController<IStartupScanner>().TryGetTarget(out var scanner);
         this.modLoader.GetController<IUObjects>().TryGetTarget(out var uobjects);
         this.modLoader.GetController<IUnreal>().TryGetTarget(out var unreal);
+        this.modLoader.GetController<IAtlusAssets>().TryGetTarget(out var atlusAssets);
 
-        this.costumeRegistry = new();
-        this.costumes = new(uobjects!, unreal!, this.costumeRegistry);
+        this.costumeRegistry = new(this.config.CostumeFilter);
+        this.costumeDesc = new(atlusAssets!);
+        this.costumes = new(uobjects!, unreal!, this.costumeRegistry, this.costumeDesc);
 
         ScanHooks.Initialize(scanner!, this.hooks);
         this.ApplyConfig();
