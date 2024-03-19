@@ -10,17 +10,67 @@
   "ModR2RManagedDll64": "x64/P3R.CostumeFramework.dll",
   "ModNativeDll32": "",
   "ModNativeDll64": "",
+  "Tags": [],
+  "CanUnload": false,
+  "HasExports": false,
   "IsLibrary": false,
   "ReleaseMetadataFileName": "P3R.CostumeFramework.ReleaseMetadata.json",
-  "PluginData": {},
+  "PluginData": {
+    "GameBanana": {
+      "ItemType": "Mod",
+      "ItemId": 501833
+    },
+    "GameBananaDependencies": {
+      "IdToConfigMap": {
+        "Unreal.AtlusScript.Reloaded": {
+          "Config": {
+            "ItemType": "Mod",
+            "ItemId": 501844
+          },
+          "ReleaseMetadataName": "Unreal.AtlusScript.Reloaded.ReleaseMetadata.json"
+        },
+        "Unreal.ObjectsEmitter.Reloaded": {
+          "Config": {
+            "ItemType": "Mod",
+            "ItemId": 500638
+          },
+          "ReleaseMetadataName": "Unreal.ObjectsEmitter.Reloaded.ReleaseMetadata.json"
+        }
+      }
+    },
+    "GitHubDependencies": {
+      "IdToConfigMap": {
+        "Reloaded.Memory.SigScan.ReloadedII": {
+          "Config": {
+            "UserName": "Reloaded-Project",
+            "RepositoryName": "Reloaded.Memory.SigScan",
+            "UseReleaseTag": false,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "Reloaded.Memory.SigScan.ReloadedII.ReleaseMetadata.json"
+        },
+        "reloaded.sharedlib.hooks": {
+          "Config": {
+            "UserName": "Sewer56",
+            "RepositoryName": "Reloaded.SharedLib.Hooks.ReloadedII",
+            "UseReleaseTag": true,
+            "AssetFileName": "reloaded.sharedlib.hooks.zip"
+          },
+          "ReleaseMetadataName": "Sewer56.Update.ReleaseMetadata.json"
+        }
+      }
+    }
+  },
   "IsUniversalMod": false,
   "ModDependencies": [
-    "reloaded.sharedlib.hooks",
     "Reloaded.Memory.SigScan.ReloadedII",
-    "Unreal.ObjectsEmitter.Reloaded",
-    "Unreal.AtlusScript.Reloaded"
+    "reloaded.sharedlib.hooks",
+    "Unreal.AtlusScript.Reloaded",
+    "Unreal.ObjectsEmitter.Reloaded"
   ],
   "OptionalDependencies": [],
-  "SupportedAppId": [ "p3r.exe" ],
+  "SupportedAppId": [
+    "p3r.exe"
+  ],
   "ProjectUrl": ""
 }
