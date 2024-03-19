@@ -17,7 +17,8 @@
   "ModDependencies": [
     "reloaded.sharedlib.hooks",
     "Reloaded.Memory.SigScan.ReloadedII",
-    "Unreal.ObjectsEmitter.Reloaded"
+    "Unreal.ObjectsEmitter.Reloaded",
+    "Unreal.AtlusScript.Reloaded"
   ],
   "OptionalDependencies": [],
   "SupportedAppId": [ "p3r.exe" ],

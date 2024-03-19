@@ -32,6 +32,7 @@
     <None Remove="Reloaded.Trimming.targets" />
     <None Remove="Reloaded.Checks.targets" />
     <None Remove="Resources\costumes.json" />
+    <None Remove="Resources\descriptions.msg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,11 +53,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\submodules\Project.Utils\Project.Utils.csproj" />
+    <ProjectReference Include="..\submodules\Unreal.AtlusScript\Unreal.AtlusScript.Interfaces\Unreal.AtlusScript.Interfaces.csproj" />
     <ProjectReference Include="..\submodules\Unreal.ObjectsEmitter\Unreal.ObjectsEmitter.Interfaces\Unreal.ObjectsEmitter.Interfaces.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\costumes.json" />
+    <EmbeddedResource Include="Resources\descriptions.msg" />
   </ItemGroup>
 
 </Project>
