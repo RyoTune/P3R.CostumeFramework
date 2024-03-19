@@ -9,10 +9,10 @@ internal unsafe class CostumeService
     private readonly ItemCountHook itemCountHook;
     private readonly CostumeNameHook costumeNameHook;
 
-    public CostumeService(IUObjects uobjects, IUnreal unreal, CostumeRegistry registry)
+    public CostumeService(IUObjects uobjects, IUnreal unreal, CostumeRegistry registry, CostumeDescService costumeDesc)
     {
-        this.costumeHooks = new(uobjects, unreal, registry);
-        this.itemCountHook = new();
+        this.costumeHooks = new(uobjects, unreal, registry, costumeDesc);
+        this.itemCountHook = new(registry);
         this.costumeNameHook = new(uobjects, registry);
     }
 
