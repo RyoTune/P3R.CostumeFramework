@@ -5,10 +5,15 @@ using Unreal.ObjectsEmitter.Interfaces.Types;
 namespace P3R.CostumeFramework.Hooks.Models;
 
 [StructLayout(LayoutKind.Explicit, Size = 0x40)]
-public unsafe struct UCostumeItemListTable : IEnumerable<FCostumeItemList>
+public unsafe struct UCostumeItemListTable
+    : IEnumerable<FCostumeItemList>, IReadOnlyList<FCostumeItemList>
 {
     //[FieldOffset(0x0000)] public UAppDataAsset baseObj;
     [FieldOffset(0x0030)] public TArray<FCostumeItemList> Data;
+
+    public FCostumeItemList this[int index] => this.Data.AllocatorInstance[index];
+
+    public int Count => Data.Num;
 
     public readonly IEnumerator<FCostumeItemList> GetEnumerator() => new TArrayWrapper<FCostumeItemList>(Data).GetEnumerator();
 
