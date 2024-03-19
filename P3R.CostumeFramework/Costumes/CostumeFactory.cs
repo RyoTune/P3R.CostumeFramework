@@ -1,4 +1,5 @@
 ﻿using P3R.CostumeFramework.Costumes.Models;
+using P3R.CostumeFramework.Utils;
 
 namespace P3R.CostumeFramework.Costumes;
 
@@ -61,11 +62,15 @@ internal class CostumeFactory
 
     private static void ProcessCostume(CostumeMod mod, Costume costume, string costumeDir)
     {
-        AddCostumeFiles(mod, costume, costumeDir);
+        LoadCostumeData(mod, costume, costumeDir);
     }
 
-    private static void AddCostumeFiles(CostumeMod mod, Costume costume, string costumeDir)
+    private static void LoadCostumeData(CostumeMod mod, Costume costume, string costumeDir)
     {
+        // Load config first so costume asset stuff is
+        // overwritten by actual files.
+        SetCostumeFile(mod, Path.Join(costumeDir, "config.yaml"), path => costume.Config = YamlSerializer.DeserializeFile<CostumeConfig>(path), SetType.Full);
+
         SetCostumeFile(mod, Path.Join(costumeDir, "base-mesh.uasset"), path => costume.Config.Base.MeshPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "base-anim.uasset"), path => costume.Config.Base.AnimPath = path);
 

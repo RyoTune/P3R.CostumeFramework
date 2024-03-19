@@ -12,13 +12,13 @@ internal class CostumeConfig
     /// </summary>
     public bool IsDefault { get; set; }
 
-    public CostumePartsData Base { get; } = new();
+    public CostumePartsData Base { get; set; } = new();
 
-    public CostumePartsData Costume { get; } = new();
+    public CostumePartsData Costume { get; set; } = new();
 
-    public CostumePartsData Hair { get; } = new();
+    public CostumePartsData Hair { get; set; } = new();
 
-    public CostumePartsData Face { get; } = new();
+    public CostumePartsData Face { get; set; } = new();
 }
 
 internal class CostumePartsData

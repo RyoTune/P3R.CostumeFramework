@@ -58,19 +58,20 @@ internal class CostumeRegistry
             // Build costumes from folders.
             foreach (var costumeDir in Directory.EnumerateDirectories(characterDir))
             {
-                this.costumeFactory.Create(mod, costumeDir, character);
+                try
+                {
+                    this.costumeFactory.Create(mod, costumeDir, character);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, $"Failed to create costume from folder.\nFolder: {costumeDir}");
+                }
             }
 
             // Add costume files for existing costumes.
             //foreach (var costume in this.CostumesList.Where(x => x.Character == character && x.Name != null))
             //{
             //    this.costumeFactory.AddCostumeFiles(costume, costumesDir, modId);
-            //}
-
-            // Build new costumes from GMD files.
-            //foreach (var file in Directory.EnumerateFiles(characterDir, "*.gmd", SearchOption.TopDirectoryOnly))
-            //{
-            //    this.costumeFactory.Create(modId, costumesDir, character, file);
             //}
         }
     }
