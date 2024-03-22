@@ -35,6 +35,41 @@
             "ItemId": 500638
           },
           "ReleaseMetadataName": "Unreal.ObjectsEmitter.Reloaded.ReleaseMetadata.json"
+        },
+        "BGME.Framework.API": {
+          "Config": {
+            "ItemType": "Mod",
+            "ItemId": 477399
+          },
+          "ReleaseMetadataName": "BGME.Framework.API.ReleaseMetadata.json"
+        },
+        "BGME.BattleThemes": {
+          "Config": {
+            "ItemType": "Mod",
+            "ItemId": 488707
+          },
+          "ReleaseMetadataName": "BGME.BattleThemes.ReleaseMetadata.json"
+        },
+        "BGME.Framework.P3R": {
+          "Config": {
+            "ItemType": "Mod",
+            "ItemId": 495456
+          },
+          "ReleaseMetadataName": "BGME.Framework.P3R.ReleaseMetadata.json"
+        },
+        "Ryo.Reloaded": {
+          "Config": {
+            "ItemType": "Mod",
+            "ItemId": 495507
+          },
+          "ReleaseMetadataName": "Ryo.Reloaded.ReleaseMetadata.json"
+        },
+        "SharedScans.Reloaded": {
+          "Config": {
+            "ItemType": "Mod",
+            "ItemId": 495507
+          },
+          "ReleaseMetadataName": "SharedScans.Reloaded.ReleaseMetadata.json"
         }
       }
     },
@@ -66,7 +101,10 @@
     "Reloaded.Memory.SigScan.ReloadedII",
     "reloaded.sharedlib.hooks",
     "Unreal.AtlusScript.Reloaded",
-    "Unreal.ObjectsEmitter.Reloaded"
+    "Unreal.ObjectsEmitter.Reloaded",
+    "BGME.Framework.API",
+    "BGME.BattleThemes",
+    "BGME.Framework.P3R"
   ],
   "OptionalDependencies": [],
   "SupportedAppId": [

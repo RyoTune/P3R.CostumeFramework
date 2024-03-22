@@ -52,6 +52,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\submodules\BGME.BattleThemes\BGME.BattleThemes.Interfaces\BGME.BattleThemes.Interfaces.csproj" />
+    <ProjectReference Include="..\submodules\BGME\BGME.Framework.Interfaces\BGME.Framework.Interfaces.csproj" />
     <ProjectReference Include="..\submodules\Project.Utils\Project.Utils.csproj" />
     <ProjectReference Include="..\submodules\Unreal.AtlusScript\Unreal.AtlusScript.Interfaces\Unreal.AtlusScript.Interfaces.csproj" />
     <ProjectReference Include="..\submodules\Unreal.ObjectsEmitter\Unreal.ObjectsEmitter.Interfaces\Unreal.ObjectsEmitter.Interfaces.csproj" />
