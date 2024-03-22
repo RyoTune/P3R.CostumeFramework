@@ -1,4 +1,6 @@
-﻿using P3R.CostumeFramework.Configuration;
+﻿using BGME.BattleThemes.Interfaces;
+using BGME.Framework.Interfaces;
+using P3R.CostumeFramework.Configuration;
 using P3R.CostumeFramework.Costumes;
 using P3R.CostumeFramework.Template;
 using Reloaded.Hooks.ReloadedII.Interfaces;
@@ -27,6 +29,7 @@ public class Mod : ModBase
     private readonly CostumeService costumes;
     private readonly CostumeRegistry costumeRegistry;
     private readonly CostumeDescService costumeDesc;
+    private readonly CostumeMusicService costumeMusic;
 
     public Mod(ModContext context)
     {
@@ -48,10 +51,13 @@ public class Mod : ModBase
         this.modLoader.GetController<IUObjects>().TryGetTarget(out var uobjects);
         this.modLoader.GetController<IUnreal>().TryGetTarget(out var unreal);
         this.modLoader.GetController<IAtlusAssets>().TryGetTarget(out var atlusAssets);
+        this.modLoader.GetController<IBgmeApi>().TryGetTarget(out var bgme);
+        this.modLoader.GetController<IBattleThemesApi>().TryGetTarget(out var battleThemes);
 
         this.costumeRegistry = new(this.config.CostumeFilter);
         this.costumeDesc = new(atlusAssets!);
-        this.costumes = new(uobjects!, unreal!, this.costumeRegistry, this.costumeDesc);
+        this.costumeMusic = new(bgme!, battleThemes!, this.costumeRegistry);
+        this.costumes = new(uobjects!, unreal!, this.costumeRegistry, this.costumeDesc, this.costumeMusic);
 
         ScanHooks.Initialize(scanner!, this.hooks);
         this.ApplyConfig();
@@ -74,6 +80,7 @@ public class Mod : ModBase
     {
         Log.LogLevel = this.config.LogLevel;
         this.costumes.SetRandomizeCostumes(this.config.RandomizeCostumes);
+        this.costumeMusic.SetConfig(this.config);
     }
 
     #region Standard Overrides

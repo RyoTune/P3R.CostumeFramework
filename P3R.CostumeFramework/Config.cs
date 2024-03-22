@@ -12,8 +12,23 @@ public class Config : Configurable<Config>
 
     [DisplayName("Extra Costumes")]
     [Description("Adds existing game files as new costumes.\nMay or may not cause visual bugs or crashes.")]
-    [DefaultValue(false)]
-    public bool ExtraCostumes { get; set; } = false;
+    [DefaultValue(true)]
+    public bool ExtraCostumes { get; set; } = true;
+
+    [Category("Integrations")]
+    [DisplayName("BGME Framework")]
+    [DefaultValue(true)]
+    public bool Integration_BGME { get; set; } = true;
+
+    [Category("Integrations")]
+    [DisplayName("BGME Battle Themes")]
+    [DefaultValue(true)]
+    public bool Integration_BattleThemes { get; set; } = true;
+
+    [DisplayName("Current Party BGM Only")]
+    [Description("Whether to limit costume BGM to only members in the current party.\nPlayer and Fuuka's costume BGM is always enabled.")]
+    [DefaultValue(true)]
+    public bool CurrentPartyBgmOnly { get; set; } = true;
 
     [DisplayName("Randomize Costumes")]
     [Description("This enables randomization globally, including the overworld.")]

@@ -27,18 +27,21 @@ internal unsafe class CostumeHooks
     private readonly CostumeRegistry registry;
     private readonly CostumeDescService costumeDesc;
     private readonly CostumeShellService costumeShells;
+    private readonly CostumeMusicService costumeMusic;
     private bool isCostumesRandom;
 
     public CostumeHooks(
         IUObjects uobjects,
         IUnreal unreal,
         CostumeRegistry registry,
-        CostumeDescService costumeDesc)
+        CostumeDescService costumeDesc,
+        CostumeMusicService costumeMusic)
     {
         this.uobjects = uobjects;
         this.unreal = unreal;
         this.registry = registry;
         this.costumeDesc = costumeDesc;
+        this.costumeMusic = costumeMusic;
         this.costumeShells = new(unreal);
 
         this.uobjects.FindObject("DatItemCostumeDataAsset", this.SetCostumeData);
@@ -111,6 +114,7 @@ internal unsafe class CostumeHooks
         }
 
         comp->mSetCostumeID = costumeId;
+        this.costumeMusic.Refresh(character, costumeId);
         Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId}");
     }
 
