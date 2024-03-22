@@ -16,6 +16,7 @@ public class Config : Configurable<Config>
     public bool ExtraCostumes { get; set; } = false;
 
     [DisplayName("Randomize Costumes")]
+    [Description("This enables randomization globally, including the overworld.")]
     [DefaultValue(false)]
     public bool RandomizeCostumes { get; set; } = false;
 

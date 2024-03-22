@@ -77,7 +77,7 @@ internal unsafe class CostumeHooks
             return;
         }
 
-        if (isCostumesRandom && this.registry.GetRandomCostume(character) is Costume costume)
+        if ((isCostumesRandom || costumeId == GameCostumes.RANDOMIZED_COSTUME_ID) && this.registry.GetRandomCostume(character) is Costume costume)
         {
             costumeId = costume.CostumeId;
             Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId} || Randomized: {costume.Name}");
@@ -98,16 +98,19 @@ internal unsafe class CostumeHooks
 
                 // Redirect to shell costume.
                 var currentShell = this.costumeShells.GetShellCostume(character, costumeId);
-                comp->mSetCostumeID = currentShell.CostumeId;
+                costumeId = currentShell.CostumeId;
 
-                var shellMeshFString = this.costumeShells.GetShellFString(currentShell);
-                shellMeshFString->SetString(costumeAssetPath);
+                var shellFStrings = this.costumeShells.GetShellFStrings(currentShell);
+                shellFStrings.CostumeMesh->SetString(costumeAssetPath);
+                //shellFStrings.HairMesh->SetString(AssetUtils.GetAssetPath(redirectCostume.Config.Hair.MeshPath));
+                //shellFStrings.FaceMesh->SetString(AssetUtils.GetAssetPath(redirectCostume.Config.Face.MeshPath));
 
                 Log.Debug($"Replacing: {currentShell.CostumeMeshPath}");
                 Log.Debug($"With: {costumeAssetPath}");
             }
         }
 
+        comp->mSetCostumeID = costumeId;
         Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId}");
     }
 

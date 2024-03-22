@@ -7,6 +7,8 @@ namespace P3R.CostumeFramework.Costumes.Models;
 
 internal class GameCostumes : IReadOnlyList<Costume>
 {
+    public const int RANDOMIZED_COSTUME_ID = 999;
+
     private const int BASE_MOD_COSTUME_ID = 1000;
     private const int NUM_MOD_COSTUMES = 100;
 
@@ -38,6 +40,18 @@ internal class GameCostumes : IReadOnlyList<Costume>
         foreach (var costume in this.costumes)
         {
             costume.IsEnabled = IsCostumeEnabled(costume);
+        }
+
+        // Add randomized costumes.
+        for (int i = 1; i < 11; i++)
+        {
+            var character = (Character)i;
+            this.costumes.Add(new(character, RANDOMIZED_COSTUME_ID)
+            {
+                Name = "Randomized Costumes",
+                Description = "[uf 0 5 65278][uf 2 1]Mystical clothes that randomly take the form of other outfits.[n][e]",
+                IsEnabled = true,
+            });
         }
 
         // Add mod costume slots.
