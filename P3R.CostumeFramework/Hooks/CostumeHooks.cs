@@ -86,6 +86,9 @@ internal unsafe class CostumeHooks
             Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId} || Randomized: {costume.Name}");
         }
 
+        // Update before costume ID is set to shell costume.
+        this.costumeMusic.Refresh(character, costumeId);
+
         if (costumeId >= 1000)
         {
             if (this.registry.TryGetCostume(character, costumeId, out var redirectCostume)
@@ -114,7 +117,6 @@ internal unsafe class CostumeHooks
         }
 
         comp->mSetCostumeID = costumeId;
-        this.costumeMusic.Refresh(character, costumeId);
         Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId}");
     }
 
