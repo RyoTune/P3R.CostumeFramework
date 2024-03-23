@@ -8,8 +8,8 @@ namespace P3R.CostumeFramework.Costumes.Models;
 internal class GameCostumes : IReadOnlyList<Costume>
 {
     public const int RANDOMIZED_COSTUME_ID = 999;
+    public const int BASE_MOD_COSTUME_ID = 1000;
 
-    private const int BASE_MOD_COSTUME_ID = 1000;
     private const int NUM_MOD_COSTUMES = 100;
 
     private readonly CostumeFilter filterSetting;

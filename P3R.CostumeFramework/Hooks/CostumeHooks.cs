@@ -28,6 +28,8 @@ internal unsafe class CostumeHooks
     private readonly CostumeDescService costumeDesc;
     private readonly CostumeShellService costumeShells;
     private readonly CostumeMusicService costumeMusic;
+    private readonly Dictionary<Character, DefaultCostume> defaultCostumes = new();
+
     private bool isCostumesRandom;
 
     public CostumeHooks(
@@ -43,6 +45,12 @@ internal unsafe class CostumeHooks
         this.costumeDesc = costumeDesc;
         this.costumeMusic = costumeMusic;
         this.costumeShells = new(unreal);
+        
+        foreach (var character in Enum.GetValues<Character>())
+        {
+            if (character > Character.Shinjiro) break;
+            this.defaultCostumes[character] = new(character);
+        }
 
         this.uobjects.FindObject("DatItemCostumeDataAsset", this.SetCostumeData);
 
@@ -89,33 +97,6 @@ internal unsafe class CostumeHooks
         // Update before costume ID is set to shell costume.
         this.costumeMusic.Refresh(character, costumeId);
 
-        if (costumeId >= 1000)
-        {
-            if (this.registry.TryGetCostume(character, costumeId, out var redirectCostume)
-                && redirectCostume.Config.Costume.MeshPath != null)
-            {
-                var costumeAssetPath = AssetUtils.GetAssetPath(redirectCostume.Config.Costume.MeshPath);
-                if (costumeAssetPath.Length > 74)
-                {
-                    Log.Warning($"Costume asset paths longer than 74 characters is currently unsupported.\nAsset: {costumeAssetPath}");
-                    Log.Warning("Alternatively, use a shorter folder name and set the costume name in the \"config.yaml\".");
-                    return;
-                }
-
-                // Redirect to shell costume.
-                var currentShell = this.costumeShells.GetShellCostume(character, costumeId);
-                costumeId = currentShell.CostumeId;
-
-                var shellFStrings = this.costumeShells.GetShellFStrings(currentShell);
-                shellFStrings.CostumeMesh->SetString(costumeAssetPath);
-                //shellFStrings.HairMesh->SetString(AssetUtils.GetAssetPath(redirectCostume.Config.Hair.MeshPath));
-                //shellFStrings.FaceMesh->SetString(AssetUtils.GetAssetPath(redirectCostume.Config.Face.MeshPath));
-
-                Log.Debug($"Replacing: {currentShell.CostumeMeshPath}");
-                Log.Debug($"With: {costumeAssetPath}");
-            }
-        }
-
         comp->mSetCostumeID = costumeId;
         Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId}");
     }
@@ -147,10 +128,88 @@ internal unsafe class CostumeHooks
             costume.SetCostumeItemId(newItemIndex);
             this.costumeDesc.SetCostumeDesc(newItemIndex, costume.Description);
 
+            if (costume.CostumeId >= GameCostumes.BASE_MOD_COSTUME_ID)
+            {
+                this.SetCostumePaths(costume);
+            }
+
             Log.Debug($"Added costume item: {costume.Name} || Costume Item ID: {newItemIndex} || Costume ID: {costume.CostumeId}");
             newItemIndex++;
         }
 
+        // Crashes on battle start.
+        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Player/PC0001/ABP_PC0001.uasset", Character.Yukari);
+
+        // No attack animation.
+        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Data/DataAsset/Player/PC0001/DA_PC0001_DungeonAnim.uasset", Character.Yukari);
+
+        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Player/PC0001/Models/SK_PC0001_BaseSkelton.uasset", Character.Yukari);
+        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Player/PC0001/Models/SK_PC0001_F000.uasset", Character.Yukari);
+        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Player/PC0001/Models/SK_PC0001_H000.uasset", Character.Yukari);
+        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Data/DataAsset/Player/PC0001/DA_PC0001_CommonAnim.uasset", Character.Yukari);
+        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Data/DataAsset/Player/PC0001/DA_PC0001_CombineAnim.uasset", Character.Yukari);
+        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Data/DataAsset/Player/PC0001/DA_PC0001_EventAnim.uasset", Character.Yukari);
+        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Data/DataAsset/Player/PC0001/DA_PC0001_FaceAnim.uasset", Character.Yukari);
+
+
+        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Player/PC0001/AnmBattle/A_PC0001_BTL0021_BASE_AttackA.uasset", Character.Yukari);
+        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Player/PC0001/AnmBattle/A_PC0001_BTL0022_BASE_AttackB.uasset", Character.Yukari);
+        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Player/PC0001/AnmBattle/A_PC0001_BTL0023_BASE_AttackC.uasset", Character.Yukari);
+
         this.costumeDesc.Init();
     }
+
+    private void RedirectToCharAsset(string assetFile, Character redirectChar)
+    {
+        var fnames = new AssetFNames(assetFile);
+        this.unreal.AssignFName(Mod.NAME, fnames.AssetName, fnames.AssetName.Replace("0001", $"{(int)redirectChar:0000}"));
+        this.unreal.AssignFName(Mod.NAME, fnames.AssetPath, fnames.AssetPath.Replace("0001", $"{(int)redirectChar:0000}"));
+    }
+
+    private void SetCostumePaths(Costume costume)
+    {
+        foreach (var assetType in Enum.GetValues<CostumeAssetType>())
+        {
+            this.SetCostumeFile(costume, assetType);
+        }
+    }
+
+    private void SetCostumeFile(Costume costume, CostumeAssetType assetType)
+    {
+        var ogAssetFile = AssetUtils.GetAssetFile(costume.Character, costume.CostumeId, assetType);
+        var currentAssetFile = costume.Config.GetAssetFile(assetType) ?? this.GetDefaultAsset(costume.Character, assetType);
+
+        if (ogAssetFile == null)
+        {
+            Log.Debug($"Asset has no original: {assetType} || Costume: {costume.Name}");
+            return;
+        }
+
+        if (currentAssetFile == null)
+        {
+            Log.Debug($"Asset has no default or new: {assetType} || Costume: {costume.Name}");
+            return;
+        }
+
+        if (ogAssetFile == currentAssetFile)
+        {
+            return;
+        }
+
+        var ogAssetFNames = new AssetFNames(ogAssetFile);
+        var newAssetFNames = new AssetFNames(currentAssetFile);
+
+        this.unreal.AssignFName(Mod.NAME, ogAssetFNames.AssetPath, newAssetFNames.AssetPath);
+        this.unreal.AssignFName(Mod.NAME, ogAssetFNames.AssetName, newAssetFNames.AssetName);
+    }
+
+    private string? GetDefaultAsset(Character character, CostumeAssetType assetType)
+        => this.defaultCostumes[character].GetAssetFile(assetType);
+
+    private record AssetFNames(string AssetFile)
+    {
+        public string AssetName { get; } = Path.GetFileNameWithoutExtension(AssetFile);
+
+        public string AssetPath { get; } = AssetUtils.GetAssetPath(AssetFile);
+    };
 }

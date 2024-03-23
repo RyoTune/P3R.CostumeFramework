@@ -19,6 +19,20 @@ internal class CostumeConfig
     public CostumePartsData Hair { get; set; } = new();
 
     public CostumePartsData Face { get; set; } = new();
+
+    public string? GetAssetFile(CostumeAssetType assetType)
+        => assetType switch
+        {
+            CostumeAssetType.Base_Mesh => this.Base.MeshPath,
+            CostumeAssetType.Base_Anim => this.Base.AnimPath,
+            CostumeAssetType.Costume_Mesh => this.Costume.MeshPath,
+            CostumeAssetType.Costume_Anim => this.Costume.AnimPath,
+            CostumeAssetType.Face_Mesh => this.Face.MeshPath,
+            CostumeAssetType.Face_Anim => this.Face.AnimPath,
+            CostumeAssetType.Hair_Mesh => this.Hair.MeshPath,
+            CostumeAssetType.Hair_Anim => this.Hair.AnimPath,
+            _ => throw new Exception("Unknown asset type."),
+        };
 }
 
 internal class CostumePartsData
