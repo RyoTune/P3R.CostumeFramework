@@ -137,25 +137,6 @@ internal unsafe class CostumeHooks
             newItemIndex++;
         }
 
-        // Crashes on battle start.
-        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Player/PC0001/ABP_PC0001.uasset", Character.Yukari);
-
-        // No attack animation.
-        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Data/DataAsset/Player/PC0001/DA_PC0001_DungeonAnim.uasset", Character.Yukari);
-
-        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Player/PC0001/Models/SK_PC0001_BaseSkelton.uasset", Character.Yukari);
-        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Player/PC0001/Models/SK_PC0001_F000.uasset", Character.Yukari);
-        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Player/PC0001/Models/SK_PC0001_H000.uasset", Character.Yukari);
-        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Data/DataAsset/Player/PC0001/DA_PC0001_CommonAnim.uasset", Character.Yukari);
-        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Data/DataAsset/Player/PC0001/DA_PC0001_CombineAnim.uasset", Character.Yukari);
-        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Data/DataAsset/Player/PC0001/DA_PC0001_EventAnim.uasset", Character.Yukari);
-        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Data/DataAsset/Player/PC0001/DA_PC0001_FaceAnim.uasset", Character.Yukari);
-
-
-        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Player/PC0001/AnmBattle/A_PC0001_BTL0021_BASE_AttackA.uasset", Character.Yukari);
-        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Player/PC0001/AnmBattle/A_PC0001_BTL0022_BASE_AttackB.uasset", Character.Yukari);
-        //this.RedirectToCharAsset("/Game/Xrd777/Characters/Player/PC0001/AnmBattle/A_PC0001_BTL0023_BASE_AttackC.uasset", Character.Yukari);
-
         this.costumeDesc.Init();
     }
 

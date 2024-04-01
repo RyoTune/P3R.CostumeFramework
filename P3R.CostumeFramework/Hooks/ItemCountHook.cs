@@ -1,5 +1,4 @@
 ﻿using P3R.CostumeFramework.Costumes;
-using P3R.CostumeFramework.Costumes.Models;
 using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.X64;
 
@@ -8,7 +7,7 @@ namespace P3R.CostumeFramework.Hooks;
 internal class ItemCountHook
 {
     [Function(CallingConventions.Microsoft)]
-    private delegate nint FUN_14c15cad0(int itemId);
+    private delegate int FUN_14c15cad0(int itemId);
     private IHook<FUN_14c15cad0>? hook;
 
     private readonly CostumeRegistry registry;
@@ -22,7 +21,7 @@ internal class ItemCountHook
             (hooks, result) => this.hook = hooks.CreateHook<FUN_14c15cad0>(this.Hook, result).Activate());
     }
 
-    private nint Hook(int itemId)
+    private int Hook(int itemId)
     {
         if (this.registry.TryGetCostumeByItemId(itemId, out _))
         {
