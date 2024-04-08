@@ -2,7 +2,7 @@
   "ModId": "P3R.CostumeFramework",
   "ModName": "Costume Framework for P3R",
   "ModAuthor": "zutomayofan50",
-  "ModVersion": "1.1.0",
+  "ModVersion": "1.2.0",
   "ModDescription": "Streamlines and enhances outfit mods!",
   "ModDll": "P3R.CostumeFramework.dll",
   "ModIcon": "Preview.png",
@@ -12,7 +12,7 @@
   "ModNativeDll64": "",
   "Tags": [],
   "CanUnload": false,
-  "HasExports": false,
+  "HasExports": true,
   "IsLibrary": false,
   "ReleaseMetadataFileName": "P3R.CostumeFramework.ReleaseMetadata.json",
   "PluginData": {

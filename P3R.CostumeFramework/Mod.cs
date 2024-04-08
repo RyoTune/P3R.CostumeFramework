@@ -2,6 +2,7 @@
 using BGME.Framework.Interfaces;
 using P3R.CostumeFramework.Configuration;
 using P3R.CostumeFramework.Costumes;
+using P3R.CostumeFramework.Interfaces;
 using P3R.CostumeFramework.Template;
 using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Memory.SigScan.ReloadedII.Interfaces;
@@ -14,7 +15,7 @@ using Unreal.ObjectsEmitter.Interfaces;
 
 namespace P3R.CostumeFramework;
 
-public class Mod : ModBase
+public class Mod : ModBase, IExports
 {
     public const string NAME = "P3R.CostumeFramework";
 
@@ -30,6 +31,7 @@ public class Mod : ModBase
     private readonly CostumeRegistry costumeRegistry;
     private readonly CostumeDescService costumeDesc;
     private readonly CostumeMusicService costumeMusic;
+    private readonly CostumeOverridesRegistry costumeOverrides = new();
 
     public Mod(ModContext context)
     {
@@ -44,7 +46,7 @@ public class Mod : ModBase
         Debugger.Launch();
 #endif
 
-        Log.Initialize(NAME, this.log, Color.White);
+        Log.Initialize(NAME, this.log, Color.LightBlue);
         Log.LogLevel = this.config.LogLevel;
 
         this.modLoader.GetController<IStartupScanner>().TryGetTarget(out var scanner);
@@ -54,11 +56,12 @@ public class Mod : ModBase
         this.modLoader.GetController<IBgmeApi>().TryGetTarget(out var bgme);
         this.modLoader.GetController<IBattleThemesApi>().TryGetTarget(out var battleThemes);
 
-        this.costumeRegistry = new(this.config.CostumeFilter);
+        this.costumeRegistry = new(this.config.CostumeFilter, this.costumeOverrides);
         this.costumeDesc = new(atlusAssets!);
         this.costumeMusic = new(bgme!, battleThemes!, this.costumeRegistry);
         this.costumes = new(uobjects!, unreal!, this.costumeRegistry, this.costumeDesc, this.costumeMusic);
 
+        this.modLoader.AddOrReplaceController<ICostumeApi>(this.owner, this.costumeOverrides);
         ScanHooks.Initialize(scanner!, this.hooks);
         this.ApplyConfig();
 
@@ -74,6 +77,12 @@ public class Mod : ModBase
 
         var modDir = this.modLoader.GetDirectoryForModId(config.ModId);
         this.costumeRegistry.RegisterMod(config.ModId, modDir);
+
+        var overridesFile = Path.Join(modDir, "costumes", "overrides.yaml");
+        if (File.Exists(overridesFile))
+        {
+            this.costumeOverrides.AddOverridesFile(overridesFile);
+        }
     }
 
     private void ApplyConfig()
@@ -92,6 +101,8 @@ public class Mod : ModBase
         log.WriteLine($"[{modConfig.ModId}] Config Updated: Applying");
         this.ApplyConfig();
     }
+
+    public Type[] GetTypes() => [ typeof(ICostumeApi) ];
     #endregion
 
     #region For Exports, Serialization etc.

@@ -26,7 +26,7 @@ internal class CostumeFactory
         costume.Character = chararcter;
 
         ProcessCostume(mod, costume, costumeDir);
-        Log.Information($"Costume created: {costume.Character} || Costume ID: {costume.CostumeId} || Folder: {costumeDir}");
+        Log.Information($"Costume created: {costume.Character} || Costume ID: {costume.CostumeId}\nFolder: {costumeDir}");
         return costume;
     }
 
