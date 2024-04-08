@@ -25,10 +25,11 @@ internal unsafe class CostumeHooks
     private readonly IUnreal unreal;
     private readonly IUObjects uobjects;
     private readonly CostumeRegistry registry;
+    private readonly CostumeOverridesRegistry overrides;
     private readonly CostumeDescService costumeDesc;
     private readonly CostumeShellService costumeShells;
     private readonly CostumeMusicService costumeMusic;
-    private readonly Dictionary<Character, DefaultCostume> defaultCostumes = new();
+    private readonly Dictionary<Character, DefaultCostume> defaultCostumes = [];
 
     private bool isCostumesRandom;
 
@@ -36,12 +37,14 @@ internal unsafe class CostumeHooks
         IUObjects uobjects,
         IUnreal unreal,
         CostumeRegistry registry,
+        CostumeOverridesRegistry overrides,
         CostumeDescService costumeDesc,
         CostumeMusicService costumeMusic)
     {
         this.uobjects = uobjects;
         this.unreal = unreal;
         this.registry = registry;
+        this.overrides = overrides;
         this.costumeDesc = costumeDesc;
         this.costumeMusic = costumeMusic;
         this.costumeShells = new(unreal);
@@ -89,7 +92,7 @@ internal unsafe class CostumeHooks
         }
 
         // Apply any costume overrides.
-        if (this.registry.GetCostumeOverride(character, costumeId) is Costume overrideCostume)
+        if (this.overrides.TryGetCostumeOverride(character, costumeId, out var overrideCostume))
         {
             costumeId = overrideCostume.CostumeId;
             Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId} || Override: {overrideCostume.Name}");

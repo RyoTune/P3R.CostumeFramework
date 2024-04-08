@@ -13,10 +13,11 @@ internal unsafe class CostumeService
         IUObjects uobjects,
         IUnreal unreal,
         CostumeRegistry registry,
+        CostumeOverridesRegistry overrides,
         CostumeDescService costumeDesc,
         CostumeMusicService costumeMusic)
     {
-        this.costumeHooks = new(uobjects, unreal, registry, costumeDesc, costumeMusic);
+        this.costumeHooks = new(uobjects, unreal, registry, overrides, costumeDesc, costumeMusic);
         this.itemCountHook = new(registry);
         this.costumeNameHook = new(uobjects, registry);
     }

@@ -8,9 +8,9 @@ internal class CostumeOverrideSerialized
     public string Character { get; set; } = string.Empty;
 
     /// <summary>
-    /// Costume ID that is being overwritten.
+    /// Costume ID that is being overwritten (or name).
     /// </summary>
-    public int OriginalCostumeId { get; set; }
+    public string OriginalCostumeId { get; set; } = string.Empty;
 
     /// <summary>
     /// The name of the overriding costume.

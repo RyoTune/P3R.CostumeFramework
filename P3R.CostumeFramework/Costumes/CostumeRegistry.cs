@@ -6,13 +6,10 @@ namespace P3R.CostumeFramework.Costumes;
 
 internal class CostumeRegistry
 {
-    private readonly CostumeOverridesRegistry costumeOverrides;
     private readonly CostumeFactory costumeFactory;
 
-    public CostumeRegistry(CostumeFilter filter, CostumeOverridesRegistry costumeOverrides)
+    public CostumeRegistry(CostumeFilter filter)
     {
-        this.costumeOverrides = costumeOverrides;
-
         this.Costumes = new(filter);
         this.costumeFactory = new(this.Costumes);
     }
@@ -20,7 +17,7 @@ internal class CostumeRegistry
     public GameCostumes Costumes { get; }
 
     public Costume[] GetActiveCostumes()
-        => this.Costumes.Where(x => IsActiveCostume(x)).ToArray();
+        => this.Costumes.Where(IsActiveCostume).ToArray();
 
     public Costume? GetRandomCostume(Character character)
     {
@@ -31,25 +28,6 @@ internal class CostumeRegistry
         }
 
         return costumes[Random.Shared.Next(0, costumes.Length)];
-    }
-
-    public Costume? GetCostumeOverride(Character character, int costumeId)
-    {
-        // Get costume override.
-        if (this.costumeOverrides.TryGetCostumeOverride(character, costumeId, out var costumeOverride))
-        {
-            // Get new costume.
-            if (this.Costumes.FirstOrDefault(x => x.Character == costumeOverride.Character && x.Name.Equals(costumeOverride.NewCostumeName, StringComparison.OrdinalIgnoreCase)) is Costume newCostume)
-            {
-                return newCostume;
-            }
-            else
-            {
-                Log.Warning($"Failed to find new costume from override: {character} || Costume: {costumeOverride.NewCostumeName}");
-            }
-        }
-
-        return null;
     }
 
     public bool TryGetCostume(Character character, int costumeId, [NotNullWhen(true)] out Costume? costume)
