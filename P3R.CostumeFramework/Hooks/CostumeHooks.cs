@@ -88,10 +88,19 @@ internal unsafe class CostumeHooks
             return;
         }
 
-        if ((isCostumesRandom || costumeId == GameCostumes.RANDOMIZED_COSTUME_ID) && this.registry.GetRandomCostume(character) is Costume costume)
+        // Apply any costume overrides.
+        if (this.registry.GetCostumeOverride(character, costumeId) is Costume overrideCostume)
         {
-            costumeId = costume.CostumeId;
-            Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId} || Randomized: {costume.Name}");
+            costumeId = overrideCostume.CostumeId;
+            Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId} || Override: {overrideCostume.Name}");
+        }
+
+        // Apply randomized costumes.
+        if ((isCostumesRandom || costumeId == GameCostumes.RANDOMIZED_COSTUME_ID)
+            && this.registry.GetRandomCostume(character) is Costume randomCostume)
+        {
+            costumeId = randomCostume.CostumeId;
+            Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId} || Randomized: {randomCostume.Name}");
         }
 
         // Update before costume ID is set to shell costume.
