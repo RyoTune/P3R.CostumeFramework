@@ -8,6 +8,7 @@ internal unsafe class CostumeService
     private readonly CostumeHooks costumeHooks;
     private readonly ItemCountHook itemCountHook;
     private readonly CostumeNameHook costumeNameHook;
+    private readonly ItemEquipHooks itemEquipHooks;
 
     public CostumeService(
         IUObjects uobjects,
@@ -17,7 +18,8 @@ internal unsafe class CostumeService
         CostumeDescService costumeDesc,
         CostumeMusicService costumeMusic)
     {
-        this.costumeHooks = new(uobjects, unreal, registry, overrides, costumeDesc, costumeMusic);
+        this.itemEquipHooks = new();
+        this.costumeHooks = new(uobjects, unreal, registry, overrides, costumeDesc, costumeMusic, this.itemEquipHooks);
         this.itemCountHook = new(registry);
         this.costumeNameHook = new(uobjects, registry);
     }

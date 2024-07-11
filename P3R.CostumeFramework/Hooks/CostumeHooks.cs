@@ -29,6 +29,7 @@ internal unsafe class CostumeHooks
     private readonly CostumeDescService costumeDesc;
     private readonly CostumeShellService costumeShells;
     private readonly CostumeMusicService costumeMusic;
+    private ItemEquipHooks itemEquip;
     private readonly Dictionary<Character, DefaultCostume> defaultCostumes = [];
 
     private bool isCostumesRandom;
@@ -39,7 +40,8 @@ internal unsafe class CostumeHooks
         CostumeRegistry registry,
         CostumeOverridesRegistry overrides,
         CostumeDescService costumeDesc,
-        CostumeMusicService costumeMusic)
+        CostumeMusicService costumeMusic,
+        ItemEquipHooks itemEquip)
     {
         this.uobjects = uobjects;
         this.unreal = unreal;
@@ -48,6 +50,7 @@ internal unsafe class CostumeHooks
         this.costumeDesc = costumeDesc;
         this.costumeMusic = costumeMusic;
         this.costumeShells = new(unreal);
+        this.itemEquip = itemEquip;
         
         foreach (var character in Enum.GetValues<Character>())
         {

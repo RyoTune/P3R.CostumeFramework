@@ -39,6 +39,11 @@ public class Config : Configurable<Config>
     [Description("Filter out costumes in the game/randomization.")]
     [DefaultValue(CostumeFilter.None)]
     public CostumeFilter CostumeFilter { get; set; } = CostumeFilter.None;
+
+    [DisplayName("Overworld Costumes")]
+    [Description("Equipped costumes will also apply in the overworld.")]
+    [DefaultValue(false)]
+    public bool OverworldCostumes { get; set; } = false;
 }
 
 /// <summary>
