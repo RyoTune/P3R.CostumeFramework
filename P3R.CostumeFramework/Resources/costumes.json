@@ -101,9 +101,14 @@
    "Name": "Shujin Uniform"
   },
   {
-   "Character": 1,
-   "CostumeId": 503,
-   "Name": "Yasogami Uniform"
+    "Character": 1,
+    "CostumeId": 503,
+    "Name": "Yasogami Uniform"
+  },
+  {
+    "Character": 1,
+    "CostumeId": 504,
+    "Name": "Velvet Costume"
   }
  ],
  "2": [
@@ -193,9 +198,14 @@
    "Name": "Shujin Uniform"
   },
   {
-   "Character": 2,
-   "CostumeId": 503,
-   "Name": "Yasogami Uniform"
+    "Character": 2,
+    "CostumeId": 503,
+    "Name": "Yasogami Uniform"
+  },
+  {
+    "Character": 2,
+    "CostumeId": 504,
+    "Name": "Velvet Costume"
   }
  ],
  "3": [
@@ -265,9 +275,14 @@
    "Name": "Shujin Uniform"
   },
   {
-   "Character": 3,
-   "CostumeId": 503,
-   "Name": "Yasogami Uniform"
+    "Character": 3,
+    "CostumeId": 503,
+    "Name": "Yasogami Uniform"
+  },
+  {
+    "Character": 3,
+    "CostumeId": 504,
+    "Name": "Velvet Costume"
   }
  ],
  "4": [
@@ -342,9 +357,14 @@
    "Name": "Shujin Uniform"
   },
   {
-   "Character": 4,
-   "CostumeId": 503,
-   "Name": "Yasogami Uniform"
+    "Character": 4,
+    "CostumeId": 503,
+    "Name": "Yasogami Uniform"
+  },
+  {
+    "Character": 4,
+    "CostumeId": 504,
+    "Name": "Velvet Costume"
   }
  ],
  "5": [
@@ -429,9 +449,14 @@
    "Name": "Shujin Uniform"
   },
   {
-   "Character": 5,
-   "CostumeId": 503,
-   "Name": "Yasogami Uniform"
+    "Character": 5,
+    "CostumeId": 503,
+    "Name": "Yasogami Uniform"
+  },
+  {
+    "Character": 5,
+    "CostumeId": 504,
+    "Name": "Velvet Costume"
   }
  ],
  "6": [
@@ -511,9 +536,14 @@
    "Name": "Shujin Uniform"
   },
   {
-   "Character": 6,
-   "CostumeId": 503,
-   "Name": "Yasogami Uniform"
+    "Character": 6,
+    "CostumeId": 503,
+    "Name": "Yasogami Uniform"
+  },
+  {
+    "Character": 6,
+    "CostumeId": 504,
+    "Name": "Velvet Costume"
   }
  ],
  "7": [
@@ -598,9 +628,14 @@
    "Name": "Shujin Uniform"
   },
   {
-   "Character": 7,
-   "CostumeId": 503,
-   "Name": "Yasogami Uniform"
+    "Character": 7,
+    "CostumeId": 503,
+    "Name": "Yasogami Uniform"
+  },
+  {
+    "Character": 7,
+    "CostumeId": 504,
+    "Name": "Velvet Costume"
   }
  ],
  "8": [
@@ -660,9 +695,14 @@
    "Name": "Shujin Uniform"
   },
   {
-   "Character": 8,
-   "CostumeId": 503,
-   "Name": "Yasogami Uniform"
+    "Character": 8,
+    "CostumeId": 503,
+    "Name": "Yasogami Uniform"
+  },
+  {
+    "Character": 8,
+    "CostumeId": 504,
+    "Name": "Velvet Costume"
   }
  ],
  "9": [
@@ -702,9 +742,14 @@
    "Name": "Shujin Uniform"
   },
   {
-   "Character": 9,
-   "CostumeId": 503,
-   "Name": "Yasogami Uniform"
+    "Character": 9,
+    "CostumeId": 503,
+    "Name": "Yasogami Uniform"
+  },
+  {
+    "Character": 9,
+    "CostumeId": 504,
+    "Name": "Velvet Costume"
   }
  ],
  "10": [
@@ -749,9 +794,14 @@
    "Name": "Shujin Uniform"
   },
   {
-   "Character": 10,
-   "CostumeId": 503,
-   "Name": "Yasogami Uniform"
+    "Character": 10,
+    "CostumeId": 503,
+    "Name": "Yasogami Uniform"
+  },
+  {
+    "Character": 10,
+    "CostumeId": 504,
+    "Name": "Velvet Costume"
   }
  ]
 }
