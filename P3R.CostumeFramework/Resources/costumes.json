@@ -108,7 +108,7 @@
   {
     "Character": 1,
     "CostumeId": 504,
-    "Name": "Velvet Costume"
+    "Name": "Velvet Outfit"
   }
  ],
  "2": [
@@ -205,7 +205,7 @@
   {
     "Character": 2,
     "CostumeId": 504,
-    "Name": "Velvet Costume"
+    "Name": "Velvet Outfit"
   }
  ],
  "3": [
@@ -282,7 +282,7 @@
   {
     "Character": 3,
     "CostumeId": 504,
-    "Name": "Velvet Costume"
+    "Name": "Velvet Outfit"
   }
  ],
  "4": [
@@ -364,7 +364,7 @@
   {
     "Character": 4,
     "CostumeId": 504,
-    "Name": "Velvet Costume"
+    "Name": "Velvet Outfit"
   }
  ],
  "5": [
@@ -456,7 +456,7 @@
   {
     "Character": 5,
     "CostumeId": 504,
-    "Name": "Velvet Costume"
+    "Name": "Velvet Outfit"
   }
  ],
  "6": [
@@ -543,7 +543,7 @@
   {
     "Character": 6,
     "CostumeId": 504,
-    "Name": "Velvet Costume"
+    "Name": "Velvet Outfit"
   }
  ],
  "7": [
@@ -635,7 +635,7 @@
   {
     "Character": 7,
     "CostumeId": 504,
-    "Name": "Velvet Costume"
+    "Name": "Velvet Outfit"
   }
  ],
  "8": [
@@ -702,7 +702,7 @@
   {
     "Character": 8,
     "CostumeId": 504,
-    "Name": "Velvet Costume"
+    "Name": "Velvet Outfit"
   }
  ],
  "9": [
@@ -749,7 +749,7 @@
   {
     "Character": 9,
     "CostumeId": 504,
-    "Name": "Velvet Costume"
+    "Name": "Velvet Outfit"
   }
  ],
  "10": [
@@ -801,7 +801,7 @@
   {
     "Character": 10,
     "CostumeId": 504,
-    "Name": "Velvet Costume"
+    "Name": "Velvet Outfit"
   }
  ]
 }
