@@ -602,37 +602,37 @@
 [uf 0 5 65278][uf 2 1]未使用[n][e]
 
 [msg Item_0C9]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Attire worn in a room between mind and matter. Fits [uf 4 2][n][e]
 
 [msg Item_0CA]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Attire worn in a room between mind and matter. Fits Yukari.[n][e]
 
 [msg Item_0CB]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Attire worn in a room between mind and matter. Fits Junpei. [n][e]
 
 [msg Item_0CC]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Attire worn in a room between mind and matter. Fits Sanada.[n][e]
 
 [msg Item_0CD]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Attire worn in a room between mind and matter. Fits Mitsuru.[n][e]
 
 [msg Item_0CE]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Attire worn in a room between mind and matter. Fits Fuuka.[n][e]
 
 [msg Item_0CF]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Attire worn in a room between mind and matter. Fits Fuuka.[n][e]
 
 [msg Item_0D0]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Attire worn in a room between mind and matter. Fits Aigis.[n][e]
 
 [msg Item_0D1]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Attire worn in a room between mind and matter. Fits Amada.[n][e]
 
 [msg Item_0D2]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Attire worn in a room between mind and matter. Fits Koromaru.[n][e]
 
 [msg Item_0D3]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Attire worn in a room between mind and matter. Fits Aragaki.[n][e]
 
 [msg Item_0D4]
 [uf 0 5 65278][uf 2 1]未使用[n][e]
@@ -899,94 +899,94 @@
 [uf 0 5 65278][uf 2 1]未使用[n][e]
 
 [msg Item_12C]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1][uf 4 2]'s kitchen apron.[n][e]
 
 [msg Item_12D]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1][uf 4 2]'s SCREEN SHOT uniform.[n][e]
 
 [msg Item_12E]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1][uf 4 2]'s Be Blue V uniform.[n][e]
 
 [msg Item_12F]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Aragaki's combat attire made for operation activities.[n][e]
 
 [msg Item_130]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]The attire Mitsuru wears when infiltrating Tartarus.[n][e]
 
 [msg Item_131]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Mitsuru's combat attire made for operation activities.[n][e]
 
 [msg Item_132]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Mitsuru's school uniform for winter.[n][e]
 
 [msg Item_133]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Mitsuru's summer casual wear.[n][e]
 
 [msg Item_134]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Mitsuru's winter casual wear.[n][e]
 
 [msg Item_135]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]A maid outfit for Mitsuru. A magnificent piece that even the pros use.[n][e]
 
 [msg Item_136]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Mitsuru's swimsuit. Makes even Tartarus feel like summer.[n][e]
 
 [msg Item_137]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Armor that captivates men. It might fit Mitsuru...[n][e]
 
 [msg Item_138]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]A high school uniform from the town of Inaba. Fits Mitsuru.[n][e]
 
 [msg Item_139]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]A high school uniform from Aoyama-Itchome. Fits Mitsuru.[n][e]
 
 [msg Item_13A]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Rebellious attire redolent of a certain someone. Fits Mitsuru.[n][e]
 
 [msg Item_13B]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Mitsuru's kitchen apron.[n][e]
 
 [msg Item_13C]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Mitsuru's kitchen apron.[n][e]
 
 [msg Item_13D]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Aragaki's kitchen apron.[n][e]
 
 [msg Item_13E]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Yukari's kitchen apron.[n][e]
 
 [msg Item_13F]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Mitsuru's yukata.[n][e]
 
 [msg Item_140]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Mitsuru's new years kimono.[n][e]
 
 [msg Item_141]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1][uf 4 2]'s Wildduck uniform.[n][e]
 
 [msg Item_142]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1][uf 4 2]'s Chagall Cafe uniform.[n][e]
 
 [msg Item_143]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]The yukata Mitsuru wore during the school trip.[n][e]
 
 [msg Item_144]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1][uf 4 2]'s Track uniform.[n][e]
 
 [msg Item_145]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Yukari's yukata.[n][e]
 
 [msg Item_146]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Yukari's new years kimono.[n][e]
 
 [msg Item_147]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Sanada's kitchen apron.[n][e]
 
 [msg Item_148]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Fuuka's yukata.[n][e]
 
 [msg Item_149]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Fuuka's new years kimono.[n][e]
 
 [msg Item_14A]
 [uf 0 5 65278][uf 2 1]未使用[n][e]
@@ -995,49 +995,49 @@
 [uf 0 5 65278][uf 2 1]未使用[n][e]
 
 [msg Item_14C]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Ken's kitchen apron.[n][e]
 
 [msg Item_14D]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Aragaki's kitchen apron.[n][e]
 
 [msg Item_14E]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]The attire Aragaki wears when infiltrating Tartarus.[n][e]
 
 [msg Item_14F]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Aragaki's combat attire made for operation activities.[n][e]
 
 [msg Item_150]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Aragaki's winter casual wear.[n][e]
 
 [msg Item_151]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]A butler suit for Aragaki. Very professional-looking.[n][e]
 
 [msg Item_152]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Aragaki's swimsuit. Makes even Tartarus feel like summer.[n][e]
 
 [msg Item_153]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]A high school uniform from the town of Inaba. Fits Aragaki.[n][e]
 
 [msg Item_154]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]A high school uniform from Aoyama-Itchome. Fits Aragaki.[n][e]
 
 [msg Item_155]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]The yukata [uf 4 2] wore during the school trip.[n][e]
 
 [msg Item_156]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]The yukata Yukari wore during the school trip.[n][e]
 
 [msg Item_157]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]The yukata Junpei wore during the school trip.[n][e]
 
 [msg Item_158]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]The yukata Sanada wore during the school trip.[n][e]
 
 [msg Item_159]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]I'll be honest I have no idea what to put for him.[n][e]
 
 [msg Item_15A]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]A stage outfit Elle-P prepared for the ball. So cool... So stylish![n][e]
 
 [msg Item_15B]
 [uf 0 5 65278][uf 2 1]未使用[n][e]
