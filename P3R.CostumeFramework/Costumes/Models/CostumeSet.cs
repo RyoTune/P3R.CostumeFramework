@@ -33,5 +33,5 @@ internal enum CostumeSet
     Phantom_Suit = 501,
     Shujin_Uniform = 502,
     Yasogami_Uniform = 503,
-	Velvet_Costume = 503,
+	Velvet_Costume = 504,
 }

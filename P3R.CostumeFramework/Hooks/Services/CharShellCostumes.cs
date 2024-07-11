@@ -14,7 +14,9 @@ public class CharShellCostumes
     {
         this.Character = character;
         this.shell_1 = new ShellCostume(character, 502);
-        this.shell_2 = new ShellCostume(character, 503);
+		this.shell_2 = new ShellCostume(character,
+
+			);
 
         this.currShellCostume = this.shell_1;
     }

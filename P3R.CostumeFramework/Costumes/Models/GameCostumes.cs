@@ -76,7 +76,8 @@ internal class GameCostumes : IReadOnlyList<Costume>
         if (costume.CostumeId == 154
             || costume.CostumeId == 501
             || costume.CostumeId == 502
-            || costume.CostumeId == 503)
+            || costume.CostumeId == 503
+			|| costume.CostumeId == 504)
         {
             return false;
         }
