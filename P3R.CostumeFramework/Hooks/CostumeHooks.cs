@@ -134,7 +134,7 @@ internal unsafe class CostumeHooks
             }
         }
 
-        var newItemIndex = 120;
+        var newItemIndex = 357;
         foreach (var costume in this.registry.GetActiveCostumes())
         {
             var newItem = &costumeItemList->Data.AllocatorInstance[newItemIndex];

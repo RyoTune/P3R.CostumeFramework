@@ -10,11 +10,6 @@ public class Config : Configurable<Config>
     [DefaultValue(LogLevel.Information)]
     public LogLevel LogLevel { get; set; } = LogLevel.Information;
 
-    [DisplayName("Extra Costumes")]
-    [Description("Adds existing game files as new costumes.\nMay or may not cause visual bugs or crashes.")]
-    [DefaultValue(true)]
-    public bool ExtraCostumes { get; set; } = true;
-
     [Category("Integrations")]
     [DisplayName("BGME Framework")]
     [DefaultValue(true)]
