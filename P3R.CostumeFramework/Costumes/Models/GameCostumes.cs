@@ -12,13 +12,21 @@ internal class GameCostumes : IReadOnlyList<Costume>
 
     private const int NUM_MOD_COSTUMES = 100;
 
+    private readonly int[] disabledCostumes =
+    [
+        154, 501, 502, 503, 504,
+
+        // Extended Outfits covers these.
+        1, 2, 5, 6, 51, 52, 101, 102, 103, 104, 106,
+        151, 154, 155, 158, 159, 160, 161, 162, 201,
+    ];
     private readonly CostumeFilter filterSetting;
     private readonly Dictionary<CostumeFilter, int[]> filters = new()
     {
-        [CostumeFilter.Non_Fanservice] = new[] { 102, 104, 106 }
+        [CostumeFilter.Non_Fanservice] = [102, 104, 106]
     };
 
-    private readonly List<Costume> costumes = new();
+    private readonly List<Costume> costumes = [];
 
     public GameCostumes(CostumeFilter filter)
     {
@@ -73,11 +81,8 @@ internal class GameCostumes : IReadOnlyList<Costume>
 
     private bool IsCostumeEnabled(Costume costume)
     {
-        if (costume.CostumeId == 154
-            || costume.CostumeId == 501
-            || costume.CostumeId == 502
-            || costume.CostumeId == 503
-			|| costume.CostumeId == 504)
+        if (this.disabledCostumes.Contains(costume.CostumeId)
+            && costume.Character != Character.Aigis)
         {
             return false;
         }

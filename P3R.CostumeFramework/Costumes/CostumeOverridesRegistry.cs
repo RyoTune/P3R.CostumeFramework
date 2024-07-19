@@ -21,7 +21,10 @@ internal class CostumeOverridesRegistry(CostumeRegistry costumes) : ICostumeApi
         }
 
         // Get new costume.
-        newCostume = this.costumes.GetActiveCostumes().FirstOrDefault(x => x.Character == costumeOverride.Character && x.Name.Equals(costumeOverride.NewCostumeName, StringComparison.OrdinalIgnoreCase));
+        // Search all costumes instead of only enabled because:
+        // - Extended Outfits add some base game costumes that CF disables to prevent duplicates.
+        // - Filters can disable costumes but the game can still use them, not allowing for overrides.
+        newCostume = this.costumes.Costumes.FirstOrDefault(x => x.Character == costumeOverride.Character && x.Name.Equals(costumeOverride.NewCostumeName, StringComparison.OrdinalIgnoreCase));
         if (newCostume == null)
         {
             Log.Warning($"Failed to find new costume from override: {character} || Costume: {costumeOverride.NewCostumeName}");
