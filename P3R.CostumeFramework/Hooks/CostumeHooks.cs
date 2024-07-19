@@ -88,6 +88,15 @@ internal unsafe class CostumeHooks
         var character = comp->baseObj.Character;
         var costumeId = comp->mSetCostumeID;
 
+        // Set costume ID 911 to 51. Acts like a kind of fallback...
+        // Maybe it's used to allow for setting costumes through another method?
+        // Used during some scripted sections, notably the night of the first battle.
+        if (costumeId == 911)
+        {
+            costumeId = 51;
+            Log.Debug($"{nameof(SetCostumeId)} || {character} || Set fallback costume ID 911 to 51.");
+        }
+
         // Ignore non-player characters.
         if (character < Character.Player || character > Character.Shinjiro)
         {
