@@ -71,6 +71,12 @@ public class Mod : ModBase, IExports
 
     private void OnModLoaded(IModV1 mod, IModConfigV1 config)
     {
+        if (config.ModId == "p3rpc.femc")
+        {
+            Log.Information("FEMC Mod Support: Player defaults will use FEMC assets.");
+            this.costumes.SetUseFemc(true);
+        }
+
         if (!config.ModDependencies.Contains(this.modConfig.ModId))
         {
             return;

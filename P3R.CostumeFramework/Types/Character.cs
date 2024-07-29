@@ -42,4 +42,6 @@ public enum Character
     Ikutsuki,
     Natsuki,
     Takeharu,
+
+    FEMC = 999,
 }

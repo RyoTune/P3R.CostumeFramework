@@ -24,6 +24,7 @@ internal unsafe class CostumeService
         this.costumeNameHook = new(uobjects, registry);
     }
 
-    public void SetRandomizeCostumes(bool randomize)
-        => this.costumeHooks.SetRandomizeCostumes(randomize);
+    public void SetRandomizeCostumes(bool randomize) => this.costumeHooks.SetRandomizeCostumes(randomize);
+
+    public void SetUseFemc(bool useFemc) => this.costumeHooks.SetUseFemc(useFemc);
 }

@@ -30,9 +30,10 @@ internal unsafe class CostumeHooks
     private readonly CostumeShellService costumeShells;
     private readonly CostumeMusicService costumeMusic;
     private ItemEquipHooks itemEquip;
-    private readonly Dictionary<Character, DefaultCostume> defaultCostumes = [];
+    private readonly Dictionary<Character, CostumeConfig> defaultCostumes = [];
 
     private bool isCostumesRandom;
+    private bool useFemc;
 
     public CostumeHooks(
         IUObjects uobjects,
@@ -55,8 +56,11 @@ internal unsafe class CostumeHooks
         foreach (var character in Enum.GetValues<Character>())
         {
             if (character > Character.Shinjiro) break;
-            this.defaultCostumes[character] = new(character);
+            this.defaultCostumes[character] = new DefaultCostume(character);
         }
+
+        // FEMC defaults for costumes.
+        this.defaultCostumes[Character.FEMC] = new FemcCostume();
 
         this.uobjects.FindObject("DatItemCostumeDataAsset", this.SetCostumeData);
 
@@ -82,6 +86,8 @@ internal unsafe class CostumeHooks
     }
 
     public void SetRandomizeCostumes(bool isCostumesRandom) => this.isCostumesRandom = isCostumesRandom;
+
+    public void SetUseFemc(bool useFemc) => this.useFemc = useFemc;
 
     private void SetCostumeIdImpl(UAppCharacterComp* comp)
     {
@@ -209,7 +215,14 @@ internal unsafe class CostumeHooks
     }
 
     private string? GetDefaultAsset(Character character, CostumeAssetType assetType)
-        => this.defaultCostumes[character].GetAssetFile(assetType);
+    {
+        if (character == Character.Player && this.useFemc)
+        {
+            return this.defaultCostumes[Character.FEMC].GetAssetFile(assetType);
+        }
+
+        return this.defaultCostumes[character].GetAssetFile(assetType);
+    }
 
     private record AssetFNames(string AssetFile)
     {
