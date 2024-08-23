@@ -4,6 +4,13 @@ internal class Costume
 {
     private const string DEF_DESC = "[uf 0 5 65278][uf 2 1]Costume added with Costume Framework.[n][e]";
 
+    public Costume(Character character, int costumeId, string name)
+    {
+        this.Character = character;
+        this.CostumeId = costumeId;
+        this.Name = name;
+    }
+
     public Costume(Character character, int costumeId)
     {
         this.Character = character;

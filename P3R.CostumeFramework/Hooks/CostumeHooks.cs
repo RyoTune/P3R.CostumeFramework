@@ -152,6 +152,12 @@ internal unsafe class CostumeHooks
         var newItemIndex = 357;
         foreach (var costume in this.registry.GetActiveCostumes())
         {
+            // Skip costumes with existing items.
+            if (costume.CostumeItemId != default)
+            {
+                continue;
+            }
+
             var newItem = &costumeItemList->Data.AllocatorInstance[newItemIndex];
             newItem->CostumeID = (ushort)costume.CostumeId;
             newItem->EquipID = AssetUtils.GetEquipFromChar(costume.Character);

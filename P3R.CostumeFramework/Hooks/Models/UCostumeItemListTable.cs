@@ -13,7 +13,7 @@ public unsafe struct UCostumeItemListTable
 
     public FCostumeItemList this[int index] => this.Data.AllocatorInstance[index];
 
-    public int Count => Data.Num;
+    public readonly int Count => Data.Num;
 
     public readonly IEnumerator<FCostumeItemList> GetEnumerator() => new TArrayWrapper<FCostumeItemList>(Data).GetEnumerator();
 
