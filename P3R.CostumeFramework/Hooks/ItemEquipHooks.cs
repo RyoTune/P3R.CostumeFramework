@@ -1,4 +1,6 @@
-﻿namespace P3R.CostumeFramework.Hooks;
+﻿using P3R.CostumeFramework.Costumes;
+
+namespace P3R.CostumeFramework.Hooks;
 
 internal unsafe class ItemEquipHooks
 {
@@ -13,9 +15,19 @@ internal unsafe class ItemEquipHooks
             (hooks, result) => this.getGlobalWork = hooks.CreateWrapper<GetGlobalWork>(result, out _));
     }
 
-    private nint GetCharWork(ushort charId)
-        => this.getGlobalWork!() + 0x1b0 + ((nint)charId * 0x2b4);
+    public nint GetCharWork(Character character)
+        => this.getGlobalWork!() + 0x1b0 + ((nint)character * 0x2b4);
 
-    public int GetEquip(ushort charId, ushort equipId)
-        => *(ushort*)(this.GetCharWork(charId) + 0x28c + ((nint)equipId * 2));
+    public int GetEquip(Character character, Equip equip)
+        => *(ushort*)(this.GetCharWork(character) + 0x28c + ((nint)equip * 2));
+}
+
+public enum Equip
+    : ushort
+{
+    Weapon,
+    Armor,
+    Footwear,
+    Accessory,
+    Outfit,
 }

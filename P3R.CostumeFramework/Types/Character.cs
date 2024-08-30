@@ -1,6 +1,7 @@
 ﻿namespace P3R.CostumeFramework.Costumes;
 
 public enum Character
+    : ushort
 {
     NONE,
     Player,

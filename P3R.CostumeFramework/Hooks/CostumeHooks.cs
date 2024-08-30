@@ -29,11 +29,13 @@ internal unsafe class CostumeHooks
     private readonly CostumeDescService costumeDesc;
     private readonly CostumeShellService costumeShells;
     private readonly CostumeMusicService costumeMusic;
-    private ItemEquipHooks itemEquip;
+    private readonly ItemEquipHooks itemEquip;
+    private readonly CostumeAlloutService allout;
     private readonly Dictionary<Character, CostumeConfig> defaultCostumes = [];
 
     private bool isCostumesRandom;
     private bool useFemc;
+    private bool useOverworldCostumes;
 
     public CostumeHooks(
         IUObjects uobjects,
@@ -42,7 +44,8 @@ internal unsafe class CostumeHooks
         CostumeOverridesRegistry overrides,
         CostumeDescService costumeDesc,
         CostumeMusicService costumeMusic,
-        ItemEquipHooks itemEquip)
+        ItemEquipHooks itemEquip,
+        CostumeAlloutService allout)
     {
         this.uobjects = uobjects;
         this.unreal = unreal;
@@ -52,6 +55,7 @@ internal unsafe class CostumeHooks
         this.costumeMusic = costumeMusic;
         this.costumeShells = new(unreal);
         this.itemEquip = itemEquip;
+        this.allout = allout;
         
         foreach (var character in Enum.GetValues<Character>())
         {
@@ -89,10 +93,18 @@ internal unsafe class CostumeHooks
 
     public void SetUseFemc(bool useFemc) => this.useFemc = useFemc;
 
+    public void SetOverworldCostumes(bool useOverworldCostumes) => this.useOverworldCostumes = useOverworldCostumes;
+
     private void SetCostumeIdImpl(UAppCharacterComp* comp)
     {
         var character = comp->baseObj.Character;
         var costumeId = comp->mSetCostumeID;
+
+        // Ignore non-player characters.
+        if (character < Character.Player || character > Character.Shinjiro)
+        {
+            return;
+        }
 
         // Set costume ID 911 to 51. Acts like a kind of fallback...
         // Maybe it's used to allow for setting costumes through another method?
@@ -103,10 +115,16 @@ internal unsafe class CostumeHooks
             Log.Debug($"{nameof(SetCostumeId)} || {character} || Set fallback costume ID 911 to 51.");
         }
 
-        // Ignore non-player characters.
-        if (character < Character.Player || character > Character.Shinjiro)
+        // Handle logic for equipped costumes, such as overworld costumes.
+        var equipCostumeItemId = this.itemEquip.GetEquip(character, Equip.Outfit);
+        if (this.registry.TryGetCostumeByItemId(equipCostumeItemId, out var costume))
         {
-            return;
+            Log.Debug($"Equipped Costume: {character} || {costume.Name}");
+            if (this.useOverworldCostumes && costumeId != costume.CostumeId)
+            {
+                costumeId = costume.CostumeId;
+                Log.Debug("(Overworld Costumes) Set Costume ID to Equipped");
+            }
         }
 
         // Apply any costume overrides.
@@ -126,6 +144,7 @@ internal unsafe class CostumeHooks
 
         // Update before costume ID is set to shell costume.
         this.costumeMusic.Refresh(character, costumeId);
+        this.allout.UpdateCharacterAllout(character, costumeId);
 
         comp->mSetCostumeID = costumeId;
         Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId}");
@@ -176,13 +195,6 @@ internal unsafe class CostumeHooks
         this.costumeDesc.Init();
     }
 
-    private void RedirectToCharAsset(string assetFile, Character redirectChar)
-    {
-        var fnames = new AssetFNames(assetFile);
-        this.unreal.AssignFName(Mod.NAME, fnames.AssetName, fnames.AssetName.Replace("0001", $"{(int)redirectChar:0000}"));
-        this.unreal.AssignFName(Mod.NAME, fnames.AssetPath, fnames.AssetPath.Replace("0001", $"{(int)redirectChar:0000}"));
-    }
-
     private void SetCostumePaths(Costume costume)
     {
         foreach (var assetType in Enum.GetValues<CostumeAssetType>())
@@ -212,6 +224,12 @@ internal unsafe class CostumeHooks
         {
             return;
         }
+
+        // Should be fixed in DT.
+        //if (assetType >= CostumeAssetType.AlloutNormal)
+        //{
+        //    ogAssetFile = ogAssetFile.Replace("Pc", "PC");
+        //}
 
         var ogAssetFNames = new AssetFNames(ogAssetFile);
         var newAssetFNames = new AssetFNames(currentAssetFile);

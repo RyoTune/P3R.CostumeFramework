@@ -52,6 +52,7 @@ public class Mod : ModBase, IExports
         this.modLoader.GetController<IStartupScanner>().TryGetTarget(out var scanner);
         this.modLoader.GetController<IUObjects>().TryGetTarget(out var uobjects);
         this.modLoader.GetController<IUnreal>().TryGetTarget(out var unreal);
+        this.modLoader.GetController<IDataTables>().TryGetTarget(out var dataTables);
         this.modLoader.GetController<IAtlusAssets>().TryGetTarget(out var atlusAssets);
         this.modLoader.GetController<IBgmeApi>().TryGetTarget(out var bgme);
         this.modLoader.GetController<IBattleThemesApi>().TryGetTarget(out var battleThemes);
@@ -60,7 +61,7 @@ public class Mod : ModBase, IExports
         this.costumeOverrides = new(this.costumeRegistry);
         this.costumeDesc = new(atlusAssets!);
         this.costumeMusic = new(bgme!, battleThemes!, this.costumeRegistry);
-        this.costumes = new(uobjects!, unreal!, this.costumeRegistry, this.costumeOverrides, this.costumeDesc, this.costumeMusic);
+        this.costumes = new(uobjects!, unreal!, dataTables!, this.costumeRegistry, this.costumeOverrides, this.costumeDesc, this.costumeMusic);
 
         this.modLoader.AddOrReplaceController<ICostumeApi>(this.owner, this.costumeOverrides);
         ScanHooks.Initialize(scanner!, this.hooks);
@@ -95,7 +96,7 @@ public class Mod : ModBase, IExports
     private void ApplyConfig()
     {
         Log.LogLevel = this.config.LogLevel;
-        this.costumes.SetRandomizeCostumes(this.config.RandomizeCostumes);
+        this.costumes.SetConfig(this.config);
         this.costumeMusic.SetConfig(this.config);
     }
 
