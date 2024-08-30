@@ -2,13 +2,20 @@
 
 public enum CostumeAssetType
 {
-    Base_Mesh,
-    Costume_Mesh,
-    Hair_Mesh,
-    Face_Mesh,
+    BaseMesh,
+    CostumeMesh,
+    HairMesh,
+    FaceMesh,
 
-    Base_Anim,
-    Costume_Anim,
-    Hair_Anim,
-    Face_Anim,
+    BaseAnim,
+    CostumeAnim,
+    HairAnim,
+    FaceAnim,
+
+    AlloutNormal,
+    AlloutNormalMask,
+    AlloutSpecial,
+    AlloutSpecialMask,
+    AlloutText,
+    AlloutPlg,
 }

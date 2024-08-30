@@ -20,17 +20,25 @@ internal class CostumeConfig
 
     public CostumePartsData Face { get; set; } = new();
 
+    public CostumeAllout Allout { get; set; } = new();
+
     public string? GetAssetFile(CostumeAssetType assetType)
         => assetType switch
         {
-            CostumeAssetType.Base_Mesh => this.Base.MeshPath,
-            CostumeAssetType.Base_Anim => this.Base.AnimPath,
-            CostumeAssetType.Costume_Mesh => this.Costume.MeshPath,
-            CostumeAssetType.Costume_Anim => this.Costume.AnimPath,
-            CostumeAssetType.Face_Mesh => this.Face.MeshPath,
-            CostumeAssetType.Face_Anim => this.Face.AnimPath,
-            CostumeAssetType.Hair_Mesh => this.Hair.MeshPath,
-            CostumeAssetType.Hair_Anim => this.Hair.AnimPath,
+            CostumeAssetType.BaseMesh => this.Base.MeshPath,
+            CostumeAssetType.BaseAnim => this.Base.AnimPath,
+            CostumeAssetType.CostumeMesh => this.Costume.MeshPath,
+            CostumeAssetType.CostumeAnim => this.Costume.AnimPath,
+            CostumeAssetType.FaceMesh => this.Face.MeshPath,
+            CostumeAssetType.FaceAnim => this.Face.AnimPath,
+            CostumeAssetType.HairMesh => this.Hair.MeshPath,
+            CostumeAssetType.HairAnim => this.Hair.AnimPath,
+            CostumeAssetType.AlloutNormal => this.Allout.NormalPath,
+            CostumeAssetType.AlloutNormalMask => this.Allout.NormalMaskPath,
+            CostumeAssetType.AlloutSpecial => this.Allout.SpecialPath,
+            CostumeAssetType.AlloutSpecialMask => this.Allout.SpecialMaskPath,
+            CostumeAssetType.AlloutText => this.Allout.TextPath,
+            CostumeAssetType.AlloutPlg => this.Allout.PlgPath,
             _ => throw new Exception("Unknown asset type."),
         };
 }
@@ -40,4 +48,19 @@ internal class CostumePartsData
     public string? MeshPath { get; set; }
 
     public string? AnimPath { get; set; }
+}
+
+internal class CostumeAllout
+{
+    public string? NormalPath { get; set; }
+
+    public string? NormalMaskPath { get; set; }
+
+    public string? SpecialPath { get; set; }
+
+    public string? SpecialMaskPath { get; set; }
+
+    public string? TextPath { get; set; }
+
+    public string? PlgPath { get; set; }
 }
