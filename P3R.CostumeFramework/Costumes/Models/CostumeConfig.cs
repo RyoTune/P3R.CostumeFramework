@@ -52,13 +52,42 @@ internal class CostumePartsData
 
 internal class CostumeAllout
 {
+    private string? _specialPath;
+    private string? _specialMaskPath;
+
     public string? NormalPath { get; set; }
 
     public string? NormalMaskPath { get; set; }
 
-    public string? SpecialPath { get; set; }
+    public string? SpecialPath
+    {
+        get
+        {
+            if (_specialPath == null)
+            {
+                return this.NormalPath;
+            }
 
-    public string? SpecialMaskPath { get; set; }
+            return _specialPath;
+        }
+
+        set => _specialPath = value;
+    }
+
+    public string? SpecialMaskPath
+    {
+        get
+        {
+            if (_specialMaskPath == null)
+            {
+                return this.SpecialMaskPath;
+            }
+
+            return _specialMaskPath;
+        }
+
+        set => _specialMaskPath = value;
+    }
 
     public string? TextPath { get; set; }
 
