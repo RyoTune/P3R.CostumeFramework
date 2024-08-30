@@ -17,15 +17,21 @@ internal static class AssetUtils
     {
         string? assetFile = type switch
         {
-            CostumeAssetType.Base_Mesh => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/Models/SK_PC{GetCharIdString(character)}_BaseSkeleton.uasset",
-            CostumeAssetType.Costume_Mesh => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/Models/SK_PC{GetCharIdString(character)}_C{costumeId:000}.uasset",
-            CostumeAssetType.Hair_Mesh => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/Models/SK_PC{GetCharIdString(character)}_H{costumeId:000}.uasset",
-            CostumeAssetType.Face_Mesh => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/Models/SK_PC{GetCharIdString(character)}_F{costumeId:000}.uasset",
+            CostumeAssetType.BaseMesh => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/Models/SK_PC{GetCharIdString(character)}_BaseSkeleton.uasset",
+            CostumeAssetType.CostumeMesh => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/Models/SK_PC{GetCharIdString(character)}_C{costumeId:000}.uasset",
+            CostumeAssetType.HairMesh => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/Models/SK_PC{GetCharIdString(character)}_H{costumeId:000}.uasset",
+            CostumeAssetType.FaceMesh => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/Models/SK_PC{GetCharIdString(character)}_F{costumeId:000}.uasset",
 
-            CostumeAssetType.Base_Anim => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/ABP_PC{GetCharIdString(character)}.uasset",
-            CostumeAssetType.Costume_Anim => "/CharacterBase/Human/Blueprints/Animation/ABP_CH_CostumeBase.uasset",
-            CostumeAssetType.Hair_Anim => "/CharacterBase/Human/Blueprints/Animation/ABP_CH_HairBase.uasset",
-            CostumeAssetType.Face_Anim => null,
+            CostumeAssetType.BaseAnim => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/ABP_PC{GetCharIdString(character)}.uasset",
+            CostumeAssetType.CostumeAnim => "/CharacterBase/Human/Blueprints/Animation/ABP_CH_CostumeBase.uasset",
+            CostumeAssetType.HairAnim => "/CharacterBase/Human/Blueprints/Animation/ABP_CH_HairBase.uasset",
+            CostumeAssetType.FaceAnim => null,
+            CostumeAssetType.AlloutNormal => $"/Game/Xrd777/Battle/Allout/Materials/Finish2D/T_Btl_AlloutFinish_Pc{ GetCharIdStringShort(character)}_A1{(costumeId >= 1000 ? $"_{costumeId}" : string.Empty)}",
+            CostumeAssetType.AlloutNormalMask => $"/Game/Xrd777/Battle/Allout/Materials/Finish2D/T_Btl_AlloutFinish_Pc{GetCharIdStringShort(character)}_A2{(costumeId >= 1000 ? $"_{costumeId}" : string.Empty)}",
+            CostumeAssetType.AlloutSpecial => $"/Game/Xrd777/Battle/Allout/Materials/Finish2D/T_Btl_AlloutFinish_Pc{GetCharIdStringShort(character)}_B1{(costumeId >= 1000 ? $"_{costumeId}" : string.Empty)}",
+            CostumeAssetType.AlloutSpecialMask => $"/Game/Xrd777/Battle/Allout/Materials/Finish2D/T_Btl_AlloutFinish_Pc{GetCharIdStringShort(character)}_B2{(costumeId >= 1000 ? $"_{costumeId}" : string.Empty)}",
+            CostumeAssetType.AlloutText => $"/Game/Xrd777/Battle/Allout/Materials/Finish2D/T_Btl_AlloutFinishText_Pc{GetCharIdStringShort(character)}{(costumeId >= 1000 ? $"_{costumeId}" : string.Empty)}",
+            CostumeAssetType.AlloutPlg => $"{GetCharacterPlg(character)}{(costumeId >= 1000 ? $"_{costumeId}" : string.Empty)}",
             _ => throw new Exception(),
         };
 
@@ -63,4 +69,23 @@ internal static class AssetUtils
 
     public static string GetCharIdString(Character character)
         => ((int)character).ToString("0000");
+
+    public static string GetCharIdStringShort(Character character)
+        => ((int)character).ToString("00");
+
+    private static string GetCharacterPlg(Character character)
+        => character switch
+        {
+            Character.Player & Character.FEMC => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Hero",
+            Character.Yukari => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Yukari",
+            Character.Stupei => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Junpei",
+            Character.Akihiko => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Sanada",
+            Character.Mitsuru => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Mituru",
+            Character.Fuuka => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout",
+            Character.Aigis => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Aegis",
+            Character.Ken => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Amada",
+            Character.Koromaru => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Koromaru",
+            Character.Shinjiro => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Aragaki",
+            _ => throw new NotImplementedException(),
+        };
 }
