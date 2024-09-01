@@ -24,42 +24,43 @@ internal unsafe class CostumeAlloutService
     {
         foreach (var character in Characters.PC)
         {
-            if (this.itemEquip.TryGetEquippedCostume(character, out var costume))
+            if (this.itemEquip.TryGetEquipCostume(character, out var costume))
             {
                 var alloutRowName = $"PC{(int)character}";
                 var alloutRow = (FBtlAlloutFinishTexture*)table.Rows.First(x => x.Name == alloutRowName).Self;
 
-                ModUtils.IfNotNull(costume.Config.Allout.NormalPath, path => this.SetAlloutAssetPath(alloutRow, CostumeAssetType.AlloutNormal, path!));
-                ModUtils.IfNotNull(costume.Config.Allout.NormalMaskPath, path => this.SetAlloutAssetPath(alloutRow, CostumeAssetType.AlloutNormalMask, path!));
-                ModUtils.IfNotNull(costume.Config.Allout.SpecialPath, path => this.SetAlloutAssetPath(alloutRow, CostumeAssetType.AlloutSpecial, path!));
-                ModUtils.IfNotNull(costume.Config.Allout.SpecialMaskPath, path => this.SetAlloutAssetPath(alloutRow, CostumeAssetType.AlloutSpecialMask, path!));
-                ModUtils.IfNotNull(costume.Config.Allout.PlgPath, path => this.SetAlloutAssetPath(alloutRow, CostumeAssetType.AlloutPlg, path!));
-                ModUtils.IfNotNull(costume.Config.Allout.TextPath, path => this.SetAlloutAssetPath(alloutRow, CostumeAssetType.AlloutText, path!));
+                ModUtils.IfNotNull(costume.Config.Allout.NormalPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutNormal, path!));
+                ModUtils.IfNotNull(costume.Config.Allout.NormalMaskPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutNormalMask, path!));
+                ModUtils.IfNotNull(costume.Config.Allout.SpecialPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutSpecial, path!));
+                ModUtils.IfNotNull(costume.Config.Allout.SpecialMaskPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutSpecialMask, path!));
+                ModUtils.IfNotNull(costume.Config.Allout.PlgPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutPlg, path!));
+                ModUtils.IfNotNull(costume.Config.Allout.TextPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutText, path!));
             }
         }
     }
 
-    private void SetAlloutAssetPath(FBtlAlloutFinishTexture* allout, CostumeAssetType type, string path)
+    private void SetAssetPath(FBtlAlloutFinishTexture* allout, CostumeAssetType type, string path)
     {
+        var unrealPathFName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(path)!);
         switch (type)
         {
             case CostumeAssetType.AlloutNormal:
-                allout->TextureNormal.baseObj.baseObj.ObjectId.AssetPathName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(path)!);
+                allout->TextureNormal.baseObj.baseObj.ObjectId.AssetPathName = unrealPathFName;
                 break;
             case CostumeAssetType.AlloutNormalMask:
-                allout->TextureNormalMask.baseObj.baseObj.ObjectId.AssetPathName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(path)!);
+                allout->TextureNormalMask.baseObj.baseObj.ObjectId.AssetPathName = unrealPathFName;
                 break;
             case CostumeAssetType.AlloutSpecial:
-                allout->TextureSpecialOutfit.baseObj.baseObj.ObjectId.AssetPathName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(path)!);
+                allout->TextureSpecialOutfit.baseObj.baseObj.ObjectId.AssetPathName = unrealPathFName;
                 break;
             case CostumeAssetType.AlloutSpecialMask:
-                allout->TextureSpecialMask.baseObj.baseObj.ObjectId.AssetPathName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(path)!);
+                allout->TextureSpecialMask.baseObj.baseObj.ObjectId.AssetPathName = unrealPathFName;
                 break;
             case CostumeAssetType.AlloutPlg:
-                allout->TexturePlg.baseObj.baseObj.ObjectId.AssetPathName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(path)!);
+                allout->TexturePlg.baseObj.baseObj.ObjectId.AssetPathName = unrealPathFName;
                 break;
             case CostumeAssetType.AlloutText:
-                allout->TexturePlg.baseObj.baseObj.ObjectId.AssetPathName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(path)!);
+                allout->TexturePlg.baseObj.baseObj.ObjectId.AssetPathName = unrealPathFName;
                 break;
             default:
                 break;

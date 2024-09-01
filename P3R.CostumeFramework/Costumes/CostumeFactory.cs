@@ -25,7 +25,7 @@ internal class CostumeFactory
         costume.OwnerModId = mod.ModId;
         costume.Character = chararcter;
 
-        ProcessCostume(mod, costume, costumeDir);
+        LoadCostumeFiles(mod, costume, costumeDir);
         Log.Information($"Costume created: {costume.Character} || Costume ID: {costume.CostumeId}\nFolder: {costumeDir}");
         return costume;
     }
@@ -60,12 +60,7 @@ internal class CostumeFactory
         return costume;
     }
 
-    private static void ProcessCostume(CostumeMod mod, Costume costume, string costumeDir)
-    {
-        LoadCostumeData(mod, costume, costumeDir);
-    }
-
-    private static void LoadCostumeData(CostumeMod mod, Costume costume, string costumeDir)
+    public static void LoadCostumeFiles(CostumeMod mod, Costume costume, string costumeDir)
     {
         // Load config first so costume asset stuff is
         // overwritten by actual files.

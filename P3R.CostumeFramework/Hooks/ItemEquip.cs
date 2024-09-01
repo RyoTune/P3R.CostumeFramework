@@ -27,7 +27,7 @@ internal unsafe class ItemEquip
     public int GetEquip(Character character, Equip equip)
         => *(ushort*)(this.GetCharWork(character) + 0x28c + ((nint)equip * 2));
 
-    public bool TryGetEquippedCostume(Character character, [NotNullWhen(true)]out Costume? costume)
+    public bool TryGetEquipCostume(Character character, [NotNullWhen(true)]out Costume? costume)
     {
         var equipItemId = this.GetEquip(character, Equip.Outfit);
         return this.costumes.TryGetCostumeByItemId(equipItemId, out costume);

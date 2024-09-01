@@ -54,10 +54,8 @@ internal unsafe class CostumeHooks
         this.costumeShells = new(unreal);
         this.itemEquip = itemEquip;
         
-        foreach (var character in Enum.GetValues<Character>())
+        foreach (var character in Characters.PC)
         {
-            if (character > Character.Shinjiro) break;
-            if (character == Character.NONE) continue;
             this.defaultCostumes[character] = new DefaultCostume(character);
         }
 
