@@ -60,7 +60,7 @@ internal unsafe class CostumeAlloutService
                 allout->TexturePlg.baseObj.baseObj.ObjectId.AssetPathName = unrealPathFName;
                 break;
             case CostumeAssetType.AlloutText:
-                allout->TexturePlg.baseObj.baseObj.ObjectId.AssetPathName = unrealPathFName;
+                allout->TextureText.baseObj.baseObj.ObjectId.AssetPathName = unrealPathFName;
                 break;
             default:
                 break;
