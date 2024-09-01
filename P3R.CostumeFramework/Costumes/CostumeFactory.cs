@@ -32,16 +32,16 @@ internal class CostumeFactory
     private static void ApplyCostumeConfig(Costume costume, CostumeConfig config)
     {
         ModUtils.IfNotNull(config.Name, str => costume.Name = str);
-        ModUtils.IfNotNull(config.Base.MeshPath, str => config.Base.MeshPath = str);
-        ModUtils.IfNotNull(config.Costume.MeshPath, str => config.Costume.MeshPath = str);
-        ModUtils.IfNotNull(config.Face.MeshPath, str => config.Face.MeshPath = str);
-        ModUtils.IfNotNull(config.Hair.MeshPath, str => config.Hair.MeshPath = str);
-        ModUtils.IfNotNull(config.Allout.NormalPath, str => config.Allout.NormalPath = str);
-        ModUtils.IfNotNull(config.Allout.NormalMaskPath, str => config.Allout.NormalMaskPath = str);
-        ModUtils.IfNotNull(config.Allout.SpecialPath, str => config.Allout.SpecialPath = str);
-        ModUtils.IfNotNull(config.Allout.SpecialMaskPath, str => config.Allout.SpecialMaskPath = str);
-        ModUtils.IfNotNull(config.Allout.PlgPath, str => config.Allout.PlgPath = str);
-        ModUtils.IfNotNull(config.Allout.TextPath, str => config.Allout.TextPath = str);
+        ModUtils.IfNotNull(config.Base.MeshPath, str => costume.Config.Base.MeshPath = str);
+        ModUtils.IfNotNull(config.Costume.MeshPath, str => costume.Config.Costume.MeshPath = str);
+        ModUtils.IfNotNull(config.Face.MeshPath, str => costume.Config.Face.MeshPath = str);
+        ModUtils.IfNotNull(config.Hair.MeshPath, str => costume.Config.Hair.MeshPath = str);
+        ModUtils.IfNotNull(config.Allout.NormalPath, str => costume.Config.Allout.NormalPath = str);
+        ModUtils.IfNotNull(config.Allout.NormalMaskPath, str => costume.Config.Allout.NormalMaskPath = str);
+        ModUtils.IfNotNull(config.Allout.SpecialPath, str => costume.Config.Allout.SpecialPath = str);
+        ModUtils.IfNotNull(config.Allout.SpecialMaskPath, str => costume.Config.Allout.SpecialMaskPath = str);
+        ModUtils.IfNotNull(config.Allout.PlgPath, str => costume.Config.Allout.PlgPath = str);
+        ModUtils.IfNotNull(config.Allout.TextPath, str => costume.Config.Allout.TextPath = str);
     }
 
     public Costume? CreateFromExisting(Character character, string name, int costumeId)
