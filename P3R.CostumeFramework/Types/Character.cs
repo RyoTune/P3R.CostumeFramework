@@ -46,3 +46,20 @@ public enum Character
 
     FEMC = 999,
 }
+
+public static class Characters
+{
+    public static readonly Character[] PC =
+    [
+        Character.Player,
+        Character.Yukari,
+        Character.Stupei,
+        Character.Akihiko,
+        Character.Mitsuru,
+        Character.Fuuka,
+        Character.Aigis,
+        Character.Ken,
+        Character.Koromaru,
+        Character.Shinjiro
+    ];
+}

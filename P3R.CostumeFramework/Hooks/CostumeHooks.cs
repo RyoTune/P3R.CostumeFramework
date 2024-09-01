@@ -29,8 +29,7 @@ internal unsafe class CostumeHooks
     private readonly CostumeDescService costumeDesc;
     private readonly CostumeShellService costumeShells;
     private readonly CostumeMusicService costumeMusic;
-    private readonly ItemEquipHooks itemEquip;
-    private readonly CostumeAlloutService allout;
+    private readonly ItemEquip itemEquip;
     private readonly Dictionary<Character, CostumeConfig> defaultCostumes = [];
 
     private bool isCostumesRandom;
@@ -44,8 +43,7 @@ internal unsafe class CostumeHooks
         CostumeOverridesRegistry overrides,
         CostumeDescService costumeDesc,
         CostumeMusicService costumeMusic,
-        ItemEquipHooks itemEquip,
-        CostumeAlloutService allout)
+        ItemEquip itemEquip)
     {
         this.uobjects = uobjects;
         this.unreal = unreal;
@@ -55,11 +53,11 @@ internal unsafe class CostumeHooks
         this.costumeMusic = costumeMusic;
         this.costumeShells = new(unreal);
         this.itemEquip = itemEquip;
-        this.allout = allout;
         
         foreach (var character in Enum.GetValues<Character>())
         {
             if (character > Character.Shinjiro) break;
+            if (character == Character.NONE) continue;
             this.defaultCostumes[character] = new DefaultCostume(character);
         }
 
@@ -144,7 +142,6 @@ internal unsafe class CostumeHooks
 
         // Update before costume ID is set to shell costume.
         this.costumeMusic.Refresh(character, costumeId);
-        this.allout.UpdateCharacterAllout(character, costumeId);
 
         comp->mSetCostumeID = costumeId;
         Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId}");
@@ -224,12 +221,6 @@ internal unsafe class CostumeHooks
         {
             return;
         }
-
-        // Should be fixed in DT.
-        //if (assetType >= CostumeAssetType.AlloutNormal)
-        //{
-        //    ogAssetFile = ogAssetFile.Replace("Pc", "PC");
-        //}
 
         var ogAssetFNames = new AssetFNames(ogAssetFile);
         var newAssetFNames = new AssetFNames(currentAssetFile);

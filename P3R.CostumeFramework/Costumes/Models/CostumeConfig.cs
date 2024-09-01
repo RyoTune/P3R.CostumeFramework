@@ -80,7 +80,7 @@ internal class CostumeAllout
         {
             if (_specialMaskPath == null)
             {
-                return this.SpecialMaskPath;
+                return this.NormalMaskPath;
             }
 
             return _specialMaskPath;

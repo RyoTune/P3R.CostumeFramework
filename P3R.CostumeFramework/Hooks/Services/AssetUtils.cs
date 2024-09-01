@@ -61,6 +61,26 @@ internal static class AssetUtils
         return assetFile != null ? GetAssetPath(assetFile) : null;
     }
 
+    /// <summary>
+    /// Gets the expected asset path per Unreal's format of having
+    /// the file name repeat after a period.
+    /// </summary>
+    public static string? GetUnrealAssetPath(Character character, int costumeId, CostumeAssetType type)
+    {
+        var assetPath = GetAssetPath(character, costumeId, type);
+        return assetPath != null ? $"{assetPath}.{Path.GetFileName(assetPath)}" : null;
+    }
+
+    /// <summary>
+    /// Gets the expected asset path per Unreal's format of having
+    /// the file name repeat after a period.
+    /// </summary>
+    public static string? GetUnrealAssetPath(string assetFile)
+    {
+        var assetPath = GetAssetPath(assetFile);
+        return assetPath != null ? $"{assetPath}.{Path.GetFileName(assetPath)}" : null;
+    }
+
     public static Character GetCharFromEquip(EquipFlag flag)
         => Enum.Parse<Character>(flag.ToString());
 
@@ -76,7 +96,7 @@ internal static class AssetUtils
     private static string GetCharacterPlg(Character character)
         => character switch
         {
-            Character.Player & Character.FEMC => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Hero",
+            Character.Player or Character.FEMC => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Hero",
             Character.Yukari => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Yukari",
             Character.Stupei => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Junpei",
             Character.Akihiko => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Sanada",

@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BGME.BattleThemes.Interface
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BGME.Framework.Interfaces", "submodules\BGME\BGME.Framework.Interfaces\BGME.Framework.Interfaces.csproj", "{A32C0229-6D49-4B5F-A00B-CD9F251982F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P3R.CostumeFramework.Interfaces", "P3R.CostumeFramework.Interfaces\P3R.CostumeFramework.Interfaces.csproj", "{F7B2A872-F417-4FC0-BAA5-E85E9D1B0C7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P3R.CostumeFramework.Interfaces", "P3R.CostumeFramework.Interfaces\P3R.CostumeFramework.Interfaces.csproj", "{F7B2A872-F417-4FC0-BAA5-E85E9D1B0C7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

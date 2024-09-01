@@ -1,4 +1,6 @@
 ﻿using P3R.CostumeFramework.Costumes;
+using P3R.CostumeFramework.Costumes.Models;
+using P3R.CostumeFramework.Utils;
 using System.Runtime.InteropServices;
 using Unreal.ObjectsEmitter.Interfaces;
 using Unreal.ObjectsEmitter.Interfaces.Types;
@@ -7,78 +9,107 @@ namespace P3R.CostumeFramework.Hooks.Services;
 
 internal unsafe class CostumeAlloutService
 {
-    private readonly Dictionary<Character, FBtlAlloutFinishTexture> defaultAllouts = [];
-    private readonly Dictionary<Character, int> characterCostumeIds = [];
+    private readonly IUnreal unreal;
+    private readonly ItemEquip itemEquip;
 
-    public CostumeAlloutService(IDataTables dt)
+    public CostumeAlloutService(IDataTables dt, IUnreal unreal, ItemEquip itemEquip)
     {
-        foreach (var character in Enum.GetValues<Character>())
-        {
-            if (character > Character.Shinjiro) break;
-            if (character == Character.NONE) continue;
-            this.characterCostumeIds[character] = -1;
-        }
+        this.unreal = unreal;
+        this.itemEquip = itemEquip;
 
-        dt.FindDataTable("DT_BtlAlloutFinishTexture", this.BtlAlloutFinishTextureFound);
+        dt.FindDataTable("DT_BtlAlloutFinishTexture", this.BtlAlloutFinishTextureLoaded);
     }
 
-    private void BtlAlloutFinishTextureFound(DataTable table)
+    private void BtlAlloutFinishTextureLoaded(DataTable table)
     {
-        // Save default allout values.
-        for (int i = 0; i < 10; i++)
+        foreach (var character in Characters.PC)
         {
-            this.defaultAllouts[(Character)i + 1] = *(FBtlAlloutFinishTexture*)table.Rows[i].Self;
-        }
-
-        this.SetAllouts(table);
-    }
-
-    private void SetAllouts(DataTable dtAllout)
-    {
-        foreach (var item in this.characterCostumeIds)
-        {
-            var character = item.Key;
-            var costumeId = item.Value;
-
-            var alloutRowName = $"PC{(int)character}";
-            var alloutRow = (FBtlAlloutFinishTexture*)dtAllout.Rows.First(x => x.Name == alloutRowName).Self;
-
-            if (costumeId >= 1000)
+            if (this.itemEquip.TryGetEquippedCostume(character, out var costume))
             {
-                var modAlloutRowName = $"PC{(int)character}_{costumeId}";
-                var modAlloutRowObj = dtAllout.Rows.FirstOrDefault(x => x.Name == modAlloutRowName);
+                var alloutRowName = $"PC{(int)character}";
+                var alloutRow = (FBtlAlloutFinishTexture*)table.Rows.First(x => x.Name == alloutRowName).Self;
 
-                if (modAlloutRowObj != null)
-                {
-                    var modAlloutRow = (FBtlAlloutFinishTexture*)modAlloutRowObj.Self;
-                    alloutRow->TextureNormal = modAlloutRow->TextureNormal;
-                    alloutRow->TextureNormalMask = modAlloutRow->TextureNormalMask;
-                }
-            }
-            else
-            {
-                // Reset textures to defaults.
-                *alloutRow = this.defaultAllouts[character];
+                ModUtils.IfNotNull(costume.Config.Allout.NormalPath, path => this.SetAlloutAssetPath(alloutRow, CostumeAssetType.AlloutNormal, path!));
+                ModUtils.IfNotNull(costume.Config.Allout.NormalMaskPath, path => this.SetAlloutAssetPath(alloutRow, CostumeAssetType.AlloutNormalMask, path!));
+                ModUtils.IfNotNull(costume.Config.Allout.SpecialPath, path => this.SetAlloutAssetPath(alloutRow, CostumeAssetType.AlloutSpecial, path!));
+                ModUtils.IfNotNull(costume.Config.Allout.SpecialMaskPath, path => this.SetAlloutAssetPath(alloutRow, CostumeAssetType.AlloutSpecialMask, path!));
+                ModUtils.IfNotNull(costume.Config.Allout.PlgPath, path => this.SetAlloutAssetPath(alloutRow, CostumeAssetType.AlloutPlg, path!));
+                ModUtils.IfNotNull(costume.Config.Allout.TextPath, path => this.SetAlloutAssetPath(alloutRow, CostumeAssetType.AlloutText, path!));
             }
         }
     }
 
-    public void UpdateCharacterAllout(Character character, int costumeId) => this.characterCostumeIds[character] = costumeId;
-
+    private void SetAlloutAssetPath(FBtlAlloutFinishTexture* allout, CostumeAssetType type, string path)
+    {
+        switch (type)
+        {
+            case CostumeAssetType.AlloutNormal:
+                allout->TextureNormal.baseObj.baseObj.ObjectId.AssetPathName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(path)!);
+                break;
+            case CostumeAssetType.AlloutNormalMask:
+                allout->TextureNormalMask.baseObj.baseObj.ObjectId.AssetPathName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(path)!);
+                break;
+            case CostumeAssetType.AlloutSpecial:
+                allout->TextureSpecialOutfit.baseObj.baseObj.ObjectId.AssetPathName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(path)!);
+                break;
+            case CostumeAssetType.AlloutSpecialMask:
+                allout->TextureSpecialMask.baseObj.baseObj.ObjectId.AssetPathName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(path)!);
+                break;
+            case CostumeAssetType.AlloutPlg:
+                allout->TexturePlg.baseObj.baseObj.ObjectId.AssetPathName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(path)!);
+                break;
+            case CostumeAssetType.AlloutText:
+                allout->TexturePlg.baseObj.baseObj.ObjectId.AssetPathName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(path)!);
+                break;
+            default:
+                break;
+        }
+    }
 
     [StructLayout(LayoutKind.Sequential)]
     private unsafe struct FBtlAlloutFinishTexture
     {
         public SoftObjectProperty TextureNormal;
         public SoftObjectProperty TextureNormalMask;
-        public SoftObjectProperty TexturSpecialOutfit;
+        public SoftObjectProperty TextureSpecialOutfit;
         public SoftObjectProperty TextureSpecialMask;
         public SoftObjectProperty TextureText;
         public SoftObjectProperty TexturePlg;
     }
 
-    [StructLayout(LayoutKind.Sequential, Size = 48)]
+    [StructLayout(LayoutKind.Sequential, Size = 40)]
     private unsafe struct SoftObjectProperty
     {
+        public FSoftObjectPtr baseObj;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FSoftObjectPtr
+    {
+        public TPersistentObjectPtr<FSoftObjectPath> baseObj;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct TPersistentObjectPtr<T> where T : unmanaged
+    {
+        public FWeakObjectPtr WeakPtr;
+
+        public int TagAtLastTest;
+
+        public T ObjectId;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x18)]
+    public unsafe struct FSoftObjectPath
+    {
+        [FieldOffset(0x0000)] public FName AssetPathName;
+        [FieldOffset(0x0008)] public FString SubPathString;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FWeakObjectPtr
+    {
+        public int ObjectIndex;
+        public int ObjectSerialNumber;
     }
 }
