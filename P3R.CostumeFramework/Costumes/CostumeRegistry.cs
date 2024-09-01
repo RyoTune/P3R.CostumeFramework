@@ -65,11 +65,7 @@ internal class CostumeRegistry
             }
 
             // Build costumes from folders.
-            var allDirs = Directory.GetDirectories(characterDir);
-            var appendCostumeDirs = allDirs.Where(x => Path.GetFileName(x).StartsWith('_'));
-            var costumeDirs = allDirs.Except(appendCostumeDirs);
-
-            foreach (var costumeDir in costumeDirs)
+            foreach (var costumeDir in Directory.EnumerateDirectories(characterDir))
             {
                 try
                 {
@@ -78,17 +74,6 @@ internal class CostumeRegistry
                 catch (Exception ex)
                 {
                     Log.Error(ex, $"Failed to create costume from folder.\nFolder: {costumeDir}");
-                }
-            }
-
-            // Add costume files for existing costumes.
-            foreach (var appendDir in appendCostumeDirs)
-            {
-                var costumeName = Path.GetFileName(appendDir).TrimStart('_');
-                var existingCostume = this.Costumes.FirstOrDefault(x => x.Character == character && x.Name == costumeName);
-                if (existingCostume != null)
-                {
-                    CostumeFactory.LoadCostumeFiles(mod, existingCostume, appendDir);
                 }
             }
         }

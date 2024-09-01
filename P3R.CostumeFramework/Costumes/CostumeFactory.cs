@@ -12,76 +12,64 @@ internal class CostumeFactory
         this.costumes = costumes;
     }
 
-    public Costume? Create(CostumeMod mod, string costumeDir, Character chararcter)
+    public Costume? Create(CostumeMod mod, string costumeDir, Character character)
     {
-        var costume = this.GetAvailableCostume();
+        var config = GetCostumeConfig(costumeDir);
+        var costume = this.CreateOrFindCostume(character, config.Name ?? Path.GetFileName(costumeDir));
         if (costume == null)
         {
             return null;
         }
 
-        costume.Name = Path.GetFileName(costumeDir);
-        costume.IsEnabled = true;
         costume.OwnerModId = mod.ModId;
-        costume.Character = chararcter;
 
+        ApplyCostumeConfig(costume, config);
         LoadCostumeFiles(mod, costume, costumeDir);
         Log.Information($"Costume created: {costume.Character} || Costume ID: {costume.CostumeId}\nFolder: {costumeDir}");
         return costume;
     }
 
+    private static void ApplyCostumeConfig(Costume costume, CostumeConfig config)
+    {
+        ModUtils.IfNotNull(config.Name, str => costume.Name = str);
+        ModUtils.IfNotNull(config.Base.MeshPath, str => config.Base.MeshPath = str);
+        ModUtils.IfNotNull(config.Costume.MeshPath, str => config.Costume.MeshPath = str);
+        ModUtils.IfNotNull(config.Face.MeshPath, str => config.Face.MeshPath = str);
+        ModUtils.IfNotNull(config.Hair.MeshPath, str => config.Hair.MeshPath = str);
+        ModUtils.IfNotNull(config.Allout.NormalPath, str => config.Allout.NormalPath = str);
+        ModUtils.IfNotNull(config.Allout.NormalMaskPath, str => config.Allout.NormalMaskPath = str);
+        ModUtils.IfNotNull(config.Allout.SpecialPath, str => config.Allout.SpecialPath = str);
+        ModUtils.IfNotNull(config.Allout.SpecialMaskPath, str => config.Allout.SpecialMaskPath = str);
+        ModUtils.IfNotNull(config.Allout.PlgPath, str => config.Allout.PlgPath = str);
+        ModUtils.IfNotNull(config.Allout.TextPath, str => config.Allout.TextPath = str);
+    }
+
     public Costume? CreateFromExisting(Character character, string name, int costumeId)
     {
-        var costume = this.GetAvailableCostume();
+        var costume = this.CreateOrFindCostume(character, name);
         if (costume == null)
         {
             return null;
         }
 
-        costume.Character = character;
-        costume.IsEnabled = true;
-        costume.Name = name;
         costume.Config.Costume.MeshPath = $"/Game/Xrd777/Characters/Player/PC{character:0000}/Models/SK_PC{character:0000}_C{costumeId:000}.uasset";
         return costume;
     }
 
     public Costume? CreateFromExisting(Character character, string name, string existingMesh)
     {
-        var costume = this.GetAvailableCostume();
+        var costume = this.CreateOrFindCostume(character, name);
         if (costume == null)
         {
             return null;
         }
 
-        costume.Character = character;
-        costume.IsEnabled = true;
-        costume.Name = name;
         costume.Config.Costume.MeshPath = existingMesh;
         return costume;
     }
 
     public static void LoadCostumeFiles(CostumeMod mod, Costume costume, string costumeDir)
     {
-        // Load config first so costume asset stuff is
-        // overwritten by actual files.
-        SetCostumeFile(mod, Path.Join(costumeDir, "config.yaml"), path =>
-        {
-            var config = YamlSerializer.DeserializeFile<CostumeConfig>(path);
-
-            if (config.Name != null) costume.Name = config.Name;
-            if (config.Base.MeshPath != null) costume.Config.Base.MeshPath = config.Base.MeshPath;
-            if (config.Costume.MeshPath != null) costume.Config.Costume.MeshPath = config.Costume.MeshPath;
-            if (config.Face.MeshPath != null) costume.Config.Face.MeshPath = config.Face.MeshPath;
-            if (config.Hair.MeshPath != null) costume.Config.Hair.MeshPath = config.Hair.MeshPath;
-            if (config.Allout.NormalPath != null) costume.Config.Allout.NormalPath = config.Allout.NormalPath;
-            if (config.Allout.NormalMaskPath != null) costume.Config.Allout.NormalMaskPath = config.Allout.NormalMaskPath;
-            if (config.Allout.SpecialPath != null) costume.Config.Allout.SpecialPath = config.Allout.SpecialPath;
-            if (config.Allout.SpecialMaskPath != null) costume.Config.Allout.SpecialMaskPath = config.Allout.SpecialMaskPath;
-            if (config.Allout.TextPath != null) costume.Config.Allout.TextPath = config.Allout.TextPath;
-            if (config.Allout.PlgPath != null) costume.Config.Allout.PlgPath = config.Allout.PlgPath;
-
-        }, SetType.Full);
-
         SetCostumeFile(mod, Path.Join(costumeDir, "base-mesh.uasset"), path => costume.Config.Base.MeshPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "base-anim.uasset"), path => costume.Config.Base.AnimPath = path);
 
@@ -107,6 +95,17 @@ internal class CostumeFactory
         SetCostumeFile(mod, Path.Join(costumeDir, "description.msg"), path => costume.Description = File.ReadAllText(path), SetType.Full);
     }
 
+    private static CostumeConfig GetCostumeConfig(string costumeDir)
+    {
+        var configFile = Path.Join(costumeDir, "config.yaml");
+        if (File.Exists(configFile))
+        {
+            return YamlSerializer.DeserializeFile<CostumeConfig>(configFile);
+        }
+
+        return new();
+    }
+
     private static void SetCostumeFile(CostumeMod mod, string modFile, Action<string> setFile, SetType type = SetType.Relative)
     {
         if (File.Exists(modFile))
@@ -122,15 +121,30 @@ internal class CostumeFactory
         }
     }
 
-    private Costume? GetAvailableCostume()
+    /// <summary>
+    /// Creates a new costume for <paramref name="character"/> or gets an existing costume by <paramref name="name"/>.
+    /// </summary>
+    private Costume? CreateOrFindCostume(Character character, string name)
     {
-        var costume = this.costumes.FirstOrDefault(x => x.Character == Character.NONE);
-        if (costume == null)
+        var existingCostume = this.costumes.FirstOrDefault(x => x.Character == character && x.Name == name);
+        if (existingCostume != null)
         {
-            Log.Warning("No available costume slot.");
+            return existingCostume;
         }
 
-        return costume;
+        var newCostume = this.costumes.FirstOrDefault(x => x.Character == Character.NONE);
+        if (newCostume != null)
+        {
+            newCostume.Name = name;
+            newCostume.Character = character;
+            newCostume.IsEnabled = true;
+        }
+        else
+        {
+            Log.Warning("No new costume slots available.");
+        }
+
+        return newCostume;
     }
 
     private enum SetType

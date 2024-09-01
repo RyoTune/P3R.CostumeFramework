@@ -34,7 +34,11 @@ internal class Costume
 
     public Character Character { get; set; } = Character.NONE;
 
-    public string Name { get; set; } = "Missing Name";
+    public string? Name
+    {
+        get => this.Config.Name;
+        set => this.Config.Name = value;
+    }
 
     public string Description { get; set; } = DEF_DESC;
 

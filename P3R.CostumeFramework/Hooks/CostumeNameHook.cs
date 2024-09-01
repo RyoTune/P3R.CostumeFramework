@@ -17,15 +17,10 @@ internal unsafe class CostumeNameHook
 			{
 				var costume = registry.Costumes.FirstOrDefault(x => x.CostumeItemId == i);
 
-				if (costume?.Config.Name != null)
-                {
-                    nameTable->Data.AllocatorInstance[i] = new FString(costume.Config.Name);
-                    Log.Debug($"Set name for Costume Item ID: {i} || Name: {costume.Config.Name}");
-                }
-				else if (costume?.Name != null)
+				if (costume?.Name != null)
                 {
                     nameTable->Data.AllocatorInstance[i] = new FString(costume.Name);
-					Log.Debug($"Set name for Costume Item ID: {i} || Name: {costume.Name}");
+                    Log.Debug($"Set name for Costume Item ID: {i} || Name: {costume.Name}");
                 }
 			}
 		});
