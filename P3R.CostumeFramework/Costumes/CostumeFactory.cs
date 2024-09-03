@@ -36,6 +36,11 @@ internal class CostumeFactory
         ModUtils.IfNotNull(config.Costume.MeshPath, str => costume.Config.Costume.MeshPath = str);
         ModUtils.IfNotNull(config.Face.MeshPath, str => costume.Config.Face.MeshPath = str);
         ModUtils.IfNotNull(config.Hair.MeshPath, str => costume.Config.Hair.MeshPath = str);
+        ModUtils.IfNotNull(config.Base.AnimPath, str => costume.Config.Base.AnimPath = str);
+        ModUtils.IfNotNull(config.Costume.AnimPath, str => costume.Config.Costume.AnimPath = str);
+        ModUtils.IfNotNull(config.Face.AnimPath, str => costume.Config.Face.AnimPath = str);
+        ModUtils.IfNotNull(config.Hair.AnimPath, str => costume.Config.Hair.AnimPath = str);
+
         ModUtils.IfNotNull(config.Allout.NormalPath, str => costume.Config.Allout.NormalPath = str);
         ModUtils.IfNotNull(config.Allout.NormalMaskPath, str => costume.Config.Allout.NormalMaskPath = str);
         ModUtils.IfNotNull(config.Allout.SpecialPath, str => costume.Config.Allout.SpecialPath = str);

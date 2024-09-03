@@ -12,6 +12,7 @@ internal unsafe class CostumeService
     private readonly CostumeNameHook costumeNameHook;
     private readonly ItemEquip itemEquip;
     private readonly CostumeAlloutService alloutService;
+    private readonly CostumeShellService costumeShells;
 
     public CostumeService(
         IUObjects uobjects,
@@ -24,7 +25,8 @@ internal unsafe class CostumeService
     {
         this.itemEquip = new(registry);
         this.alloutService = new(dt, unreal, this.itemEquip);
-        this.costumeHooks = new(uobjects, unreal, registry, overrides, costumeDesc, costumeMusic, this.itemEquip);
+        this.costumeShells = new(dt, unreal, registry);
+        this.costumeHooks = new(uobjects, unreal, registry, overrides, costumeDesc, costumeMusic, this.costumeShells, this.itemEquip);
         this.itemCountHook = new(registry);
         this.costumeNameHook = new(uobjects, registry);
     }
@@ -35,5 +37,5 @@ internal unsafe class CostumeService
         this.costumeHooks.SetOverworldCostumes(config.OverworldCostumes);
     }
 
-    public void SetUseFemc(bool useFemc) => this.costumeHooks.SetUseFemc(useFemc);
+    public void SetUseFemc(bool useFemc) => this.costumeShells.SetUseFemc(useFemc);
 }
