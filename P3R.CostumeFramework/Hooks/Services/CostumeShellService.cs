@@ -1,77 +1,146 @@
 ﻿using P3R.CostumeFramework.Costumes;
+using P3R.CostumeFramework.Costumes.Models;
+using P3R.CostumeFramework.Hooks.Models;
 using Unreal.ObjectsEmitter.Interfaces;
-using Unreal.ObjectsEmitter.Interfaces.Types;
 
 namespace P3R.CostumeFramework.Hooks.Services;
 
 internal unsafe class CostumeShellService
 {
-    private readonly Dictionary<Character, CharShellCostumes> charShellCostumes = new();
-
-    private readonly Dictionary<ShellCostume, ShellCostumeFStrings> shellFStrings = new();
+    private const int SHELL_COSTUME_ID = 51;
+    private readonly Dictionary<Character, nint> shellDataPtrs = [];
+    private readonly Dictionary<Character, int> prevCostumeIds = [];
+    private readonly Dictionary<Character, Costume> defaultCostumes = [];
 
     private readonly IUnreal unreal;
+    private readonly CostumeRegistry costumes;
+    private bool useFemc;
 
-    public CostumeShellService(IUnreal unreal)
+    public CostumeShellService(IDataTables dt, IUnreal unreal, CostumeRegistry costumes)
     {
         this.unreal = unreal;
-        foreach (var character in Enum.GetValues<Character>())
+        this.costumes = costumes;
+
+        // FEMC defaults for costumes.
+        this.defaultCostumes[Character.FEMC] = new FemcCostume();
+
+        dt.FindDataTable("DT_Costume", table =>
         {
-            this.charShellCostumes[character] = new(character);
+            foreach (var character in Characters.PC)
+            {
+                var charRowName = $"PC{(int)character}";
+                var charRow = (FAppCharTableRow*)table.Rows.First(x => x.Name == charRowName).Self;
+
+                var costumes = charRow->Costumes;
+                if (costumes.TryGet(SHELL_COSTUME_ID, out var costume))
+                {
+                    this.shellDataPtrs[character] = (nint)costume;
+                    this.prevCostumeIds[character] = -1;
+                }
+                else
+                {
+                    Log.Error($"{character} missing shell Costume ID: {SHELL_COSTUME_ID}");
+                }
+
+                this.defaultCostumes[character] = new DefaultCostume(character);
+            }
+
+            this.defaultCostumes[Character.FEMC] = new FemcCostume();
+        });
+    }
+
+    public void SetUseFemc(bool useFemc) => this.useFemc = useFemc;
+
+    public int UpdateCostume(Character character, int costumeId)
+    {
+        if (costumeId == SHELL_COSTUME_ID)
+        {
+            this.prevCostumeIds[character] = costumeId;
+            this.SetCostumeAssets(defaultCostumes[character]);
+            Log.Debug($"{character}: Reset shell costume data.");
+        }
+
+        if (costumeId < GameCostumes.BASE_MOD_COSTUME_ID)
+        {
+            return costumeId;
+        }
+
+        var shouldUpdateData = this.prevCostumeIds[character] != costumeId;
+        if (shouldUpdateData && this.costumes.TryGetCostume(character, costumeId, out var costume))
+        {
+            this.SetCostumeAssets(costume);
+            this.prevCostumeIds[character] = costumeId;
+        }
+
+        return SHELL_COSTUME_ID;
+    }
+
+    private void SetCostumeAssets(Costume costume)
+    {
+        foreach (var assetType in Enum.GetValues<CostumeAssetType>())
+        {
+            this.SetCostumeAsset(costume, assetType);
         }
     }
 
-    /// <summary>
-    /// Gets the shell costume to use for the given character
-    /// and costume ID.
-    /// </summary>
-    /// <param name="character">Character.</param>
-    /// <param name="costumeId">Costume ID requesting shell.</param>
-    /// <returns>Shell costume to use.</returns>
-    public ShellCostume GetShellCostume(Character character, int costumeId)
-        => this.charShellCostumes[character].GetShellCostume(costumeId);
-
-    /// <summary>
-    /// Gets the FString of the shell's original costume mesh path.
-    /// </summary>
-    /// <param name="shellCostume">Shell costume.</param>
-    /// <returns>Shell costume's original FString.</returns>
-    public ShellCostumeFStrings GetShellFStrings(ShellCostume shellCostume)
+    private void SetCostumeAsset(Costume costume, CostumeAssetType assetType)
     {
-        if (this.shellFStrings.TryGetValue(shellCostume, out var fstrings))
+        var assetFile = costume.Config.GetAssetFile(assetType) ?? this.GetDefaultAsset(costume.Character, assetType);
+        if (assetFile == null)
         {
-            return fstrings;
+            Log.Error($"Costume asset path is null.\nCostume ({costume.Character}): {costume.Name} || Asset: {assetType}");
+            return;
         }
 
-        // FNames do update in real time?
-        // Changing the FString value of an FName means you can't retrieve it with the same string.
-        // I guess makes sense since how else does it know if a string has been made before?
-        var costumeMesh_FName = this.unreal.FName(shellCostume.CostumeMeshPath);
-        var costumeMesh_FString = this.unreal.GetPool()->GetFString(costumeMesh_FName->pool_location);
+        var assetFName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(assetFile));
+        var data = (FAppCharCostumeData*)this.shellDataPtrs[costume.Character];
 
-        var hairMesh_FName = this.unreal.FName(shellCostume.HairMeshPath);
-        var hairMesh_FString = this.unreal.GetPool()->GetFString(hairMesh_FName->pool_location);
-
-        var faceMesh_FName = this.unreal.FName(shellCostume.FaceMeshPath);
-        var faceMesh_FString = this.unreal.GetPool()->GetFString(faceMesh_FName->pool_location);
-
-        this.shellFStrings[shellCostume] = new(costumeMesh_FString, hairMesh_FString, faceMesh_FString);
-        return this.shellFStrings[shellCostume];
+        switch (assetType)
+        {
+            case CostumeAssetType.BaseMesh:
+                data->Base.Mesh.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
+                data->Base.Mesh.baseObj.baseObj.WeakPtr = new();
+                break;
+            case CostumeAssetType.CostumeMesh:
+                data->Costume.Mesh.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
+                data->Costume.Mesh.baseObj.baseObj.WeakPtr = new();
+                break;
+            case CostumeAssetType.HairMesh:
+                data->Hair.Mesh.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
+                data->Hair.Mesh.baseObj.baseObj.WeakPtr = new();
+                break;
+            case CostumeAssetType.FaceMesh:
+                data->Face.Mesh.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
+                data->Face.Mesh.baseObj.baseObj.WeakPtr = new();
+                break;
+            case CostumeAssetType.BaseAnim:
+                data->Base.Anim.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
+                data->Base.Anim.baseObj.baseObj.WeakPtr = new();
+                break;
+            case CostumeAssetType.CostumeAnim:
+                data->Costume.Anim.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
+                data->Costume.Anim.baseObj.baseObj.WeakPtr = new();
+                break;
+            case CostumeAssetType.HairAnim:
+                data->Hair.Anim.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
+                data->Hair.Anim.baseObj.baseObj.WeakPtr = new();
+                break;
+            case CostumeAssetType.FaceAnim:
+                data->Face.Anim.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
+                data->Face.Anim.baseObj.baseObj.WeakPtr = new();
+                break;
+            default:
+                break;
+        }
     }
 
-    public class ShellCostumeFStrings
+    private string? GetDefaultAsset(Character character, CostumeAssetType assetType)
     {
-        public ShellCostumeFStrings(FStringAnsi* costumeMesh, FStringAnsi* hairMesh, FStringAnsi* faceMesh)
+        if (character == Character.Player && this.useFemc)
         {
-            CostumeMesh = costumeMesh;
-            HairMesh = hairMesh;
-            FaceMesh = faceMesh;
+            return this.defaultCostumes[Character.FEMC].Config.GetAssetFile(assetType);
         }
 
-        public FStringAnsi* CostumeMesh { get; set; }
-
-        public FStringAnsi* HairMesh { get; set; }
-
-        public FStringAnsi* FaceMesh { get; set; }
+        return this.defaultCostumes[character].Config.GetAssetFile(assetType);
     }
 }

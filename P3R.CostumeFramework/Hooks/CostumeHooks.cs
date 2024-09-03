@@ -30,10 +30,8 @@ internal unsafe class CostumeHooks
     private readonly CostumeShellService costumeShells;
     private readonly CostumeMusicService costumeMusic;
     private readonly ItemEquip itemEquip;
-    private readonly Dictionary<Character, CostumeConfig> defaultCostumes = [];
 
     private bool isCostumesRandom;
-    private bool useFemc;
     private bool useOverworldCostumes;
 
     public CostumeHooks(
@@ -43,6 +41,7 @@ internal unsafe class CostumeHooks
         CostumeOverridesRegistry overrides,
         CostumeDescService costumeDesc,
         CostumeMusicService costumeMusic,
+        CostumeShellService costumeShell,
         ItemEquip itemEquip)
     {
         this.uobjects = uobjects;
@@ -51,16 +50,8 @@ internal unsafe class CostumeHooks
         this.overrides = overrides;
         this.costumeDesc = costumeDesc;
         this.costumeMusic = costumeMusic;
-        this.costumeShells = new(unreal);
+        this.costumeShells = costumeShell;
         this.itemEquip = itemEquip;
-        
-        foreach (var character in Characters.PC)
-        {
-            this.defaultCostumes[character] = new DefaultCostume(character);
-        }
-
-        // FEMC defaults for costumes.
-        this.defaultCostumes[Character.FEMC] = new FemcCostume();
 
         this.uobjects.FindObject("DatItemCostumeDataAsset", this.SetCostumeData);
 
@@ -86,8 +77,6 @@ internal unsafe class CostumeHooks
     }
 
     public void SetRandomizeCostumes(bool isCostumesRandom) => this.isCostumesRandom = isCostumesRandom;
-
-    public void SetUseFemc(bool useFemc) => this.useFemc = useFemc;
 
     public void SetOverworldCostumes(bool useOverworldCostumes) => this.useOverworldCostumes = useOverworldCostumes;
 
@@ -141,7 +130,7 @@ internal unsafe class CostumeHooks
         // Update before costume ID is set to shell costume.
         this.costumeMusic.Refresh(character, costumeId);
 
-        comp->mSetCostumeID = costumeId;
+        comp->mSetCostumeID = this.costumeShells.UpdateCostume(character, costumeId);
         Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId}");
     }
 
@@ -178,69 +167,10 @@ internal unsafe class CostumeHooks
             costume.SetCostumeItemId(newItemIndex);
             this.costumeDesc.SetCostumeDesc(newItemIndex, costume.Description);
 
-            if (costume.CostumeId >= GameCostumes.BASE_MOD_COSTUME_ID)
-            {
-                this.SetCostumePaths(costume);
-            }
-
             Log.Debug($"Added costume item: {costume.Name} || Costume Item ID: {newItemIndex} || Costume ID: {costume.CostumeId}");
             newItemIndex++;
         }
 
         this.costumeDesc.Init();
     }
-
-    private void SetCostumePaths(Costume costume)
-    {
-        foreach (var assetType in Enum.GetValues<CostumeAssetType>())
-        {
-            this.SetCostumeFile(costume, assetType);
-        }
-    }
-
-    private void SetCostumeFile(Costume costume, CostumeAssetType assetType)
-    {
-        var ogAssetFile = AssetUtils.GetAssetFile(costume.Character, costume.CostumeId, assetType);
-        var currentAssetFile = costume.Config.GetAssetFile(assetType) ?? this.GetDefaultAsset(costume.Character, assetType);
-
-        if (ogAssetFile == null)
-        {
-            Log.Debug($"Asset has no original: {assetType} || Costume: {costume.Name}");
-            return;
-        }
-
-        if (currentAssetFile == null)
-        {
-            Log.Debug($"Asset has no default or new: {assetType} || Costume: {costume.Name}");
-            return;
-        }
-
-        if (ogAssetFile == currentAssetFile)
-        {
-            return;
-        }
-
-        var ogAssetFNames = new AssetFNames(ogAssetFile);
-        var newAssetFNames = new AssetFNames(currentAssetFile);
-
-        this.unreal.AssignFName(Mod.NAME, ogAssetFNames.AssetPath, newAssetFNames.AssetPath);
-        this.unreal.AssignFName(Mod.NAME, ogAssetFNames.AssetName, newAssetFNames.AssetName);
-    }
-
-    private string? GetDefaultAsset(Character character, CostumeAssetType assetType)
-    {
-        if (character == Character.Player && this.useFemc)
-        {
-            return this.defaultCostumes[Character.FEMC].GetAssetFile(assetType);
-        }
-
-        return this.defaultCostumes[character].GetAssetFile(assetType);
-    }
-
-    private record AssetFNames(string AssetFile)
-    {
-        public string AssetName { get; } = Path.GetFileNameWithoutExtension(AssetFile);
-
-        public string AssetPath { get; } = AssetUtils.GetAssetPath(AssetFile);
-    };
 }
