@@ -10,7 +10,7 @@ internal class GameCostumes : IReadOnlyList<Costume>
     public const int RANDOMIZED_COSTUME_ID = 999;
     public const int BASE_MOD_COSTUME_ID = 1000;
 
-    private const int NUM_MOD_COSTUMES = 100;
+    private const int NUM_MOD_COSTUMES = 10000;
 
     private readonly int[] disabledCostumes =
     [
