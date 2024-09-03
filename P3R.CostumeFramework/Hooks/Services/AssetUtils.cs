@@ -17,7 +17,7 @@ internal static class AssetUtils
     {
         string? assetFile = type switch
         {
-            CostumeAssetType.BaseMesh => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/Models/SK_PC{GetCharIdString(character)}_BaseSkeleton.uasset",
+            CostumeAssetType.BaseMesh => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/Models/SK_PC{GetCharIdString(character)}_BaseSkelton.uasset",
             CostumeAssetType.CostumeMesh => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/Models/SK_PC{GetCharIdString(character)}_C{costumeId:000}.uasset",
             CostumeAssetType.HairMesh => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/Models/SK_PC{GetCharIdString(character)}_H{costumeId:000}.uasset",
             CostumeAssetType.FaceMesh => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/Models/SK_PC{GetCharIdString(character)}_F{costumeId:000}.uasset",
@@ -25,7 +25,7 @@ internal static class AssetUtils
             CostumeAssetType.BaseAnim => $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/ABP_PC{GetCharIdString(character)}.uasset",
             CostumeAssetType.CostumeAnim => "/CharacterBase/Human/Blueprints/Animation/ABP_CH_CostumeBase.uasset",
             CostumeAssetType.HairAnim => "/CharacterBase/Human/Blueprints/Animation/ABP_CH_HairBase.uasset",
-            CostumeAssetType.FaceAnim => null,
+            CostumeAssetType.FaceAnim => $"/Game/Xrd777/Characters/Data/DataAsset/Player/PC{GetCharIdString(character)}/DA_PC{GetCharIdString(character)}_FaceAnim.uasset",
             CostumeAssetType.AlloutNormal => $"/Game/Xrd777/Battle/Allout/Materials/Finish2D/T_Btl_AlloutFinish_Pc{ GetCharIdStringShort(character)}_A1{(costumeId >= 1000 ? $"_{costumeId}" : string.Empty)}",
             CostumeAssetType.AlloutNormalMask => $"/Game/Xrd777/Battle/Allout/Materials/Finish2D/T_Btl_AlloutFinish_Pc{GetCharIdStringShort(character)}_A2{(costumeId >= 1000 ? $"_{costumeId}" : string.Empty)}",
             CostumeAssetType.AlloutSpecial => $"/Game/Xrd777/Battle/Allout/Materials/Finish2D/T_Btl_AlloutFinish_Pc{GetCharIdStringShort(character)}_B1{(costumeId >= 1000 ? $"_{costumeId}" : string.Empty)}",
@@ -75,10 +75,10 @@ internal static class AssetUtils
     /// Gets the expected asset path per Unreal's format of having
     /// the file name repeat after a period.
     /// </summary>
-    public static string? GetUnrealAssetPath(string assetFile)
+    public static string GetUnrealAssetPath(string assetFile)
     {
         var assetPath = GetAssetPath(assetFile);
-        return assetPath != null ? $"{assetPath}.{Path.GetFileName(assetPath)}" : null;
+        return $"{assetPath}.{Path.GetFileName(assetPath)}";
     }
 
     public static Character GetCharFromEquip(EquipFlag flag)

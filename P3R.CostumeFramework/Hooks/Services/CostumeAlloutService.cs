@@ -1,5 +1,6 @@
 ﻿using P3R.CostumeFramework.Costumes;
 using P3R.CostumeFramework.Costumes.Models;
+using P3R.CostumeFramework.Hooks.Models;
 using P3R.CostumeFramework.Utils;
 using System.Runtime.InteropServices;
 using Unreal.ObjectsEmitter.Interfaces;
@@ -41,26 +42,26 @@ internal unsafe class CostumeAlloutService
 
     private void SetAssetPath(FBtlAlloutFinishTexture* allout, CostumeAssetType type, string path)
     {
-        var unrealPathFName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(path)!);
+        var assetFName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(path)!);
         switch (type)
         {
             case CostumeAssetType.AlloutNormal:
-                allout->TextureNormal.baseObj.baseObj.ObjectId.AssetPathName = unrealPathFName;
+                allout->TextureNormal.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
                 break;
             case CostumeAssetType.AlloutNormalMask:
-                allout->TextureNormalMask.baseObj.baseObj.ObjectId.AssetPathName = unrealPathFName;
+                allout->TextureNormalMask.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
                 break;
             case CostumeAssetType.AlloutSpecial:
-                allout->TextureSpecialOutfit.baseObj.baseObj.ObjectId.AssetPathName = unrealPathFName;
+                allout->TextureSpecialOutfit.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
                 break;
             case CostumeAssetType.AlloutSpecialMask:
-                allout->TextureSpecialMask.baseObj.baseObj.ObjectId.AssetPathName = unrealPathFName;
+                allout->TextureSpecialMask.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
                 break;
             case CostumeAssetType.AlloutPlg:
-                allout->TexturePlg.baseObj.baseObj.ObjectId.AssetPathName = unrealPathFName;
+                allout->TexturePlg.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
                 break;
             case CostumeAssetType.AlloutText:
-                allout->TextureText.baseObj.baseObj.ObjectId.AssetPathName = unrealPathFName;
+                allout->TextureText.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
                 break;
             default:
                 break;
@@ -76,41 +77,5 @@ internal unsafe class CostumeAlloutService
         public SoftObjectProperty TextureSpecialMask;
         public SoftObjectProperty TextureText;
         public SoftObjectProperty TexturePlg;
-    }
-
-    [StructLayout(LayoutKind.Sequential, Size = 40)]
-    private unsafe struct SoftObjectProperty
-    {
-        public FSoftObjectPtr baseObj;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct FSoftObjectPtr
-    {
-        public TPersistentObjectPtr<FSoftObjectPath> baseObj;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct TPersistentObjectPtr<T> where T : unmanaged
-    {
-        public FWeakObjectPtr WeakPtr;
-
-        public int TagAtLastTest;
-
-        public T ObjectId;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 0x18)]
-    public unsafe struct FSoftObjectPath
-    {
-        [FieldOffset(0x0000)] public FName AssetPathName;
-        [FieldOffset(0x0008)] public FString SubPathString;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct FWeakObjectPtr
-    {
-        public int ObjectIndex;
-        public int ObjectSerialNumber;
     }
 }
