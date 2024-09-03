@@ -35,6 +35,42 @@ public enum EAnimPackID
     EAnimPackID_MAX = 5,
 };
 
+[StructLayout(LayoutKind.Explicit, Size = 0xE0)]
+public unsafe struct UAppCharAnimDataAsset
+{
+    //[FieldOffset(0x0000)] public UDataAsset baseObj;
+    [FieldOffset(0x0030)] public EAnimPackID PackId;
+    //[FieldOffset(0x0031)] public EAppCharCategoryType Category;
+    [FieldOffset(0x0034)] public int CharId;
+    //[FieldOffset(0x0038)] public UClass* AnimInstance;
+    [FieldOffset(0x0040)] public TMap<int, IntPtr> SpecialAnimInstance;
+    [FieldOffset(0x0090)] public TMap<int, IntPtr> Anims;
+}
+
+[StructLayout(LayoutKind.Explicit, Size = 0x1C0)]
+public unsafe struct UAnimSequence
+{
+    //[FieldOffset(0x0000)] public UAnimSequenceBase baseObj;
+    //[FieldOffset(0x00A8)] public int NumFrames;
+    //[FieldOffset(0x00B0)] public TArray<FTrackToSkeletonMap> TrackToSkeletonMapTable;
+    //[FieldOffset(0x00D0)] public UAnimBoneCompressionSettings* BoneCompressionSettings;
+    //[FieldOffset(0x00D8)] public UAnimCurveCompressionSettings* CurveCompressionSettings;
+    //[FieldOffset(0x0150)] public EAdditiveAnimationType AdditiveAnimType;
+    //[FieldOffset(0x0151)] public EAdditiveBasePoseType RefPoseType;
+    //[FieldOffset(0x0158)] public UAnimSequence* RefPoseSeq;
+    //[FieldOffset(0x0160)] public int RefFrameIndex;
+    //[FieldOffset(0x0164)] public FName RetargetSource;
+    //[FieldOffset(0x0170)] public TArray<FTransform> RetargetSourceAssetReferencePose;
+    //[FieldOffset(0x0180)] public EAnimInterpolationType Interpolation;
+    //[FieldOffset(0x0181)] public bool bEnableRootMotion;
+    //[FieldOffset(0x0182)] public ERootMotionRootLock RootMotionRootLock;
+    //[FieldOffset(0x0183)] public bool bForceRootLock;
+    //[FieldOffset(0x0184)] public bool bUseNormalizedRootMotionScale;
+    //[FieldOffset(0x0185)] public bool bRootMotionSettingsCopiedFromMontage;
+    //[FieldOffset(0x0188)] public TArray<FAnimSyncMarker> AuthoredSyncMarkers;
+    //[FieldOffset(0x01B0)] public TArray<FBakedCustomAttributePerBoneData> BakedPerBoneCustomAttributeData;
+}
+
 [StructLayout(LayoutKind.Explicit, Size = 0x180)]
 public unsafe struct FAppCharTableRow
 {
@@ -46,18 +82,6 @@ public unsafe struct FAppCharTableRow
     [FieldOffset(0x0090)] public TMap<int, FAppCharCostumeData> Costumes;
     [FieldOffset(0x00E0)] public TMap<int, FAppCharWeaponData> WeaponType;
     //[FieldOffset(0x0130)] public TMap<int, FAppCharBagData> BagType;
-}
-
-[StructLayout(LayoutKind.Explicit, Size = 0xE0)]
-public unsafe struct UAppCharAnimDataAsset
-{
-    //[FieldOffset(0x0000)] public UDataAsset baseObj;
-    [FieldOffset(0x0030)] public EAnimPackID PackId;
-    //[FieldOffset(0x0031)] public EAppCharCategoryType Category;
-    [FieldOffset(0x0034)] public int CharId;
-    //[FieldOffset(0x0038)] public UClass* AnimInstance;
-    [FieldOffset(0x0040)] public TMap<int, IntPtr> SpecialAnimInstance;
-    [FieldOffset(0x0090)] public TMap<int, IntPtr> Anims;
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 0x3A0)]
@@ -200,6 +224,23 @@ public unsafe struct TMap<KeyType, ValueType>
                 break;
             }
         }
+        return value;
+    }
+
+    public TMapElement<KeyType, ValueType>* TryGetElement(KeyType key)
+    {
+        if (mapNum == 0 || elements == null) return null;
+        TMapElement<KeyType, ValueType>* value = null;
+        for (int i = 0; i < mapNum; i++)
+        {
+            var currElem = &elements[i];
+            if (currElem->Key.Equals(key))
+            {
+                value = currElem;
+                break;
+            }
+        }
+
         return value;
     }
 

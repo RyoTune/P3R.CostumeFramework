@@ -25,7 +25,7 @@ internal unsafe class CostumeService
     {
         this.itemEquip = new(registry);
         this.alloutService = new(dt, unreal, this.itemEquip);
-        this.costumeShells = new(dt, unreal, registry);
+        this.costumeShells = new(dt, uobjects, unreal, registry);
         this.costumeHooks = new(uobjects, unreal, registry, overrides, costumeDesc, costumeMusic, this.costumeShells, this.itemEquip);
         this.itemCountHook = new(registry);
         this.costumeNameHook = new(uobjects, registry);

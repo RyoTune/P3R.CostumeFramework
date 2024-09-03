@@ -9,7 +9,7 @@ internal class FemcCostume : Costume
     public FemcCostume()
     {
         this.Character = Character.Player;
-        this.Config.Base.MeshPath = "/Game/Xrd777/Characters/Player/PC0002/Models/SK_PC0002_BaseSkelton";
+        this.Config.Base.MeshPath = AssetUtils.GetAssetFile(Character.Yukari, 0, CostumeAssetType.BaseMesh);
         this.Config.Base.AnimPath = AssetUtils.GetAssetFile(Character.Player, 51, CostumeAssetType.BaseAnim);
         this.Config.Costume.MeshPath = "/Game/Xrd777/Characters/Player/PC0002/Models/SK_PC0002_C998";
         this.Config.Hair.MeshPath = "/Game/Xrd777/Characters/Player/PC0002/Models/SK_PC0002_H999";

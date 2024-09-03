@@ -41,19 +41,19 @@ internal class CostumeConfig
             CostumeAssetType.AlloutSpecialMask => this.Allout.SpecialMaskPath,
             CostumeAssetType.AlloutText => this.Allout.TextPath,
             CostumeAssetType.AlloutPlg => this.Allout.PlgPath,
-            _ => throw new Exception("Unknown asset type."),
+            _ => throw new NotImplementedException(),
         };
 }
 
 internal class CostumeAnims
 {
-    public Character? Common { get; set; }
+    public string? Common { get; set; }
 
-    public Character? Dungeon { get; set; }
+    public string? Dungeon { get; set; }
 
-    public Character? Combine { get; set; }
+    public string? Combine { get; set; }
 
-    public Character? Event { get; set; }
+    public string? Event { get; set; }
 }
 
 internal class CostumePartsData
