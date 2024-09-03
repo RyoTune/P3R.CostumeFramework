@@ -47,6 +47,11 @@ internal class CostumeFactory
         ModUtils.IfNotNull(config.Allout.SpecialMaskPath, str => costume.Config.Allout.SpecialMaskPath = str);
         ModUtils.IfNotNull(config.Allout.PlgPath, str => costume.Config.Allout.PlgPath = str);
         ModUtils.IfNotNull(config.Allout.TextPath, str => costume.Config.Allout.TextPath = str);
+
+        ModUtils.IfNotNull(config.Anims.Common, anim => costume.Config.Anims.Common = anim);
+        ModUtils.IfNotNull(config.Anims.Dungeon, anim => costume.Config.Anims.Dungeon = anim);
+        ModUtils.IfNotNull(config.Anims.Event, anim => costume.Config.Anims.Event = anim);
+        ModUtils.IfNotNull(config.Anims.Combine, anim => costume.Config.Anims.Combine = anim);
     }
 
     public Costume? CreateFromExisting(Character character, string name, int costumeId)

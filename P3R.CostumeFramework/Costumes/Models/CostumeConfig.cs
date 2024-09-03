@@ -22,6 +22,8 @@ internal class CostumeConfig
 
     public CostumeAllout Allout { get; set; } = new();
 
+    public CostumeAnims Anims { get; set; } = new();
+
     public string? GetAssetFile(CostumeAssetType assetType)
         => assetType switch
         {
@@ -41,6 +43,17 @@ internal class CostumeConfig
             CostumeAssetType.AlloutPlg => this.Allout.PlgPath,
             _ => throw new Exception("Unknown asset type."),
         };
+}
+
+internal class CostumeAnims
+{
+    public Character? Common { get; set; }
+
+    public Character? Dungeon { get; set; }
+
+    public Character? Combine { get; set; }
+
+    public Character? Event { get; set; }
 }
 
 internal class CostumePartsData

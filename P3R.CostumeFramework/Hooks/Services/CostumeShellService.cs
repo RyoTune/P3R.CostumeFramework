@@ -11,6 +11,7 @@ internal unsafe class CostumeShellService
     private readonly Dictionary<Character, nint> shellDataPtrs = [];
     private readonly Dictionary<Character, int> prevCostumeIds = [];
     private readonly Dictionary<Character, Costume> defaultCostumes = [];
+    private readonly Dictionary<Character, nint> shellRows = [];
 
     private readonly IUnreal unreal;
     private readonly CostumeRegistry costumes;
@@ -43,6 +44,7 @@ internal unsafe class CostumeShellService
                 }
 
                 this.defaultCostumes[character] = new DefaultCostume(character);
+                this.shellRows[character] = (nint)charRow;
             }
 
             this.defaultCostumes[Character.FEMC] = new FemcCostume();
@@ -69,6 +71,7 @@ internal unsafe class CostumeShellService
         if (shouldUpdateData && this.costumes.TryGetCostume(character, costumeId, out var costume))
         {
             this.SetCostumeAssets(costume);
+            this.SetCostumeAnims(costume);
             this.prevCostumeIds[character] = costumeId;
         }
 
@@ -113,26 +116,41 @@ internal unsafe class CostumeShellService
                 data->Face.Mesh.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
                 data->Face.Mesh.baseObj.baseObj.WeakPtr = new();
                 break;
-            case CostumeAssetType.BaseAnim:
-                data->Base.Anim.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
-                data->Base.Anim.baseObj.baseObj.WeakPtr = new();
-                break;
-            case CostumeAssetType.CostumeAnim:
-                data->Costume.Anim.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
-                data->Costume.Anim.baseObj.baseObj.WeakPtr = new();
-                break;
-            case CostumeAssetType.HairAnim:
-                data->Hair.Anim.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
-                data->Hair.Anim.baseObj.baseObj.WeakPtr = new();
-                break;
-            case CostumeAssetType.FaceAnim:
-                data->Face.Anim.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
-                data->Face.Anim.baseObj.baseObj.WeakPtr = new();
-                break;
+            //case CostumeAssetType.BaseAnim:
+            //    data->Base.Anim.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
+            //    data->Base.Anim.baseObj.baseObj.WeakPtr = new();
+            //    break;
+            //case CostumeAssetType.CostumeAnim:
+            //    data->Costume.Anim.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
+            //    data->Costume.Anim.baseObj.baseObj.WeakPtr = new();
+            //    break;
+            //case CostumeAssetType.HairAnim:
+            //    data->Hair.Anim.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
+            //    data->Hair.Anim.baseObj.baseObj.WeakPtr = new();
+            //    break;
+            //case CostumeAssetType.FaceAnim:
+            //    data->Face.Anim.baseObj.baseObj.ObjectId.AssetPathName = assetFName;
+            //    data->Face.Anim.baseObj.baseObj.WeakPtr = new();
+            //    break;
             default:
                 break;
         }
     }
+
+    private void SetCostumeAnims(Costume costume)
+    {
+        var charRow = (FAppCharTableRow*)this.shellRows[costume.Character];
+        var anims = charRow->Anims;
+
+        if (costume.Config.Anims.Common is Character charAnim && anims.GetByIndex(0) is var anim)
+        {
+            var commonAnimAsset = AssetUtils.GetUnrealAssetPath(CommonAnimFile(charAnim));
+            anim->baseObj.baseObj.WeakPtr = new();
+            anim->baseObj.baseObj.ObjectId.AssetPathName = *this.unreal.FName(commonAnimAsset);
+        }
+    }
+
+    private string CommonAnimFile(Character character) => $"/Game/Xrd777/Characters/Data/DataAsset/Player/PC{AssetUtils.GetCharIdString(character)}/DA_PC{AssetUtils.GetCharIdString(character)}_CommonAnim.uasset";
 
     private string? GetDefaultAsset(Character character, CostumeAssetType assetType)
     {

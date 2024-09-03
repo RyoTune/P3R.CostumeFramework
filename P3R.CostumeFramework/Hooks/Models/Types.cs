@@ -25,17 +25,39 @@ public unsafe struct FTableRowBase
 {
 }
 
+public enum EAnimPackID
+{
+    None = 0,
+    Common = 1,
+    Dungeon = 2,
+    Combine = 3,
+    Event = 4,
+    EAnimPackID_MAX = 5,
+};
+
 [StructLayout(LayoutKind.Explicit, Size = 0x180)]
 public unsafe struct FAppCharTableRow
 {
     [FieldOffset(0x0000)] public FTableRowBase baseObj;
     [FieldOffset(0x0008)] public float CapsuleHalfHeight;
     //[FieldOffset(0x000C)] public FVector MeshLocation;
-    //[FieldOffset(0x0018)] public TMap<EAnimPackID, TSoftObjectPtr<UAppCharAnimDataAsset>> Anims;
+    [FieldOffset(0x0018)] public TMap<EAnimPackID, TSoftObjectPtr<UAppCharAnimDataAsset>> Anims;
     //[FieldOffset(0x0068)] public TSoftObjectPtr<UAppCharFaceAnimDataAsset> FaceAnim;
     [FieldOffset(0x0090)] public TMap<int, FAppCharCostumeData> Costumes;
     [FieldOffset(0x00E0)] public TMap<int, FAppCharWeaponData> WeaponType;
     //[FieldOffset(0x0130)] public TMap<int, FAppCharBagData> BagType;
+}
+
+[StructLayout(LayoutKind.Explicit, Size = 0xE0)]
+public unsafe struct UAppCharAnimDataAsset
+{
+    //[FieldOffset(0x0000)] public UDataAsset baseObj;
+    [FieldOffset(0x0030)] public EAnimPackID PackId;
+    //[FieldOffset(0x0031)] public EAppCharCategoryType Category;
+    [FieldOffset(0x0034)] public int CharId;
+    //[FieldOffset(0x0038)] public UClass* AnimInstance;
+    [FieldOffset(0x0040)] public TMap<int, IntPtr> SpecialAnimInstance;
+    [FieldOffset(0x0090)] public TMap<int, IntPtr> Anims;
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 0x3A0)]
@@ -158,7 +180,7 @@ public struct FWeakObjectPtr
 
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct TMap<KeyType, ValueType>
-    where KeyType : unmanaged, IEquatable<KeyType>
+    where KeyType : unmanaged
     where ValueType : unmanaged
 {
     public TMapElement<KeyType, ValueType>* elements;
@@ -196,7 +218,7 @@ public unsafe struct TMap<KeyType, ValueType>
 
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct TMapElement<KeyType, ValueType>
-    where KeyType : unmanaged, IEquatable<KeyType>
+    where KeyType : unmanaged
     where ValueType : unmanaged
 {
     public KeyType Key;
