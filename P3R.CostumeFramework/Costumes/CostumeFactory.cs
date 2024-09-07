@@ -1,30 +1,33 @@
 ﻿using P3R.CostumeFramework.Costumes.Models;
 using P3R.CostumeFramework.Utils;
+using Ryo.Interfaces;
+using Ryo.Interfaces.Classes;
 
 namespace P3R.CostumeFramework.Costumes;
 
 internal class CostumeFactory
 {
+    private readonly IRyoApi ryo;
     private readonly GameCostumes costumes;
 
-    public CostumeFactory(GameCostumes costumes)
+    public CostumeFactory(IRyoApi ryo, GameCostumes costumes)
     {
+        this.ryo = ryo;
         this.costumes = costumes;
     }
 
     public Costume? Create(CostumeMod mod, string costumeDir, Character character)
     {
         var config = GetCostumeConfig(costumeDir);
-        var costume = this.CreateOrFindCostume(character, config.Name ?? Path.GetFileName(costumeDir));
+        var costume = this.CreateOrFindCostume(mod.ModId, character, config.Name ?? Path.GetFileName(costumeDir));
         if (costume == null)
         {
             return null;
         }
 
-        costume.OwnerModId = mod.ModId;
-
         ApplyCostumeConfig(costume, config);
         LoadCostumeFiles(mod, costume, costumeDir);
+        LoadCostumeAudio(costume, costumeDir);
         Log.Information($"Costume created: {costume.Character} || Costume ID: {costume.CostumeId}\nFolder: {costumeDir}");
         return costume;
     }
@@ -56,7 +59,7 @@ internal class CostumeFactory
 
     public Costume? CreateFromExisting(Character character, string name, int costumeId)
     {
-        var costume = this.CreateOrFindCostume(character, name);
+        var costume = this.CreateOrFindCostume(Mod.NAME, character, name);
         if (costume == null)
         {
             return null;
@@ -68,7 +71,7 @@ internal class CostumeFactory
 
     public Costume? CreateFromExisting(Character character, string name, string existingMesh)
     {
-        var costume = this.CreateOrFindCostume(character, name);
+        var costume = this.CreateOrFindCostume(Mod.NAME, character, name);
         if (costume == null)
         {
             return null;
@@ -78,7 +81,7 @@ internal class CostumeFactory
         return costume;
     }
 
-    public static void LoadCostumeFiles(CostumeMod mod, Costume costume, string costumeDir)
+    private static void LoadCostumeFiles(CostumeMod mod, Costume costume, string costumeDir)
     {
         SetCostumeFile(mod, Path.Join(costumeDir, "base-mesh.uasset"), path => costume.Config.Base.MeshPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "base-anim.uasset"), path => costume.Config.Base.AnimPath = path);
@@ -103,6 +106,21 @@ internal class CostumeFactory
         SetCostumeFile(mod, Path.Join(costumeDir, "battle.theme.pme"), path => costume.BattleThemeFile = path, SetType.Full);
 
         SetCostumeFile(mod, Path.Join(costumeDir, "description.msg"), path => costume.Description = File.ReadAllText(path), SetType.Full);
+    }
+
+    private void LoadCostumeAudio(Costume costume, string costumeDir)
+    {
+        var audioDir = Path.Join(costumeDir, "ryo");
+        if (Directory.Exists(audioDir))
+        {
+            var config = new AudioConfig()
+            {
+                IsEnabled = false,
+                GroupId = costume.AudioGroupId,
+            };
+
+            this.ryo.AddAudioPath(audioDir, config);
+        }
     }
 
     private static CostumeConfig GetCostumeConfig(string costumeDir)
@@ -134,7 +152,7 @@ internal class CostumeFactory
     /// <summary>
     /// Creates a new costume for <paramref name="character"/> or gets an existing costume by <paramref name="name"/>.
     /// </summary>
-    private Costume? CreateOrFindCostume(Character character, string name)
+    private Costume? CreateOrFindCostume(string ownerId, Character character, string name)
     {
         var existingCostume = this.costumes.FirstOrDefault(x => x.Character == character && x.Name == name);
         if (existingCostume != null)
@@ -148,6 +166,7 @@ internal class CostumeFactory
             newCostume.Name = name;
             newCostume.Character = character;
             newCostume.IsEnabled = true;
+            newCostume.OwnerModId = ownerId;
         }
         else
         {

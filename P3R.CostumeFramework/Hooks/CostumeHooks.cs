@@ -29,6 +29,7 @@ internal unsafe class CostumeHooks
     private readonly CostumeDescService costumeDesc;
     private readonly CostumeShellService costumeShells;
     private readonly CostumeMusicService costumeMusic;
+    private readonly CostumeAudioService costumeAudio;
     private readonly ItemEquip itemEquip;
 
     private bool isCostumesRandom;
@@ -41,6 +42,7 @@ internal unsafe class CostumeHooks
         CostumeOverridesRegistry overrides,
         CostumeDescService costumeDesc,
         CostumeMusicService costumeMusic,
+        CostumeAudioService costumeAudio,
         CostumeShellService costumeShell,
         ItemEquip itemEquip)
     {
@@ -50,6 +52,7 @@ internal unsafe class CostumeHooks
         this.overrides = overrides;
         this.costumeDesc = costumeDesc;
         this.costumeMusic = costumeMusic;
+        this.costumeAudio = costumeAudio;
         this.costumeShells = costumeShell;
         this.itemEquip = itemEquip;
 
@@ -129,6 +132,7 @@ internal unsafe class CostumeHooks
 
         // Update before costume ID is set to shell costume.
         this.costumeMusic.Refresh(character, costumeId);
+        this.costumeAudio.Refresh(character, costumeId);
 
         comp->mSetCostumeID = this.costumeShells.UpdateCostume(character, costumeId);
         Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId}");

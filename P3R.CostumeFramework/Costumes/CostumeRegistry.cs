@@ -1,5 +1,6 @@
 ﻿using P3R.CostumeFramework.Costumes.Models;
 using P3R.CostumeFramework.Types;
+using Ryo.Interfaces;
 using System.Diagnostics.CodeAnalysis;
 
 namespace P3R.CostumeFramework.Costumes;
@@ -8,10 +9,10 @@ internal class CostumeRegistry
 {
     private readonly CostumeFactory costumeFactory;
 
-    public CostumeRegistry(CostumeFilter filter)
+    public CostumeRegistry(IRyoApi ryo, CostumeFilter filter)
     {
         this.Costumes = new(filter);
-        this.costumeFactory = new(this.Costumes);
+        this.costumeFactory = new(ryo, this.Costumes);
     }
 
     public GameCostumes Costumes { get; }
