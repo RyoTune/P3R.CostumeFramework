@@ -65,7 +65,8 @@ internal unsafe class CostumeHooks
             {
                 this.characterCompUpdate = hooks.CreateWrapper<UAppCharacterComp_Update>(result, out _);
 
-                var setCostumeAddress = result + 0x255;
+                // UAppCharacterComp::Update + 0x254 is FF in release (call to vtable), but 75 in episode aigis (jump)
+                var setCostumeAddress = result + (*(byte*)(result + 0x254) == 0x75 ? 0x183 : 0x255);
                 var setCostumePatch = new string[]
                 {
                     "use64",
