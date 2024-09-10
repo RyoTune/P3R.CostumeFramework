@@ -5,8 +5,6 @@ VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P3R.CostumeFramework", "P3R.CostumeFramework\P3R.CostumeFramework.csproj", "{5368C8BE-0D37-4E1B-BECE-9E6D087F8135}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unreal.ObjectsEmitter.Interfaces", "submodules\Unreal.ObjectsEmitter\Unreal.ObjectsEmitter.Interfaces\Unreal.ObjectsEmitter.Interfaces.csproj", "{9F24573B-F48B-4B05-8F53-0E3418E8D1A0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Utils", "submodules\Project.Utils\Project.Utils.csproj", "{C0E0B1B2-D39E-4B00-8507-881038DB577C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unreal.AtlusScript.Interfaces", "submodules\Unreal.AtlusScript\Unreal.AtlusScript.Interfaces\Unreal.AtlusScript.Interfaces.csproj", "{2A556445-D573-4D40-8DCA-7BE65412C3CD}"
@@ -27,10 +25,6 @@ Global
 		{5368C8BE-0D37-4E1B-BECE-9E6D087F8135}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5368C8BE-0D37-4E1B-BECE-9E6D087F8135}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5368C8BE-0D37-4E1B-BECE-9E6D087F8135}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F24573B-F48B-4B05-8F53-0E3418E8D1A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F24573B-F48B-4B05-8F53-0E3418E8D1A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F24573B-F48B-4B05-8F53-0E3418E8D1A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F24573B-F48B-4B05-8F53-0E3418E8D1A0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C0E0B1B2-D39E-4B00-8507-881038DB577C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C0E0B1B2-D39E-4B00-8507-881038DB577C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0E0B1B2-D39E-4B00-8507-881038DB577C}.Release|Any CPU.ActiveCfg = Release|Any CPU

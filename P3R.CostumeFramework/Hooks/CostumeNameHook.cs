@@ -7,7 +7,7 @@ namespace P3R.CostumeFramework.Hooks;
 
 internal unsafe class CostumeNameHook
 {
-	public CostumeNameHook(IUObjects uobjects, CostumeRegistry registry)
+	public CostumeNameHook(IUObjects uobjects, IUnreal unreal, CostumeRegistry registry)
 	{
 		uobjects.FindObject("DatItemCostumeNameDataAsset", obj =>
 		{
@@ -19,7 +19,7 @@ internal unsafe class CostumeNameHook
 
 				if (costume?.Name != null)
                 {
-                    nameTable->Data.AllocatorInstance[i] = new FString(costume.Name);
+                    nameTable->Data.AllocatorInstance[i] = unreal.FString(costume.Name);
                     Log.Debug($"Set name for Costume Item ID: {i} || Name: {costume.Name}");
                 }
 			}
