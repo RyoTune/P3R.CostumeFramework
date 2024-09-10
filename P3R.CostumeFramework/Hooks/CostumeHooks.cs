@@ -161,7 +161,7 @@ internal unsafe class CostumeHooks
         foreach (var costume in this.registry.GetActiveCostumes())
         {
             // Skip costumes with existing items.
-            if (costume.CostumeItemId != default)
+            if (costume.CostumeId < GameCostumes.BASE_MOD_COSTUME_ID)
             {
                 continue;
             }
