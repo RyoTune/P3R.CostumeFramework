@@ -29,7 +29,7 @@ internal unsafe class CostumeService
         this.costumeShells = new(dt, uobjects, unreal, registry);
         this.costumeHooks = new(uobjects, unreal, registry, overrides, costumeDesc, costumeMusic, costumeAudio, this.costumeShells, this.itemEquip);
         this.itemCountHook = new(registry);
-        this.costumeNameHook = new(uobjects, registry);
+        this.costumeNameHook = new(uobjects, unreal, registry);
     }
 
     public void SetConfig(Config config)
