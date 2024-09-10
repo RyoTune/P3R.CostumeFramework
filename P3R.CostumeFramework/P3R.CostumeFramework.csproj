@@ -49,7 +49,6 @@
     <PackageReference Include="Reloaded.Mod.Interfaces" Version="2.4.0" ExcludeAssets="runtime" />
     <PackageReference Include="Reloaded.SharedLib.Hooks" Version="1.9.0" />
     <PackageReference Include="Ryo.Interfaces" Version="2.3.1" />
-    <PackageReference Include="Unreal.ObjectsEmitter.Interfaces" Version="1.2.2" />
     <PackageReference Include="YamlDotNet" Version="15.1.2" />
   </ItemGroup>
 
@@ -59,6 +58,7 @@
     <ProjectReference Include="..\submodules\BGME\BGME.Framework.Interfaces\BGME.Framework.Interfaces.csproj" />
     <ProjectReference Include="..\submodules\Project.Utils\Project.Utils.csproj" />
     <ProjectReference Include="..\submodules\Unreal.AtlusScript\Unreal.AtlusScript.Interfaces\Unreal.AtlusScript.Interfaces.csproj" />
+    <ProjectReference Include="..\submodules\Unreal.ObjectsEmitter\Unreal.ObjectsEmitter.Interfaces\Unreal.ObjectsEmitter.Interfaces.csproj" />
   </ItemGroup>
 
   <ItemGroup>
