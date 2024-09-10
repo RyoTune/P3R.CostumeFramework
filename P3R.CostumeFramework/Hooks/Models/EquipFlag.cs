@@ -14,4 +14,5 @@ public enum EquipFlag
     Ken = 1 << 8,
     Koromaru = 1 << 9,
     Shinjiro = 1 << 10,
+    Metis = 1 << 11,
 }

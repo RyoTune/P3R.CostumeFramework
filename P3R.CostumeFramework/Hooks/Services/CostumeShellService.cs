@@ -27,8 +27,14 @@ internal unsafe class CostumeShellService
             foreach (var character in Characters.PC)
             {
                 var charRowName = $"PC{(int)character}";
-                var charRow = (FAppCharTableRow*)table.Rows.First(x => x.Name == charRowName).Self;
+                var charRowObj = table.Rows.FirstOrDefault(x => x.Name == charRowName);
+                if (charRowObj == null)
+                {
+                    Log.Debug($"Character row missing: {charRowName}\n");
+                    continue;
+                }
 
+                var charRow = (FAppCharTableRow*)charRowObj.Self;
                 var costumes = charRow->Costumes;
                 if (costumes.TryGet(SHELL_COSTUME_ID, out var costume))
                 {

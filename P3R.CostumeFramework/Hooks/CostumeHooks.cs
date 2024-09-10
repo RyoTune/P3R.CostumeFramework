@@ -89,8 +89,13 @@ internal unsafe class CostumeHooks
         var character = comp->baseObj.Character;
         var costumeId = comp->mSetCostumeID;
 
+        if (character == Character.Aigis12)
+        {
+            character = Character.Aigis;
+        }
+
         // Ignore non-player characters.
-        if (character < Character.Player || character > Character.Shinjiro)
+        if (Characters.PC.Contains(character) == false)
         {
             return;
         }
