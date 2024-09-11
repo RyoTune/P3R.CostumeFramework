@@ -54,7 +54,7 @@ internal class GameCostumes : IReadOnlyList<Costume>
         this.AddExtendedOutfits();
 
         // Add randomized costumes.
-        for (int i = 1; i < 11; i++)
+        for (int i = 1; i < 12; i++)
         {
             var character = (Character)i;
             this.costumes.Add(new(character, RANDOMIZED_COSTUME_ID)

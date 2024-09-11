@@ -30,7 +30,7 @@ internal unsafe class CostumeShellService
                 var charRowObj = table.Rows.FirstOrDefault(x => x.Name == charRowName);
                 if (charRowObj == null)
                 {
-                    Log.Debug($"Character row missing: {charRowName}\n");
+                    Log.Debug($"Character row missing: {charRowName}");
                     continue;
                 }
 
