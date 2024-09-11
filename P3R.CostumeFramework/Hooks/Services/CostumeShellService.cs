@@ -40,6 +40,12 @@ internal unsafe class CostumeShellService
                 {
                     this.shellDataPtrs[character] = (nint)costume;
                     this.prevCostumeIds[character] = -1;
+
+                    if (character == Character.Aigis12)
+                    {
+                        this.shellDataPtrs[Character.Aigis] = (nint)costume;
+                        this.prevCostumeIds[Character.Aigis] = -1;
+                    }
                 }
                 else
                 {

@@ -15,8 +15,8 @@ public enum Character
     Koromaru,
     Shinjiro,
 
-    Metis = 11,
-    Aigis12 = 12,
+    Metis,
+    Aigis12,
 
     // Side-characters.
     Kenji = 101,
@@ -65,5 +65,6 @@ public static class Characters
         Character.Koromaru,
         Character.Shinjiro,
         Character.Metis,
+        Character.Aigis12,
     ];
 }
