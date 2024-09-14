@@ -22,7 +22,7 @@ internal unsafe class CostumeService
         CostumeOverridesRegistry overrides,
         CostumeDescService costumeDesc,
         CostumeMusicService costumeMusic,
-        CostumeAudioService costumeAudio)
+        CostumeRyoService costumeAudio)
     {
         this.itemEquip = new(registry);
         this.alloutService = new(dt, unreal, this.itemEquip);

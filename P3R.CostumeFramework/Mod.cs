@@ -32,7 +32,7 @@ public class Mod : ModBase, IExports
     private readonly CostumeRegistry costumeRegistry;
     private readonly CostumeDescService costumeDesc;
     private readonly CostumeMusicService costumeMusic;
-    private readonly CostumeAudioService costumeAudio;
+    private readonly CostumeRyoService costumeRyo;
     private readonly CostumeOverridesRegistry costumeOverrides;
 
     public Mod(ModContext context)
@@ -64,8 +64,8 @@ public class Mod : ModBase, IExports
         this.costumeOverrides = new(this.costumeRegistry);
         this.costumeDesc = new(atlusAssets!);
         this.costumeMusic = new(bgme!, battleThemes!, this.costumeRegistry);
-        this.costumeAudio = new(ryo!, this.costumeRegistry);
-        this.costumes = new(uobjects!, unreal!, dataTables!, this.costumeRegistry, this.costumeOverrides, this.costumeDesc, this.costumeMusic, this.costumeAudio);
+        this.costumeRyo = new(ryo!, this.costumeRegistry);
+        this.costumes = new(uobjects!, unreal!, dataTables!, this.costumeRegistry, this.costumeOverrides, this.costumeDesc, this.costumeMusic, this.costumeRyo);
 
         this.modLoader.AddOrReplaceController<ICostumeApi>(this.owner, this.costumeOverrides);
         ScanHooks.Initialize(scanner!, this.hooks);

@@ -1,7 +1,6 @@
 ﻿using P3R.CostumeFramework.Costumes.Models;
 using P3R.CostumeFramework.Utils;
 using Ryo.Interfaces;
-using Ryo.Interfaces.Classes;
 
 namespace P3R.CostumeFramework.Costumes;
 
@@ -27,7 +26,7 @@ internal class CostumeFactory
 
         ApplyCostumeConfig(costume, config);
         LoadCostumeFiles(mod, costume, costumeDir);
-        LoadCostumeAudio(costume, costumeDir);
+        LoadCostumeRyo(costume, costumeDir);
         Log.Information($"Costume created: {costume.Character} || Costume ID: {costume.CostumeId}\nFolder: {costumeDir}");
         return costume;
     }
@@ -108,18 +107,13 @@ internal class CostumeFactory
         SetCostumeFile(mod, Path.Join(costumeDir, "description.msg"), path => costume.Description = File.ReadAllText(path), SetType.Full);
     }
 
-    private void LoadCostumeAudio(Costume costume, string costumeDir)
+    private void LoadCostumeRyo(Costume costume, string costumeDir)
     {
-        var audioDir = Path.Join(costumeDir, "ryo");
-        if (Directory.Exists(audioDir))
+        var ryoDir = Path.Join(costumeDir, "ryo");
+        if (Directory.Exists(ryoDir))
         {
-            var config = new AudioConfig()
-            {
-                IsEnabled = false,
-                GroupId = costume.AudioGroupId,
-            };
-
-            this.ryo.AddAudioPath(audioDir, config);
+            this.ryo.AddAudioPath(ryoDir, new() { IsEnabled = false, GroupId = costume.RyoGroupId });
+            this.ryo.AddMoviePath(ryoDir, new() { IsEnabled = false, GroupId = costume.RyoGroupId });
         }
     }
 
