@@ -161,10 +161,10 @@
 [uf 0 5 65278][uf 2 1]A maid outfit for Aigis. A magnificent piece that even the pros use.[n][e]
 
 [msg Item_036]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Test1[n][e]
 
 [msg Item_037]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Test2[n][e]
 
 [msg Item_038]
 [uf 0 5 65278][uf 2 1]Amada's swimsuit. Makes even Tartarus feel like summer.[n][e]
@@ -509,28 +509,28 @@
 [uf 0 5 65278][uf 2 1]未使用[n][e]
 
 [msg Item_0AA]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]The outfit worn by Metis when we first met.[n][e]
 
 [msg Item_0AB]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Metis's combat attire used during operations.[n][e]
 
 [msg Item_0AC]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Rebellious attire redolent of a certain someone. Fits Metis.[n][e]
 
 [msg Item_0AD]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]A high school uniform from the town of Inaba. Fits Metis.[n][e]
 
 [msg Item_0AE]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Metis's school uniform for winter.[n][e]
 
 [msg Item_0AF]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]A high school uniform from Aoyama-Itchome. Fits Metis.[n][e]
 
 [msg Item_0B0]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]A maid outfit for Metis. A magnificent piece that even the pros use.[n][e]
 
 [msg Item_0B1]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Attire worn in a room between mind and matter. Fits Metis.[n][e]
 
 [msg Item_0B2]
 [uf 0 5 65278][uf 2 1]未使用[n][e]
@@ -572,10 +572,10 @@
 [uf 0 5 65278][uf 2 1]未使用[n][e]
 
 [msg Item_0BF]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Aigis's heavy combat attire used during operations.[n][e]
 
 [msg Item_0C0]
-[uf 0 5 65278][uf 2 1]未使用[n][e]
+[uf 0 5 65278][uf 2 1]Heavy armor worn by Aigis when infiltrating the Desert of Doors.[n][e]
 
 [msg Item_0C1]
 [uf 0 5 65278][uf 2 1]未使用[n][e]
