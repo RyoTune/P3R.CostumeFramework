@@ -50,7 +50,7 @@ internal class Costume
 
     public string? BattleThemeFile { get; set; }
 
-    public string RyoGroupId => $"{this.Character}.{this.CostumeId}";
+    public string RyoGroupId => this.Config.RyoGroupId ?? $"{this.Character}.{this.CostumeId}";
 
     public void SetCostumeItemId(int costumeItemId)
     {

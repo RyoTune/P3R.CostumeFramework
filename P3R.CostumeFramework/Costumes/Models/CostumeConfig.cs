@@ -9,6 +9,12 @@ internal class CostumeConfig
     /// </summary>
     public string? Name { get; set; }
 
+    /// <summary>
+    /// Custom Ryo group ID for sharing Ryo
+    /// files between costumes.
+    /// </summary>
+    public string? RyoGroupId { get; set; }
+
     public CostumePartsData Base { get; set; } = new();
 
     public CostumePartsData Costume { get; set; } = new();
