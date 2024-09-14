@@ -1,4 +1,6 @@
-﻿namespace P3R.CostumeFramework.Costumes.Models;
+﻿using P3R.CostumeFramework.Hooks.Services;
+
+namespace P3R.CostumeFramework.Costumes.Models;
 
 internal class CostumeConfig
 {
@@ -6,11 +8,6 @@ internal class CostumeConfig
     /// Overrides costume name.
     /// </summary>
     public string? Name { get; set; }
-
-    /// <summary>
-    /// Should costume be used as a default when needed.
-    /// </summary>
-    public bool IsDefault { get; set; }
 
     public CostumePartsData Base { get; set; } = new();
 
@@ -27,22 +24,51 @@ internal class CostumeConfig
     public string? GetAssetFile(CostumeAssetType assetType)
         => assetType switch
         {
-            CostumeAssetType.BaseMesh => this.Base.MeshPath,
-            CostumeAssetType.BaseAnim => this.Base.AnimPath,
-            CostumeAssetType.CostumeMesh => this.Costume.MeshPath,
-            CostumeAssetType.CostumeAnim => this.Costume.AnimPath,
-            CostumeAssetType.FaceMesh => this.Face.MeshPath,
-            CostumeAssetType.FaceAnim => this.Face.AnimPath,
-            CostumeAssetType.HairMesh => this.Hair.MeshPath,
-            CostumeAssetType.HairAnim => this.Hair.AnimPath,
-            CostumeAssetType.AlloutNormal => this.Allout.NormalPath,
-            CostumeAssetType.AlloutNormalMask => this.Allout.NormalMaskPath,
-            CostumeAssetType.AlloutSpecial => this.Allout.SpecialPath,
-            CostumeAssetType.AlloutSpecialMask => this.Allout.SpecialMaskPath,
-            CostumeAssetType.AlloutText => this.Allout.TextPath,
-            CostumeAssetType.AlloutPlg => this.Allout.PlgPath,
+            CostumeAssetType.BaseMesh => GetOrParseAssetPath(this.Base.MeshPath),
+            CostumeAssetType.BaseAnim => GetOrParseAssetPath(this.Base.AnimPath),
+            CostumeAssetType.CostumeMesh => GetOrParseAssetPath(this.Costume.MeshPath),
+            CostumeAssetType.CostumeAnim => GetOrParseAssetPath(this.Costume.AnimPath),
+            CostumeAssetType.FaceMesh => GetOrParseAssetPath(this.Face.MeshPath),
+            CostumeAssetType.FaceAnim => GetOrParseAssetPath(this.Face.AnimPath),
+            CostumeAssetType.HairMesh => GetOrParseAssetPath(this.Hair.MeshPath),
+            CostumeAssetType.HairAnim => GetOrParseAssetPath(this.Hair.AnimPath),
+            CostumeAssetType.AlloutNormal => GetOrParseAssetPath(this.Allout.NormalPath),
+            CostumeAssetType.AlloutNormalMask => GetOrParseAssetPath(this.Allout.NormalMaskPath),
+            CostumeAssetType.AlloutSpecial => GetOrParseAssetPath(this.Allout.SpecialPath),
+            CostumeAssetType.AlloutSpecialMask => GetOrParseAssetPath(this.Allout.SpecialMaskPath),
+            CostumeAssetType.AlloutText => GetOrParseAssetPath(this.Allout.TextPath),
+            CostumeAssetType.AlloutPlg => GetOrParseAssetPath(this.Allout.PlgPath),
             _ => throw new NotImplementedException(),
         };
+
+    private static string? GetOrParseAssetPath(string? assetPath)
+    {
+        if (assetPath == null)
+        {
+            return null;
+        }
+
+        if (assetPath.StartsWith("asset:"))
+        {
+            var parts = assetPath["asset:".Length..].Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            if (parts.Length < 2)
+            {
+                return null;
+            }
+
+            var character = Enum.Parse<Character>(parts[0], true);
+            var type = Enum.Parse<CostumeAssetType>(parts[1], true);
+            var costumeId = 0;
+            if (parts.Length == 3)
+            {
+                _ = int.TryParse(parts[2], out costumeId);
+            }
+
+            return AssetUtils.GetAssetFile(character, costumeId, type);
+        }
+
+        return assetPath;
+    }
 }
 
 internal class CostumeAnims
