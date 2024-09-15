@@ -1,12 +1,6 @@
-[submodule "submodules/Unreal.ObjectsEmitter"]
-	path = submodules/Unreal.ObjectsEmitter
-	url = https://github.com/MirrorTuneZM/Unreal.ObjectsEmitter.git
 [submodule "submodules/Project.Utils"]
 	path = submodules/Project.Utils
 	url = https://github.com/T-PoseRatkechi/Project.Utils.git
-[submodule "submodules/Unreal.AtlusScript"]
-	path = submodules/Unreal.AtlusScript
-	url = https://github.com/MirrorTuneZM/Unreal.AtlusScript.git
 [submodule "submodules/BGME"]
 	path = submodules/BGME
 	url = https://github.com/T-PoseRatkechi/BGME.git

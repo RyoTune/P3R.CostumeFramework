@@ -31,7 +31,7 @@ internal class CostumeDescService
             sb.AppendLine($"[uf 0 5 65278][uf 2 1]{this.descEntries[i]}[n][e]");
         }
 
-        this.atlusAssets.AddAsset("BMD_ItemCostumeHelp", sb.ToString(), AssetType.BMD);
+        this.atlusAssets.AddAsset("BMD_ItemCostumeHelp", sb.ToString(), AssetType.BMD, AssetMode.Both);
     }
 
     public void SetCostumeDesc(int costumeItemId, string costumeDesc)
