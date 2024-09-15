@@ -48,7 +48,7 @@ public class Mod : ModBase, IExports
         Debugger.Launch();
 #endif
 
-        Log.Initialize(NAME, this.log, Color.LightBlue);
+        Project.Init(this.modConfig, this.modLoader, this.log, true);
         Log.LogLevel = this.config.LogLevel;
 
         this.modLoader.GetController<IStartupScanner>().TryGetTarget(out var scanner);
@@ -68,10 +68,10 @@ public class Mod : ModBase, IExports
         this.costumes = new(uobjects!, unreal!, dataTables!, this.costumeRegistry, this.costumeOverrides, this.costumeDesc, this.costumeMusic, this.costumeRyo);
 
         this.modLoader.AddOrReplaceController<ICostumeApi>(this.owner, this.costumeOverrides);
-        ScanHooks.Initialize(scanner!, this.hooks);
         this.ApplyConfig();
 
         this.modLoader.ModLoaded += this.OnModLoaded;
+        Project.Start();
     }
 
     private void OnModLoaded(IModV1 mod, IModConfigV1 config)

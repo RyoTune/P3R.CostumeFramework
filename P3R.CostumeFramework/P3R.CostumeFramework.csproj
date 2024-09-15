@@ -49,6 +49,7 @@
     <PackageReference Include="Reloaded.Mod.Interfaces" Version="2.4.0" ExcludeAssets="runtime" />
     <PackageReference Include="Reloaded.SharedLib.Hooks" Version="1.9.0" />
     <PackageReference Include="Ryo.Interfaces" Version="2.4.0" />
+    <PackageReference Include="RyoTune.Reloaded" Version="1.0.1" />
     <PackageReference Include="Unreal.AtlusScript.Interfaces" Version="1.1.0" />
     <PackageReference Include="Unreal.ObjectsEmitter.Interfaces" Version="1.2.3" />
     <PackageReference Include="YamlDotNet" Version="15.1.2" />
@@ -58,7 +59,6 @@
     <ProjectReference Include="..\P3R.CostumeFramework.Interfaces\P3R.CostumeFramework.Interfaces.csproj" />
     <ProjectReference Include="..\submodules\BGME.BattleThemes\BGME.BattleThemes.Interfaces\BGME.BattleThemes.Interfaces.csproj" />
     <ProjectReference Include="..\submodules\BGME\BGME.Framework.Interfaces\BGME.Framework.Interfaces.csproj" />
-    <ProjectReference Include="..\submodules\Project.Utils\Project.Utils.csproj" />
   </ItemGroup>
 
   <ItemGroup>
