@@ -31,6 +31,7 @@
     <None Remove="BuildLinked.ps1" />
     <None Remove="Reloaded.Trimming.targets" />
     <None Remove="Reloaded.Checks.targets" />
+    <None Remove="Resources\bones.json" />
     <None Remove="Resources\costumes.json" />
     <None Remove="Resources\descriptions.msg" />
   </ItemGroup>
@@ -62,6 +63,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\bones.json" />
     <EmbeddedResource Include="Resources\costumes.json" />
     <EmbeddedResource Include="Resources\descriptions.msg" />
   </ItemGroup>

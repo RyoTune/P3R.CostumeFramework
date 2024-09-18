@@ -89,7 +89,7 @@ internal unsafe class CostumeHooks
         var character = comp->baseObj.Character;
         var costumeId = comp->mSetCostumeID;
 
-        if (character == Character.Aigis12)
+        if (character == Character.AigisReal)
         {
             character = Character.Aigis;
         }

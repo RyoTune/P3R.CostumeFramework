@@ -1,7 +1,72 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text.Json;
 using Unreal.ObjectsEmitter.Interfaces.Types;
 
 namespace P3R.CostumeFramework.Hooks.Models;
+
+[StructLayout(LayoutKind.Explicit, Size = 0x390)]
+public unsafe struct USkeleton
+{
+    [FieldOffset(0x0000)] public UObject baseObj;
+    [FieldOffset(0x0038)] public TArray<FBoneNode> BoneTree;
+    //[FieldOffset(0x0048)] public TArray<FTransform> RefLocalPoses;
+    //[FieldOffset(0x0170)] public FGuid VirtualBoneGuid;
+    //[FieldOffset(0x0180)] public TArray<FVirtualBone> VirtualBones;
+    //[FieldOffset(0x0190)] public TArray<IntPtr> Sockets;
+    //[FieldOffset(0x01F0)] public FSmartNameContainer SmartNames;
+    //[FieldOffset(0x0270)] public TArray<IntPtr> BlendProfiles;
+    [FieldOffset(0x0280)] public TArray<FAnimSlotGroup> SlotGroups;
+    //[FieldOffset(0x0380)] public TArray<IntPtr> AssetUserData;
+}
+
+[StructLayout(LayoutKind.Explicit, Size = 0x18)]
+public unsafe struct FAnimSlotGroup
+{
+    [FieldOffset(0x0000)] public FName GroupName;
+    [FieldOffset(0x0008)] public TArray<FName> SlotNames;
+}
+
+[StructLayout(LayoutKind.Explicit, Size = 0x10)]
+public unsafe struct FBoneNode
+{
+    [FieldOffset(0x0000)] public FName Name;
+    [FieldOffset(0x0008)] public int ParentIndex;
+    [FieldOffset(0x000C)] public EBoneTranslationRetargetingMode TranslationRetargetingMode;
+}
+
+public enum EBoneTranslationRetargetingMode : byte
+{
+    Animation = 0,
+    Skeleton = 1,
+    AnimationScaled = 2,
+    AnimationRelative = 3,
+    OrientAndScale = 4,
+    EBoneTranslationRetargetingMode_MAX = 5,
+};
+
+public class Bones
+{
+    private Dictionary<int, string> reversed;
+
+    public Bones()
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        var resourceName = "P3R.CostumeFramework.Resources.bones.json";
+        using var stream = assembly.GetManifestResourceStream(resourceName)!;
+        using var reader = new StreamReader(stream);
+        var json = reader.ReadToEnd();
+        var bones = JsonSerializer.Deserialize<BonesSerialized>(json) ?? throw new Exception("Failed to load bones.");
+        this.reversed = bones.FinalNameToIndexMap.ToDictionary(x => x.Value, x => x.Key);
+    }
+
+    public string this[int index] => this.reversed[index]; 
+
+    private class BonesSerialized
+    {
+        public Dictionary<string, int> FinalNameToIndexMap { get; set; } = [];
+    }
+}
 
 [StructLayout(LayoutKind.Explicit, Size = 0x50)]
 public unsafe struct FAppCharCostumePartsData

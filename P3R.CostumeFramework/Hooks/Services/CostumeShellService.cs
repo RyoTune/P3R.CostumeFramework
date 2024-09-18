@@ -22,7 +22,7 @@ internal unsafe class CostumeShellService
         this.unreal = unreal;
         this.costumes = costumes;
 
-        dt.FindDataTable("DT_Costume", table =>
+        dt.FindDataTable<FAppCharTableRow>("DT_Costume", table =>
         {
             foreach (var character in Characters.PC)
             {
@@ -34,14 +34,14 @@ internal unsafe class CostumeShellService
                     continue;
                 }
 
-                var charRow = (FAppCharTableRow*)charRowObj.Self;
+                var charRow = charRowObj.Self;
                 var costumes = charRow->Costumes;
                 if (costumes.TryGet(SHELL_COSTUME_ID, out var costume))
                 {
                     this.shellDataPtrs[character] = (nint)costume;
                     this.prevCostumeIds[character] = -1;
 
-                    if (character == Character.Aigis12)
+                    if (character == Character.AigisReal)
                     {
                         this.shellDataPtrs[Character.Aigis] = (nint)costume;
                         this.prevCostumeIds[Character.Aigis] = -1;
@@ -57,6 +57,42 @@ internal unsafe class CostumeShellService
             }
 
             this.defaultCostumes[Character.FEMC] = new FemcCostume();
+        });
+
+        uobjs.FindObject("SKEL_Human", obj =>
+        {
+            var bones = new Bones();
+            string[] keywords =
+            [
+                "head",
+                "eye",
+                "brow",
+                "cheek",
+                "nose",
+                "mouth",
+                "jaw",
+                "tongue",
+                "lips",
+                "hair",
+                "face",
+                "mask",
+                "iris",
+                "pupil",
+                "laugh",
+                "tooth"
+            ];
+
+            var skel = (USkeleton*)obj.Self;
+            for (int i = 0; i < skel->BoneTree.Num; i++)
+            {
+                var bone = &skel->BoneTree.AllocatorInstance[i];
+                var name = bones[i];
+                if (keywords.Any(x => name.Contains(x, StringComparison.OrdinalIgnoreCase)))
+                {
+                    Log.Debug($"SKEL_Human ({name}): Retarget bone animation to skeleton.");
+                    bone->TranslationRetargetingMode = EBoneTranslationRetargetingMode.Skeleton;
+                }
+            }
         });
     }
 

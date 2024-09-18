@@ -113,7 +113,7 @@ internal static class AssetUtils
             Character.Koromaru => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Koromaru",
             Character.Shinjiro => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Aragaki",
             Character.Metis => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_Metis",
-            Character.Aigis12 => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_HeroAegis",
+            Character.AigisReal => "/Game/Xrd777/Battle/Allout/Materials/Finish2D/PLG_UI_Battle_Allout_Last_HeroAegis",
             _ => throw new NotImplementedException(),
         };
 }
