@@ -7,6 +7,7 @@ internal static class YamlSerializer
 {
     private static readonly IDeserializer deserializer = new DeserializerBuilder()
         .WithNamingConvention(UnderscoredNamingConvention.Instance)
+        .IgnoreUnmatchedProperties()
         .Build();
 
     private static readonly ISerializer serializer = new SerializerBuilder()

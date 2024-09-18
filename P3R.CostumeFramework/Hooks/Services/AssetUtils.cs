@@ -27,7 +27,7 @@ internal static class AssetUtils
             CostumeAssetType.HairAnim => "/CharacterBase/Human/Blueprints/Animation/ABP_CH_HairBase.uasset",
             CostumeAssetType.FaceAnim => $"/Game/Xrd777/Characters/Data/DataAsset/Player/PC{GetCharIdString(character)}/DA_PC{GetCharIdString(character)}_FaceAnim.uasset",
 
-            CostumeAssetType.AlloutNormal => $"/Game/Xrd777/Battle/Allout/Materials/Finish2D/T_Btl_AlloutFinish_Pc{ GetCharIdStringShort(character)}_A1{(costumeId >= 1000 ? $"_{costumeId}" : string.Empty)}",
+            CostumeAssetType.AlloutNormal => $"/Game/Xrd777/Battle/Allout/Materials/Finish2D/T_Btl_AlloutFinish_Pc{GetCharIdStringShort(character)}_A1{(costumeId >= 1000 ? $"_{costumeId}" : string.Empty)}",
             CostumeAssetType.AlloutNormalMask => $"/Game/Xrd777/Battle/Allout/Materials/Finish2D/T_Btl_AlloutFinish_Pc{GetCharIdStringShort(character)}_A2{(costumeId >= 1000 ? $"_{costumeId}" : string.Empty)}",
             CostumeAssetType.AlloutSpecial => $"/Game/Xrd777/Battle/Allout/Materials/Finish2D/T_Btl_AlloutFinish_Pc{GetCharIdStringShort(character)}_B1{(costumeId >= 1000 ? $"_{costumeId}" : string.Empty)}",
             CostumeAssetType.AlloutSpecialMask => $"/Game/Xrd777/Battle/Allout/Materials/Finish2D/T_Btl_AlloutFinish_Pc{GetCharIdStringShort(character)}_B2{(costumeId >= 1000 ? $"_{costumeId}" : string.Empty)}",
