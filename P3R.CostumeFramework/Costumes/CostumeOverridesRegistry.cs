@@ -1,11 +1,10 @@
 ﻿using P3R.CostumeFramework.Costumes.Models;
-using P3R.CostumeFramework.Interfaces;
 using P3R.CostumeFramework.Utils;
 using System.Diagnostics.CodeAnalysis;
 
 namespace P3R.CostumeFramework.Costumes;
 
-internal class CostumeOverridesRegistry(CostumeRegistry costumes) : ICostumeApi
+internal class CostumeOverridesRegistry(CostumeRegistry costumes)
 {
     private readonly CostumeRegistry costumes = costumes;
     private readonly List<CostumeOverride> costumeOverrides = [];

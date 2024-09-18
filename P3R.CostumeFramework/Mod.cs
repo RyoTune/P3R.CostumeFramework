@@ -29,6 +29,7 @@ public class Mod : ModBase, IExports
     private readonly IModConfig modConfig;
 
     private readonly CostumeService costumes;
+    private readonly CostumeApi costumeApi;
     private readonly CostumeRegistry costumeRegistry;
     private readonly CostumeDescService costumeDesc;
     private readonly CostumeMusicService costumeMusic;
@@ -67,7 +68,8 @@ public class Mod : ModBase, IExports
         this.costumeRyo = new(ryo!, this.costumeRegistry);
         this.costumes = new(uobjects!, unreal!, dataTables!, this.costumeRegistry, this.costumeOverrides, this.costumeDesc, this.costumeMusic, this.costumeRyo);
 
-        this.modLoader.AddOrReplaceController<ICostumeApi>(this.owner, this.costumeOverrides);
+        this.costumeApi = new CostumeApi(costumeRegistry, costumeOverrides);
+        this.modLoader.AddOrReplaceController<ICostumeApi>(this.owner, this.costumeApi);
         this.ApplyConfig();
 
         this.modLoader.ModLoaded += this.OnModLoaded;
