@@ -89,8 +89,8 @@ internal unsafe class CostumeShellService
                 var name = bones[i];
                 if (keywords.Any(x => name.Contains(x, StringComparison.OrdinalIgnoreCase)))
                 {
-                    Log.Debug($"SKEL_Human ({name}): Retarget bone animation to skeleton.");
-                    bone->TranslationRetargetingMode = EBoneTranslationRetargetingMode.Skeleton;
+                    Log.Debug($"SKEL_Human ({name}): Retarget bone animation to {EBoneTranslationRetargetingMode.OrientAndScale}.");
+                    bone->TranslationRetargetingMode = EBoneTranslationRetargetingMode.OrientAndScale;
                 }
             }
         });
