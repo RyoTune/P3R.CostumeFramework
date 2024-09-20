@@ -7,19 +7,11 @@ namespace P3R.CostumeFramework.Costumes.Models;
 
 internal class GameCostumes : IReadOnlyList<Costume>
 {
-    public const int RANDOMIZED_COSTUME_ID = 999;
     public const int BASE_MOD_COSTUME_ID = 1000;
-
+    public const int RANDOMIZED_COSTUME_ID = 10001;
     private const int NUM_MOD_COSTUMES = 10000;
 
-    private readonly int[] disabledCostumes =
-    [
-        154, 501, 502, 503, 504,
-
-        // Extended Outfits covers these.
-        //1, 2, 5, 6, 51, 52, 101, 102, 103, 104, 106,
-        //151, 154, 155, 158, 159, 160, 161, 162, 201,
-    ];
+    private readonly List<int> disabledCostumes = [154, 501, 502, 503, 504];
 
     private readonly CostumeFilter filterSetting;
     private readonly Dictionary<CostumeFilter, int[]> filters = new()
@@ -29,7 +21,7 @@ internal class GameCostumes : IReadOnlyList<Costume>
 
     private readonly List<Costume> costumes = [];
 
-    public GameCostumes(CostumeFilter filter)
+    public GameCostumes(CostumeFilter filter, bool useExtendedOutfits)
     {
         this.filterSetting = filter;
 
@@ -45,13 +37,16 @@ internal class GameCostumes : IReadOnlyList<Costume>
             this.costumes.AddRange(charCostumes.Value);
         }
 
+        if (useExtendedOutfits)
+        {
+            this.UseExtendedOutfits();
+        }
+
         // Enable all existing costumes.
         foreach (var costume in this.costumes)
         {
             costume.IsEnabled = IsCostumeEnabled(costume);
         }
-
-        this.AddExtendedOutfits();
 
         // Add randomized costumes.
         for (int i = 1; i < 12; i++)
@@ -74,8 +69,12 @@ internal class GameCostumes : IReadOnlyList<Costume>
         }
     }
 
-    private void AddExtendedOutfits()
+    private void UseExtendedOutfits()
     {
+        Log.Information("Mod Integration Enabled: Extended Outfits");
+        int[] eoCostumeIds = [1, 2, 5, 6, 51, 52, 101, 102, 103, 104, 106, 151, 154, 155, 158, 159, 160, 161, 162, 201];
+        this.disabledCostumes.AddRange(eoCostumeIds);
+
         this.costumes.Add(new(Character.Player, 303, "Hotel Yukata") { IsEnabled = false });
         this.costumes.Add(new(Character.Player, 305, "Ball Stage Outfit") { IsEnabled = true });
         this.costumes.Add(new(Character.Player, 306, "Black Shirt") { IsEnabled = true });

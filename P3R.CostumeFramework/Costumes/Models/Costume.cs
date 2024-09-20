@@ -55,7 +55,7 @@ internal class Costume
     public void SetCostumeItemId(int costumeItemId)
     {
         this.CostumeItemId = costumeItemId;
-        Log.Debug($"{this.Name} set to Costume Item ID: {this.CostumeItemId}");
+        Log.Debug($"Set Costume Item ID: {this.Character} || {this.Name} || {this.CostumeItemId}");
     }
 
     public static bool IsItemIdCostume(int itemId) => itemId >= 0x8000 && itemId < 0x9000;

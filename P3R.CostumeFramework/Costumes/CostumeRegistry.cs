@@ -9,9 +9,9 @@ internal class CostumeRegistry
 {
     private readonly CostumeFactory costumeFactory;
 
-    public CostumeRegistry(IRyoApi ryo, CostumeFilter filter)
+    public CostumeRegistry(IRyoApi ryo, CostumeFilter filter, bool useExtendedOutfits)
     {
-        this.Costumes = new(filter);
+        this.Costumes = new(filter, useExtendedOutfits);
         this.costumeFactory = new(ryo, this.Costumes);
     }
 
