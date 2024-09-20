@@ -45,28 +45,6 @@ public enum EBoneTranslationRetargetingMode : byte
     EBoneTranslationRetargetingMode_MAX = 5,
 };
 
-public class Bones
-{
-    private Dictionary<int, string> reversed;
-
-    public Bones()
-    {
-        var assembly = Assembly.GetExecutingAssembly();
-        var resourceName = "P3R.CostumeFramework.Resources.bones.json";
-        using var stream = assembly.GetManifestResourceStream(resourceName)!;
-        using var reader = new StreamReader(stream);
-        var json = reader.ReadToEnd();
-        var bones = JsonSerializer.Deserialize<BonesSerialized>(json) ?? throw new Exception("Failed to load bones.");
-        this.reversed = bones.FinalNameToIndexMap.ToDictionary(x => x.Value, x => x.Key);
-    }
-
-    public string this[int index] => this.reversed[index]; 
-
-    private class BonesSerialized
-    {
-        public Dictionary<string, int> FinalNameToIndexMap { get; set; } = [];
-    }
-}
 
 [StructLayout(LayoutKind.Explicit, Size = 0x50)]
 public unsafe struct FAppCharCostumePartsData
@@ -110,30 +88,6 @@ public unsafe struct UAppCharAnimDataAsset
     //[FieldOffset(0x0038)] public UClass* AnimInstance;
     [FieldOffset(0x0040)] public TMap<int, IntPtr> SpecialAnimInstance;
     [FieldOffset(0x0090)] public TMap<int, IntPtr> Anims;
-}
-
-[StructLayout(LayoutKind.Explicit, Size = 0x1C0)]
-public unsafe struct UAnimSequence
-{
-    //[FieldOffset(0x0000)] public UAnimSequenceBase baseObj;
-    //[FieldOffset(0x00A8)] public int NumFrames;
-    //[FieldOffset(0x00B0)] public TArray<FTrackToSkeletonMap> TrackToSkeletonMapTable;
-    //[FieldOffset(0x00D0)] public UAnimBoneCompressionSettings* BoneCompressionSettings;
-    //[FieldOffset(0x00D8)] public UAnimCurveCompressionSettings* CurveCompressionSettings;
-    //[FieldOffset(0x0150)] public EAdditiveAnimationType AdditiveAnimType;
-    //[FieldOffset(0x0151)] public EAdditiveBasePoseType RefPoseType;
-    //[FieldOffset(0x0158)] public UAnimSequence* RefPoseSeq;
-    //[FieldOffset(0x0160)] public int RefFrameIndex;
-    //[FieldOffset(0x0164)] public FName RetargetSource;
-    //[FieldOffset(0x0170)] public TArray<FTransform> RetargetSourceAssetReferencePose;
-    //[FieldOffset(0x0180)] public EAnimInterpolationType Interpolation;
-    //[FieldOffset(0x0181)] public bool bEnableRootMotion;
-    //[FieldOffset(0x0182)] public ERootMotionRootLock RootMotionRootLock;
-    //[FieldOffset(0x0183)] public bool bForceRootLock;
-    //[FieldOffset(0x0184)] public bool bUseNormalizedRootMotionScale;
-    //[FieldOffset(0x0185)] public bool bRootMotionSettingsCopiedFromMontage;
-    //[FieldOffset(0x0188)] public TArray<FAnimSyncMarker> AuthoredSyncMarkers;
-    //[FieldOffset(0x01B0)] public TArray<FBakedCustomAttributePerBoneData> BakedPerBoneCustomAttributeData;
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 0x180)]
@@ -265,6 +219,61 @@ public struct FWeakObjectPtr
 {
     public int ObjectIndex;
     public int ObjectSerialNumber;
+}
+
+[StructLayout(LayoutKind.Explicit, Size = 0x1C0)]
+public unsafe struct UAnimSequence
+{
+    [FieldOffset(0x0000)] public UAnimSequenceBase baseObj;
+    [FieldOffset(0x00A8)] public int NumFrames;
+    [FieldOffset(0x00B0)] public TArray<FTrackToSkeletonMap> TrackToSkeletonMapTable;
+    [FieldOffset(0x00D0)] public nint BoneCompressionSettings;
+    [FieldOffset(0x00D8)] public nint CurveCompressionSettings;
+    [FieldOffset(0x0150)] public byte AdditiveAnimType;
+    [FieldOffset(0x0151)] public byte RefPoseType;
+    [FieldOffset(0x0158)] public nint RefPoseSeq;
+    [FieldOffset(0x0160)] public int RefFrameIndex;
+    [FieldOffset(0x0164)] public FName RetargetSource;
+    [FieldOffset(0x0170)] public TArray<nint> RetargetSourceAssetReferencePose;
+    [FieldOffset(0x0180)] public byte Interpolation;
+    [FieldOffset(0x0181)] public bool bEnableRootMotion;
+    [FieldOffset(0x0182)] public byte RootMotionRootLock;
+    [FieldOffset(0x0183)] public bool bForceRootLock;
+    [FieldOffset(0x0184)] public bool bUseNormalizedRootMotionScale;
+    [FieldOffset(0x0185)] public bool bRootMotionSettingsCopiedFromMontage;
+    [FieldOffset(0x0188)] public TArray<nint> AuthoredSyncMarkers;
+    [FieldOffset(0x01B0)] public TArray<nint> BakedPerBoneCustomAttributeData;
+}
+
+[StructLayout(LayoutKind.Explicit, Size = 0xA8)]
+public unsafe struct UAnimSequenceBase
+{
+    [FieldOffset(0x0000)] public UAnimationAsset baseObj;
+    [FieldOffset(0x0080)] public TArray<int> Notifies;
+    [FieldOffset(0x0090)] public float SequenceLength;
+    [FieldOffset(0x0094)] public float RateScale;
+    [FieldOffset(0x0098)] public FRawCurveTracks RawCurveData;
+}
+
+[StructLayout(LayoutKind.Explicit, Size = 0x10)]
+public unsafe struct FRawCurveTracks
+{
+    [FieldOffset(0x0000)] public TArray<nint> FloatCurves;
+}
+
+[StructLayout(LayoutKind.Explicit, Size = 0x80)]
+public unsafe struct UAnimationAsset
+{
+    [FieldOffset(0x0000)] public UObject baseObj;
+    [FieldOffset(0x0038)] public USkeleton* Skeleton;
+    [FieldOffset(0x0060)] public TArray<IntPtr> MetaData;
+    [FieldOffset(0x0070)] public TArray<IntPtr> AssetUserData;
+}
+
+[StructLayout(LayoutKind.Explicit, Size = 0x4)]
+public unsafe struct FTrackToSkeletonMap
+{
+    [FieldOffset(0x0000)] public int BoneTreeIndex;
 }
 
 [StructLayout(LayoutKind.Sequential)]
