@@ -80,6 +80,8 @@ internal unsafe class CostumeHooks
             });
     }
 
+    public Action<Costume> OnCostumeChanged { get; set; }
+
     public void SetRandomizeCostumes(bool isCostumesRandom) => this.isCostumesRandom = isCostumesRandom;
 
     public void SetOverworldCostumes(bool useOverworldCostumes) => this.useOverworldCostumes = useOverworldCostumes;
@@ -137,8 +139,10 @@ internal unsafe class CostumeHooks
         }
 
         // Update before costume ID is set to shell costume.
-        this.costumeMusic.Refresh(character, costumeId);
-        this.costumeRyo.Refresh(character, costumeId);
+        if (this.registry.TryGetCostume(character, costumeId, out var finalCostume))
+        {
+            this.OnCostumeChanged.Invoke(finalCostume);
+        }
 
         comp->mSetCostumeID = this.costumeShells.UpdateCostume(character, costumeId);
         Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId}");

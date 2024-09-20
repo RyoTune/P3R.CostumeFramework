@@ -60,19 +60,16 @@ internal class CostumeMusicService
         }
     }
 
-    public void Refresh(Character character, int costumeId)
+    public void Refresh(Costume costume)
     {
-        if (this.costumes.TryGetCostume(character, costumeId, out var costume))
+        if (this.isEnabled_BGME)
         {
-            if (this.isEnabled_BGME)
-            {
-                this.UpdateBgmeMusic(costume);
-            }
+            this.UpdateBgmeMusic(costume);
+        }
 
-            if (this.isEnabled_BattleThemes)
-            {
-                this.UpdateBattleThemeMusic(costume);
-            }
+        if (this.isEnabled_BattleThemes)
+        {
+            this.UpdateBattleThemeMusic(costume);
         }
     }
 

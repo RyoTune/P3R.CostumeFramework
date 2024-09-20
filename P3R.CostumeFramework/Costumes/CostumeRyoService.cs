@@ -1,4 +1,5 @@
-﻿using Ryo.Interfaces;
+﻿using P3R.CostumeFramework.Costumes.Models;
+using Ryo.Interfaces;
 using Ryo.Interfaces.Classes;
 
 namespace P3R.CostumeFramework.Costumes;
@@ -15,19 +16,17 @@ internal class CostumeRyoService
         this.costumes = costumes;
     }
 
-    public void Refresh(Character character, int costumeId)
+    public void Refresh(Costume costume)
     {
+        var character = costume.Character;
         this.currentCostumeGroups.TryGetValue(character, out var group);
 
-        if (this.costumes.TryGetCostume(character, costumeId, out var costume))
+        if (group?.Id != costume.RyoGroupId)
         {
-            if (group?.Id != costume.RyoGroupId)
-            {
-                group?.Disable();
-                var newGroup = this.ryo.GetContainerGroup(costume.RyoGroupId);
-                this.currentCostumeGroups[character] = newGroup;
-                newGroup.Enable();
-            }
+            group?.Disable();
+            var newGroup = this.ryo.GetContainerGroup(costume.RyoGroupId);
+            this.currentCostumeGroups[character] = newGroup;
+            newGroup.Enable();
         }
         else
         {
