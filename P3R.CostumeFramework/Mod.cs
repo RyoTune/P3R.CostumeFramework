@@ -4,6 +4,7 @@ using P3R.CostumeFramework.Configuration;
 using P3R.CostumeFramework.Costumes;
 using P3R.CostumeFramework.Interfaces;
 using P3R.CostumeFramework.Template;
+using p3rpc.classconstructor.Interfaces;
 using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Memory.SigScan.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
@@ -49,7 +50,7 @@ public class Mod : ModBase, IExports
         Debugger.Launch();
 #endif
 
-        Project.Init(this.modConfig, this.modLoader, this.log, true);
+        Project.Init(this.modConfig, this.modLoader, this.log);
         Log.LogLevel = this.config.LogLevel;
 
         this.modLoader.GetController<IStartupScanner>().TryGetTarget(out var scanner);
@@ -60,17 +61,28 @@ public class Mod : ModBase, IExports
         this.modLoader.GetController<IBgmeApi>().TryGetTarget(out var bgme);
         this.modLoader.GetController<IBattleThemesApi>().TryGetTarget(out var battleThemes);
         this.modLoader.GetController<IRyoApi>().TryGetTarget(out var ryo);
+        this.modLoader.GetController<IObjectMethods>().TryGetTarget(out var objMethods);
 
-        this.costumeRegistry = new(ryo!, this.config.CostumeFilter);
+        var enabledMods = this.modLoader.GetAppConfig().EnabledMods;
+        var eoEnabled = enabledMods.Contains("p3r.skins.extendedoutfits");
+        var femcEnabled = enabledMods.Contains("p3rpc.femc");
+
+        this.costumeRegistry = new(ryo!, this.config.CostumeFilter, eoEnabled);
         this.costumeOverrides = new(this.costumeRegistry);
         this.costumeDesc = new(atlusAssets!);
         this.costumeMusic = new(bgme!, battleThemes!, this.costumeRegistry);
         this.costumeRyo = new(ryo!, this.costumeRegistry);
-        this.costumes = new(uobjects!, unreal!, dataTables!, this.costumeRegistry, this.costumeOverrides, this.costumeDesc, this.costumeMusic, this.costumeRyo);
+        this.costumes = new(uobjects!, unreal!, dataTables!, this.costumeRegistry, this.costumeOverrides, this.costumeDesc, this.costumeMusic, this.costumeRyo, objMethods!);
 
         this.costumeApi = new CostumeApi(costumeRegistry, costumeOverrides);
         this.modLoader.AddOrReplaceController<ICostumeApi>(this.owner, this.costumeApi);
         this.ApplyConfig();
+
+        if (femcEnabled)
+        {
+            Log.Information("Mod Integration Enabled: FEMC Mod");
+            this.costumes.SetUseFemc(true);
+        }
 
         this.modLoader.ModLoaded += this.OnModLoaded;
         Project.Start();
@@ -78,12 +90,6 @@ public class Mod : ModBase, IExports
 
     private void OnModLoaded(IModV1 mod, IModConfigV1 config)
     {
-        if (config.ModId == "p3rpc.femc")
-        {
-            Log.Information("FEMC Mod Support: Player defaults will use FEMC assets.");
-            this.costumes.SetUseFemc(true);
-        }
-
         if (!config.ModDependencies.Contains(this.modConfig.ModId))
         {
             return;

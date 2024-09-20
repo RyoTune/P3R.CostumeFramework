@@ -166,8 +166,7 @@ internal unsafe class CostumeHooks
         foreach (var costume in this.registry.GetActiveCostumes())
         {
             // Skip costumes with existing items.
-            if (costume.CostumeId < GameCostumes.BASE_MOD_COSTUME_ID
-                && costume.CostumeId != GameCostumes.RANDOMIZED_COSTUME_ID)
+            if (costume.CostumeItemId != default)
             {
                 continue;
             }
@@ -178,7 +177,7 @@ internal unsafe class CostumeHooks
             costume.SetCostumeItemId(newItemIndex);
             this.costumeDesc.SetCostumeDesc(newItemIndex, costume.Description);
 
-            Log.Debug($"Added costume item: {costume.Name} || Costume Item ID: {newItemIndex} || Costume ID: {costume.CostumeId}");
+            Log.Debug($"Added costume item ID: {newItemIndex}");
             newItemIndex++;
         }
 
