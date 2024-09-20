@@ -1,6 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections;
 using System.Runtime.InteropServices;
-using System.Text.Json;
 using Unreal.ObjectsEmitter.Interfaces.Types;
 
 namespace P3R.CostumeFramework.Hooks.Models;
@@ -277,7 +276,7 @@ public unsafe struct FTrackToSkeletonMap
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public unsafe struct TMap<KeyType, ValueType>
+public unsafe struct TMap<KeyType, ValueType> : IEnumerable<TMapElement<KeyType, ValueType>>
     where KeyType : unmanaged
     where ValueType : unmanaged
 {
@@ -329,6 +328,19 @@ public unsafe struct TMap<KeyType, ValueType>
         if (idx < 0 || idx > mapNum) return null;
         return &elements[idx].Value;
     }
+
+    public IEnumerator<TMapElement<KeyType, ValueType>> GetEnumerator()
+    {
+        var items = new List<TMapElement<KeyType, ValueType>>();
+        for (int i = 0; i < this.mapNum; i++)
+        {
+            items.Add(elements[i]);
+        }
+
+        return items.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 }
 
 [StructLayout(LayoutKind.Sequential)]

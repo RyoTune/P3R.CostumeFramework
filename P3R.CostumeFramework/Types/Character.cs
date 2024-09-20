@@ -46,8 +46,6 @@ public enum Character
     Ikutsuki,
     Natsuki,
     Takeharu,
-
-    FEMC = 999,
 }
 
 public static class Characters

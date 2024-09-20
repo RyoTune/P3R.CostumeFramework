@@ -5,6 +5,7 @@ using P3R.CostumeFramework.Hooks.Models;
 using P3R.CostumeFramework.Hooks.Services;
 using P3R.CostumeFramework.Utils;
 using Reloaded.Hooks.Definitions;
+using System.Text.Json;
 using Unreal.ObjectsEmitter.Interfaces;
 using Unreal.ObjectsEmitter.Interfaces.Types;
 
@@ -14,15 +15,16 @@ internal unsafe class CostumeTableService
 {
     private readonly IUnreal unreal;
     private readonly CostumeRegistry costumes;
-    private DefaultCostumes defaultCostumes = new();
+    private DefaultCostumes defaultCostumes;
     private DataTable<FAppCharTableRow>? table;
     private bool useFemc;
     private IAsmHook? fullDtHook;
 
-    public CostumeTableService(IDataTables dt, IUnreal unreal, CostumeRegistry costumes)
+    public CostumeTableService(IDataTables dt, IUnreal unreal, CostumeRegistry costumes, bool useFemcPlayer)
     {
         this.unreal = unreal;
         this.costumes = costumes;
+        this.defaultCostumes = new(useFemcPlayer);
 
         ScanHooks.Add(
             "Use Full DT_Costume",
@@ -35,10 +37,39 @@ internal unsafe class CostumeTableService
             this.table = table;
 
             this.UpdateCostumeTable();
+            //this.DumpCostumeTable();
         });
     }
 
-    public void SetUseFemc(bool useFemc) => this.useFemc = useFemc;
+    private record CostumeSerialized(Character Character, int CostumeId, string BaseMesh, string CostumeMesh, string FaceMesh, string HairMesh);
+
+    private void DumpCostumeTable()
+    {
+        if (this.table == null) return;
+
+        var costumesSerialized = new List<CostumeSerialized>();
+        foreach (var character in Enum.GetValues<Character>())
+        {
+            var rowName = character <= Character.AigisReal ? $"PC{(int)character}" : $"SC{(int)character}";
+            if (this.table.TryGetValue(rowName, out var row))
+            {
+                foreach (var item in row.Costumes)
+                {
+                    var costumeId = item.Key;
+                    var costumeData = item.Value;
+
+                    var baseMesh = this.unreal.GetName(costumeData.Base.Mesh.GetObjectPtr()->ObjectId.AssetPathName);
+                    var costumeMesh = this.unreal.GetName(costumeData.Costume.Mesh.GetObjectPtr()->ObjectId.AssetPathName);
+                    var faceMesh = this.unreal.GetName(costumeData.Face.Mesh.GetObjectPtr()->ObjectId.AssetPathName);
+                    var hairMesh = this.unreal.GetName(costumeData.Hair.Mesh.GetObjectPtr()->ObjectId.AssetPathName);
+
+                    costumesSerialized.Add(new(character, costumeId, baseMesh, costumeMesh, faceMesh, hairMesh));
+                }
+            }
+        }
+
+        File.WriteAllText("costumes.json", JsonSerializer.Serialize(costumesSerialized, new JsonSerializerOptions() { WriteIndented = true }));
+    }
 
     private void UpdateCostumeTable()
     {
@@ -53,14 +84,28 @@ internal unsafe class CostumeTableService
         }
     }
 
+    /// <summary>
+    /// Set costume data from costume to alternative costume ID than the one set in costume.
+    /// </summary>
+    /// <param name="costumeId"></param>
+    /// <param name="costume"></param>
+    public void SetCostumeData(int costumeId, Costume costume)
+    {
+        var charRow = this.GetCharacterRow(costume.Character);
+        if (charRow->Costumes.TryGet(costumeId, out var costumeData))
+        {
+            this.SetCostumeData(costumeData, costume);
+        }
+        else
+        {
+            Log.Error($"Failed to find costume: {costume.Character} || Costume ID: {costumeId}");
+        }
+    }
+
     private void UpdateCostume(Costume costume)
     {
-        if (this.table == null) return;
-
         var charRow = this.GetCharacterRow(costume.Character);
-        if (charRow == null) return;
-
-        if (charRow.Self->Costumes.TryGet(costume.CostumeId, out var costumeData))
+        if (charRow->Costumes.TryGet(costume.CostumeId, out var costumeData))
         {
             this.SetCostumeData(costumeData, costume);
         }
@@ -141,7 +186,7 @@ internal unsafe class CostumeTableService
         }
     }
 
-    private Row<FAppCharTableRow>? GetCharacterRow(Character character) => table?.Rows.FirstOrDefault(x => x.Name == $"PC{(int)character}");
+    public FAppCharTableRow* GetCharacterRow(Character character) => table!.Rows.First(x => x.Name == $"PC{(int)character}").Self;
 
     private string? GetDefaultAsset(Character character, CostumeAssetType assetType) => this.defaultCostumes[character].Config.GetAssetFile(assetType);
 }

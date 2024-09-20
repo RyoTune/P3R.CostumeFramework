@@ -5,7 +5,7 @@ namespace P3R.CostumeFramework.Hooks.Animations.Models;
 
 public class GameBones
 {
-    private Dictionary<int, string> reversed;
+    private readonly Dictionary<int, string> reversed;
 
     public GameBones()
     {

@@ -72,17 +72,11 @@ public class Mod : ModBase, IExports
         this.costumeDesc = new(atlusAssets!);
         this.costumeMusic = new(bgme!, battleThemes!, this.costumeRegistry);
         this.costumeRyo = new(ryo!, this.costumeRegistry);
-        this.costumes = new(uobjects!, unreal!, dataTables!, this.costumeRegistry, this.costumeOverrides, this.costumeDesc, this.costumeMusic, this.costumeRyo, objMethods!);
+        this.costumes = new(uobjects!, unreal!, dataTables!, this.costumeRegistry, this.costumeOverrides, this.costumeDesc, this.costumeMusic, this.costumeRyo, objMethods!, femcEnabled);
 
         this.costumeApi = new CostumeApi(costumeRegistry, costumeOverrides);
         this.modLoader.AddOrReplaceController<ICostumeApi>(this.owner, this.costumeApi);
         this.ApplyConfig();
-
-        if (femcEnabled)
-        {
-            Log.Information("Mod Integration Enabled: FEMC Mod");
-            this.costumes.SetUseFemc(true);
-        }
 
         this.modLoader.ModLoaded += this.OnModLoaded;
         Project.Start();
