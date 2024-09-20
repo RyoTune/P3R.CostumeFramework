@@ -96,11 +96,29 @@ public unsafe struct FAppCharTableRow
     [FieldOffset(0x0008)] public float CapsuleHalfHeight;
     //[FieldOffset(0x000C)] public FVector MeshLocation;
     [FieldOffset(0x0018)] public TMap<EAnimPackID, TSoftObjectPtr<UAppCharAnimDataAsset>> Anims;
-    //[FieldOffset(0x0068)] public TSoftObjectPtr<UAppCharFaceAnimDataAsset> FaceAnim;
+    [FieldOffset(0x0068)] public TSoftObjectPtr<UAppCharFaceAnimDataAsset> FaceAnim;
     [FieldOffset(0x0090)] public TMap<int, FAppCharCostumeData> Costumes;
     [FieldOffset(0x00E0)] public TMap<int, FAppCharWeaponData> WeaponType;
     //[FieldOffset(0x0130)] public TMap<int, FAppCharBagData> BagType;
 }
+
+[StructLayout(LayoutKind.Explicit, Size = 0x88)] 
+public unsafe struct UAppCharFaceAnimDataAsset
+{
+    //[FieldOffset(0x0000)] public UDataAsset baseObj;
+    [FieldOffset(0x0030)] public EAppCharCategoryType Category;
+    [FieldOffset(0x0034)] public int CharId;
+    [FieldOffset(0x0038)] public TMap<int, IntPtr> Anims;
+}
+
+public enum EAppCharCategoryType
+{
+    None = 0,
+    MainCharacter = 1,
+    SubCharacter = 2,
+    NpcCharacter = 3,
+    EAppCharCategoryType_MAX = 4,
+};
 
 [StructLayout(LayoutKind.Explicit, Size = 0x3A0)]
 public unsafe struct USkeletalMesh

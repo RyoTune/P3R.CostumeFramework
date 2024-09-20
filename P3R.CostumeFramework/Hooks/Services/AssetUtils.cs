@@ -118,6 +118,19 @@ internal static class AssetUtils
             _ => throw new NotImplementedException(),
         };
 
+    public static string GetAnimPath(Character character, CharAnim anim)
+    {
+        var name = GetAnimName(character, anim);
+        if (anim <= CharAnim.BSDngAlsNWalkRun)
+        {
+            return $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/AnmDungeon/{name}.{name}";
+        }
+        else
+        {
+            return $"/Game/Xrd777/Characters/Player/PC{GetCharIdString(character)}/AnmBattle/{name}.{name}";
+        }
+    }
+
     public static string? GetAnimName(Character character, CharAnim anim)
         => anim switch
         {
@@ -157,8 +170,8 @@ internal static class AssetUtils
             CharAnim.Avoid => $"A_PC{GetCharIdString(character)}_BTL0018_BASE_Avoid",
             CharAnim.AttackMissAIdle => $"A_PC{GetCharIdString(character)}_BTL0020_BASE_AttackMissAIdle",
             CharAnim.AttackA => $"A_PC{GetCharIdString(character)}_BTL0021_BASE_AttackA",
-            CharAnim.AttackB => $"A_PC{GetCharIdString(character)}_BTL0022_BASE_AttackB",
-            CharAnim.AttackC => $"A_PC{GetCharIdString(character)}_BTL0023_BASE_AttackC",
+            //CharAnim.AttackB => $"A_PC{GetCharIdString(character)}_BTL0022_BASE_AttackB",
+            //CharAnim.AttackC => $"A_PC{GetCharIdString(character)}_BTL0023_BASE_AttackC",
             CharAnim.AttackMissA => $"A_PC{GetCharIdString(character)}_BTL0024_BASE_AttackMissA",
             CharAnim.AttackAIdle => $"A_PC{GetCharIdString(character)}_BTL0025_BASE_AttackAIdle",
             CharAnim.AttackBIdle => $"A_PC{GetCharIdString(character)}_BTL0026_BASE_AttackBIdle",
@@ -169,7 +182,6 @@ internal static class AssetUtils
             CharAnim.SummonActStart => $"A_PC{GetCharIdString(character)}_BTL0034_BASE_SummonActStart",
             CharAnim.SummonActLoop => $"A_PC{GetCharIdString(character)}_BTL0035_BASE_SummonActLoop",
             CharAnim.SummonActEnd => $"A_PC{GetCharIdString(character)}_BTL0036_BASE_SummonActEnd",
-
             CharAnim.ItemStart => $"A_PC{GetCharIdString(character)}_BTL0051_BASE_ItemStart",
             CharAnim.ItemLoop => $"A_PC{GetCharIdString(character)}_BTL0052_BASE_ItemLoop",
             CharAnim.ItemCancel => $"A_PC{GetCharIdString(character)}_BTL0053_BASE_ItemCancel",
@@ -180,7 +192,6 @@ internal static class AssetUtils
             CharAnim.BatonTouchA => $"A_PC{GetCharIdString(character)}_BTL0061_BASE_BatonTouchA",
             CharAnim.BatonTouchB => $"A_PC{GetCharIdString(character)}_BTL0062_BASE_BatonTouchB",
             CharAnim.BatonTouchSide => $"A_PC{GetCharIdString(character)}_BTL0062_BASE_BatonTouchSide_02",
-
             CharAnim.VictoryMainStart => $"A_PC{GetCharIdString(character)}_BTL0071_BASE_VictoryMainStart",
             CharAnim.VictorySubAStart => $"A_PC{GetCharIdString(character)}_BTL0073_BASE_VictorySubAStart",
             CharAnim.AllOutAttackStartMain => $"A_PC{GetCharIdString(character)}_BTL0081_BASE_AllOutAttackStartMain",

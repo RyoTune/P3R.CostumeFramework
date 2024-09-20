@@ -5,20 +5,20 @@ using P3R.CostumeFramework.Hooks.Models;
 using P3R.CostumeFramework.Hooks.Services;
 using Unreal.ObjectsEmitter.Interfaces;
 using P3R.CostumeFramework.Hooks.Costumes;
+using p3rpc.classconstructor.Interfaces;
 
 namespace P3R.CostumeFramework.Hooks.Animations;
 
 internal unsafe class CostumeAnimsService
 {
     private readonly IUnreal unreal;
+    private readonly AnimationManager animationManager;
     private readonly CostumeTableService costumeTable;
 
-    //private readonly AnimationManager animManager;
-
-    public CostumeAnimsService(IUObjects uobjs, IUnreal unreal, CostumeTableService costumeTable)
+    public CostumeAnimsService(IUObjects uobjs, IUnreal unreal, IObjectMethods objMethods, CostumeTableService costumeTable)
     {
-        //this.animManager = new(objMethods);
-        //uobjs.ObjectCreated += animManager.Update;
+        this.animationManager = new(objMethods);
+        uobjs.ObjectCreated += animationManager.Update;
 
         this.unreal = unreal;
         this.costumeTable = costumeTable;
@@ -50,7 +50,7 @@ internal unsafe class CostumeAnimsService
             {
                 var bone = &skel->BoneTree.AllocatorInstance[i];
                 var name = bones[i];
-                //bone->TranslationRetargetingMode = EBoneTranslationRetargetingMode.OrientAndScale;
+                bone->TranslationRetargetingMode = EBoneTranslationRetargetingMode.OrientAndScale;
                 if (keywords.Any(x => name.Contains(x, StringComparison.OrdinalIgnoreCase)))
                 {
                     Log.Debug($"SKEL_Human ({name}): Retarget bone animation to {EBoneTranslationRetargetingMode.OrientAndScale}.");
@@ -105,6 +105,11 @@ internal unsafe class CostumeAnimsService
         {
             this.SetAnim(eventAnim, CostumeAssetType.EventAnim, costume.Character);
         }
+
+        //ModUtils.IfNotNull(costume.Config.Face.AnimPath, path =>
+        //{
+        //    charRow->FaceAnim.GetObjectPtr()->ObjectId.AssetPathName = *this.unreal.FName(AssetUtils.GetUnrealAssetPath(path));
+        //});
     }
 
     private void SetAnim(TSoftObjectPtr<UAppCharAnimDataAsset>* charAnim, CostumeAssetType animType, Character newCharAnim)
