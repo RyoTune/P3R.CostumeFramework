@@ -1,5 +1,4 @@
-﻿using P3R.CostumeFramework.Costumes;
-using P3R.CostumeFramework.Costumes.Models;
+﻿using P3R.CostumeFramework.Costumes.Models;
 using P3R.CostumeFramework.Hooks.Models;
 using P3R.CostumeFramework.Utils;
 using System.Runtime.InteropServices;
@@ -11,32 +10,29 @@ namespace P3R.CostumeFramework.Hooks.Services;
 internal unsafe class CostumeAlloutService
 {
     private readonly IUnreal unreal;
-    private readonly ItemEquip itemEquip;
+    private readonly CostumeManager manager;
 
-    public CostumeAlloutService(IDataTables dt, IUnreal unreal, ItemEquip itemEquip)
+    public CostumeAlloutService(IDataTables dt, IUnreal unreal, CostumeManager manager)
     {
         this.unreal = unreal;
-        this.itemEquip = itemEquip;
+        this.manager = manager;
 
-        dt.FindDataTable("DT_BtlAlloutFinishTexture", this.BtlAlloutFinishTextureLoaded);
+        dt.FindDataTable<FBtlAlloutFinishTexture>("DT_BtlAlloutFinishTexture", this.BtlAlloutFinishTextureLoaded);
     }
 
-    private void BtlAlloutFinishTextureLoaded(DataTable table)
+    private void BtlAlloutFinishTextureLoaded(DataTable<FBtlAlloutFinishTexture> table)
     {
-        foreach (var character in Characters.PC)
+        foreach (var costume in this.manager.GetCurrentCostumes())
         {
-            if (this.itemEquip.TryGetEquipCostume(character, out var costume))
-            {
-                var alloutRowName = $"PC{(int)character}";
-                var alloutRow = (FBtlAlloutFinishTexture*)table.Rows.First(x => x.Name == alloutRowName).Self;
+            var alloutRowName = $"PC{(int)costume.Character}";
+            var alloutRow = table.Rows.First(x => x.Name == alloutRowName).Self;
 
-                ModUtils.IfNotNull(costume.Config.Allout.NormalPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutNormal, path!));
-                ModUtils.IfNotNull(costume.Config.Allout.NormalMaskPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutNormalMask, path!));
-                ModUtils.IfNotNull(costume.Config.Allout.SpecialPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutSpecial, path!));
-                ModUtils.IfNotNull(costume.Config.Allout.SpecialMaskPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutSpecialMask, path!));
-                ModUtils.IfNotNull(costume.Config.Allout.PlgPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutPlg, path!));
-                ModUtils.IfNotNull(costume.Config.Allout.TextPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutText, path!));
-            }
+            ModUtils.IfNotNull(costume.Config.Allout.NormalPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutNormal, path!));
+            ModUtils.IfNotNull(costume.Config.Allout.NormalMaskPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutNormalMask, path!));
+            ModUtils.IfNotNull(costume.Config.Allout.SpecialPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutSpecial, path!));
+            ModUtils.IfNotNull(costume.Config.Allout.SpecialMaskPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutSpecialMask, path!));
+            ModUtils.IfNotNull(costume.Config.Allout.PlgPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutPlg, path!));
+            ModUtils.IfNotNull(costume.Config.Allout.TextPath, path => this.SetAssetPath(alloutRow, CostumeAssetType.AlloutText, path!));
         }
     }
 
