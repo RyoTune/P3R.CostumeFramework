@@ -80,7 +80,7 @@ internal unsafe class CostumeHooks
             });
     }
 
-    public Action<Costume> OnCostumeChanged { get; set; }
+    public Action<Costume>? OnCostumeChanged { get; set; }
 
     public void SetRandomizeCostumes(bool isCostumesRandom) => this.isCostumesRandom = isCostumesRandom;
 
@@ -141,7 +141,7 @@ internal unsafe class CostumeHooks
         // Update before costume ID is set to shell costume.
         if (this.registry.TryGetCostume(character, costumeId, out var finalCostume))
         {
-            this.OnCostumeChanged.Invoke(finalCostume);
+            this.OnCostumeChanged?.Invoke(finalCostume);
         }
 
         comp->mSetCostumeID = this.costumeShells.UpdateCostume(character, costumeId);
@@ -170,7 +170,7 @@ internal unsafe class CostumeHooks
         foreach (var costume in this.registry.GetActiveCostumes())
         {
             // Skip costumes with existing items.
-            if (costume.CostumeItemId != default)
+            if (costume.CostumeItemId < 357)
             {
                 continue;
             }
