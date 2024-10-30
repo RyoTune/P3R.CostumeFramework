@@ -2,64 +2,34 @@
 using P3R.CostumeFramework.Costumes.Models;
 using P3R.CostumeFramework.Hooks.Costumes;
 using P3R.CostumeFramework.Hooks.Costumes.Models;
-using P3R.CostumeFramework.Hooks.Models;
-using p3rpc.classconstructor.Interfaces;
-using Unreal.ObjectsEmitter.Interfaces;
 
 namespace P3R.CostumeFramework.Hooks.Services;
 
 internal unsafe class CostumeShellService
 {
     private const int SHELL_COSTUME_ID = 51;
-    private readonly Dictionary<Character, nint> shellDataPtrs = [];
     private readonly Dictionary<Character, int> prevCostumeIds = [];
     private readonly Dictionary<Character, Costume> defaultCostumes = [];
-    private readonly Dictionary<Character, nint> charRows = [];
 
-    private readonly IUnreal unreal;
     private readonly CostumeTableService costumeTable;
     private readonly CostumeRegistry costumes;
 
-    public CostumeShellService(IDataTables dt, IUObjects uobjs, IUnreal unreal, CostumeRegistry costumes, IObjectMethods objMethods, CostumeTableService costumeTable)
+    public CostumeShellService(CostumeRegistry costumes, CostumeTableService costumeTable)
     {
-        this.unreal = unreal;
         this.costumes = costumes;
         this.costumeTable = costumeTable;
 
-        dt.FindDataTable<FAppCharTableRow>("DT_Costume", table =>
+        foreach (var character in Characters.PC)
         {
-            foreach (var character in Characters.PC)
+            if (character == Character.AigisReal)
             {
-                var charRowName = $"PC{(int)character}";
-                var charRowObj = table.Rows.FirstOrDefault(x => x.Name == charRowName);
-                if (charRowObj == null)
-                {
-                    Log.Debug($"Character row not found: {charRowName}");
-                    continue;
-                }
-
-                var charRow = charRowObj.Self;
-                var charCostumes = charRow->Costumes;
-                if (charCostumes.TryGet(SHELL_COSTUME_ID, out var charCostume))
-                {
-                    this.shellDataPtrs[character] = (nint)charCostume;
-                    this.prevCostumeIds[character] = -1;
-
-                    if (character == Character.AigisReal)
-                    {
-                        this.shellDataPtrs[Character.Aigis] = (nint)charCostume;
-                        this.prevCostumeIds[Character.Aigis] = -1;
-                    }
-                }
-                else
-                {
-                    Log.Error($"{character} missing shell Costume ID: {SHELL_COSTUME_ID}");
-                }
-
-                this.defaultCostumes[character] = new DefaultCostume(character);
-                this.charRows[character] = (nint)charRow;
+                this.defaultCostumes[character] = new DefaultCostume(Character.Aigis);
             }
-        });
+            else
+            {
+                this.defaultCostumes[character] = new DefaultCostume(character);
+            }
+        }
     }
 
     public int UpdateCostume(Character character, int costumeId)

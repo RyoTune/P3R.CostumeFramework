@@ -112,6 +112,7 @@ internal unsafe class CostumeHooks
         }
 
         // Handle logic for equipped costumes, such as overworld costumes.
+        // Use source character to get correct Aigis.
         var equipCostumeItemId = this.itemEquip.GetEquip(comp->baseObj.Character, Equip.Outfit);
         if (this.registry.TryGetCostumeByItemId(equipCostumeItemId, out var costume))
         {
@@ -144,7 +145,8 @@ internal unsafe class CostumeHooks
             this.OnCostumeChanged?.Invoke(finalCostume);
         }
 
-        comp->mSetCostumeID = this.costumeShells.UpdateCostume(character, costumeId);
+        // Use source character to get correct Aigis.
+        comp->mSetCostumeID = this.costumeShells.UpdateCostume(comp->baseObj.Character, costumeId);
         Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId}");
     }
 
