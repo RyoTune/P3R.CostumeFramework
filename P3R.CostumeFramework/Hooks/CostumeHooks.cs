@@ -112,7 +112,7 @@ internal unsafe class CostumeHooks
         }
 
         // Handle logic for equipped costumes, such as overworld costumes.
-        var equipCostumeItemId = this.itemEquip.GetEquip(character, Equip.Outfit);
+        var equipCostumeItemId = (character == Character.Aigis) ? this.itemEquip.GetEquip(Character.AigisReal, Equip.Outfit) : this.itemEquip.GetEquip(character, Equip.Outfit);
         if (this.registry.TryGetCostumeByItemId(equipCostumeItemId, out var costume))
         {
             Log.Debug($"Equipped Costume: {character} || {costume.Name}");
