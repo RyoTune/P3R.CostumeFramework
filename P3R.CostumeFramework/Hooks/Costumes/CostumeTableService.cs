@@ -85,11 +85,9 @@ internal unsafe class CostumeTableService
     /// <summary>
     /// Set costume data from costume to alternative costume ID than the one set in costume.
     /// </summary>
-    /// <param name="costumeId"></param>
-    /// <param name="costume"></param>
-    public void SetCostumeData(int costumeId, Costume costume)
+    public void SetCostumeData(Character character, int costumeId, Costume costume)
     {
-        var charRow = this.GetCharacterRow(costume.Character);
+        var charRow = this.GetCharacterRow(character);
         if (charRow->Costumes.TryGet(costumeId, out var costumeData))
         {
             this.SetCostumeData(costumeData, costume);

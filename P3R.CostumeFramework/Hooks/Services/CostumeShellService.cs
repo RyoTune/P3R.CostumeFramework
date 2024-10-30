@@ -35,7 +35,7 @@ internal unsafe class CostumeShellService
         if (costumeId == SHELL_COSTUME_ID)
         {
             this.prevCostumeIds[character] = costumeId;
-            this.costumeTable.SetCostumeData(SHELL_COSTUME_ID, defaultCostumes[character]);
+            this.costumeTable.SetCostumeData(character, SHELL_COSTUME_ID, defaultCostumes[character]);
             Log.Debug($"{character}: Reset shell costume data.");
         }
 
@@ -47,7 +47,7 @@ internal unsafe class CostumeShellService
         var shouldUpdateData = this.prevCostumeIds[character] != costumeId;
         if (shouldUpdateData && this.costumes.TryGetCostume(character, costumeId, out var costume))
         {
-            this.costumeTable.SetCostumeData(SHELL_COSTUME_ID, costume);
+            this.costumeTable.SetCostumeData(character, SHELL_COSTUME_ID, costume);
             this.prevCostumeIds[character] = costumeId;
         }
 
