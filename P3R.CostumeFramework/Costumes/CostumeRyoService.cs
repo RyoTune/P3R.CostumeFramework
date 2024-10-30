@@ -14,27 +14,30 @@ internal class CostumeRyoService
     {
         this.ryo = ryo;
         this.costumes = costumes;
+
+        foreach (var character in Characters.PC)
+        {
+            this.currentCostumeGroups[character] = null;
+        }
     }
 
     public void Refresh(Costume costume)
     {
         var character = costume.Character;
-        this.currentCostumeGroups.TryGetValue(character, out var group);
+        var currentGroup = this.currentCostumeGroups[character];
 
-        if (group != null)
+        if (currentGroup == null)
         {
-            if (group.Id != costume.RyoGroupId)
-            {
-                group?.Disable();
-                var newGroup = this.ryo.GetContainerGroup(costume.RyoGroupId);
-                this.currentCostumeGroups[character] = newGroup;
-                newGroup.Enable();
-            }
+            var newGroup = this.ryo.GetContainerGroup(costume.RyoGroupId);
+            this.currentCostumeGroups[character] = newGroup;
+            newGroup.Enable();
         }
-        else
+        else if (currentGroup.Id != costume.RyoGroupId)
         {
-            group?.Disable();
-            this.currentCostumeGroups[character] = null;
+            currentGroup.Disable();
+            var newGroup = this.ryo.GetContainerGroup(costume.RyoGroupId);
+            this.currentCostumeGroups[character] = newGroup;
+            newGroup.Enable();
         }
     }
 }
