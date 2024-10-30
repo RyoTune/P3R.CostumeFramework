@@ -17,7 +17,6 @@ internal unsafe class CostumeTableService
     private readonly CostumeRegistry costumes;
     private DefaultCostumes defaultCostumes;
     private DataTable<FAppCharTableRow>? table;
-    private bool useFemc;
     private IAsmHook? fullDtHook;
 
     public CostumeTableService(IDataTables dt, IUnreal unreal, CostumeRegistry costumes, bool useFemcPlayer)
@@ -33,7 +32,6 @@ internal unsafe class CostumeTableService
 
         dt.FindDataTable<FAppCharTableRow>("DT_Costume", table =>
         {
-            this.defaultCostumes = new(this.useFemc);
             this.table = table;
 
             this.UpdateCostumeTable();

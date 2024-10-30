@@ -25,6 +25,10 @@ internal class DefaultCostumes : IReadOnlyDictionary<Character, Costume>
                     costumes[character] = new DefaultCostume(Character.Player);
                 }
             }
+            else if (character == Character.AigisReal)
+            {
+                costumes[character] = new DefaultCostume(Character.Aigis);
+            }
             else
             {
                 costumes[character] = new DefaultCostume(character);

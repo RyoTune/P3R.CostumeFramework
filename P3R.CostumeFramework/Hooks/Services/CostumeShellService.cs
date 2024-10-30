@@ -2,6 +2,7 @@
 using P3R.CostumeFramework.Costumes.Models;
 using P3R.CostumeFramework.Hooks.Costumes;
 using P3R.CostumeFramework.Hooks.Costumes.Models;
+using Unreal.ObjectsEmitter.Interfaces;
 
 namespace P3R.CostumeFramework.Hooks.Services;
 
@@ -9,27 +10,24 @@ internal unsafe class CostumeShellService
 {
     private const int SHELL_COSTUME_ID = 51;
     private readonly Dictionary<Character, int> prevCostumeIds = [];
-    private readonly Dictionary<Character, Costume> defaultCostumes = [];
+    private readonly DefaultCostumes defaultCostumes = new();
 
     private readonly CostumeTableService costumeTable;
     private readonly CostumeRegistry costumes;
 
-    public CostumeShellService(CostumeRegistry costumes, CostumeTableService costumeTable)
+    public CostumeShellService(IDataTables dt, CostumeRegistry costumes, CostumeTableService costumeTable)
     {
         this.costumes = costumes;
         this.costumeTable = costumeTable;
 
-        foreach (var character in Characters.PC)
+        // Reset data on DT_Costume load.
+        dt.FindDataTable("DT_Costume", _ =>
         {
-            if (character == Character.AigisReal)
+            foreach (var character in Characters.PC)
             {
-                this.defaultCostumes[character] = new DefaultCostume(Character.Aigis);
+                this.prevCostumeIds[character] = -1;
             }
-            else
-            {
-                this.defaultCostumes[character] = new DefaultCostume(character);
-            }
-        }
+        });
     }
 
     public int UpdateCostume(Character character, int costumeId)
