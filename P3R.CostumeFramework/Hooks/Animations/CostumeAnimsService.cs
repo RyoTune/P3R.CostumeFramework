@@ -12,14 +12,10 @@ namespace P3R.CostumeFramework.Hooks.Animations;
 internal unsafe class CostumeAnimsService
 {
     private readonly IUnreal unreal;
-    private readonly AnimationManager animationManager;
     private readonly CostumeTableService costumeTable;
 
     public CostumeAnimsService(IUObjects uobjs, IUnreal unreal, IObjectMethods objMethods, CostumeTableService costumeTable)
     {
-        this.animationManager = new(objMethods);
-        uobjs.ObjectCreated += animationManager.Update;
-
         this.unreal = unreal;
         this.costumeTable = costumeTable;
         uobjs.FindObject("SKEL_Human", obj =>
