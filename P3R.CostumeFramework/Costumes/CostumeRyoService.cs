@@ -21,12 +21,15 @@ internal class CostumeRyoService
         var character = costume.Character;
         this.currentCostumeGroups.TryGetValue(character, out var group);
 
-        if (group?.Id != costume.RyoGroupId)
+        if (group != null)
         {
-            group?.Disable();
-            var newGroup = this.ryo.GetContainerGroup(costume.RyoGroupId);
-            this.currentCostumeGroups[character] = newGroup;
-            newGroup.Enable();
+            if (group.Id != costume.RyoGroupId)
+            {
+                group?.Disable();
+                var newGroup = this.ryo.GetContainerGroup(costume.RyoGroupId);
+                this.currentCostumeGroups[character] = newGroup;
+                newGroup.Enable();
+            }
         }
         else
         {
