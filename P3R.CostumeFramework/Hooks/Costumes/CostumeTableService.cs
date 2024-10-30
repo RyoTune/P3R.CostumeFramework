@@ -113,14 +113,28 @@ internal unsafe class CostumeTableService
 
     private void SetCostumeData(FAppCharCostumeData* costumeData, Costume costume)
     {
-        this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.BaseMesh, costume.Config.GetAssetFile(CostumeAssetType.BaseMesh));
-        this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.BaseAnim, costume.Config.GetAssetFile(CostumeAssetType.BaseAnim));
-        this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.CostumeMesh, costume.Config.GetAssetFile(CostumeAssetType.CostumeMesh));
-        this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.CostumeAnim, costume.Config.GetAssetFile(CostumeAssetType.CostumeAnim));
-        this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.FaceMesh, costume.Config.GetAssetFile(CostumeAssetType.FaceMesh));
-        this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.FaceAnim, costume.Config.GetAssetFile(CostumeAssetType.FaceAnim));
-        this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.HairMesh, costume.Config.GetAssetFile(CostumeAssetType.HairMesh));
-        this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.HairAnim, costume.Config.GetAssetFile(CostumeAssetType.HairAnim));
+        if (costume.CostumeId >= GameCostumes.BASE_MOD_COSTUME_ID)
+        {
+            this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.BaseMesh, costume.Config.GetAssetFile(CostumeAssetType.BaseMesh));
+            this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.BaseAnim, costume.Config.GetAssetFile(CostumeAssetType.BaseAnim));
+            this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.CostumeMesh, costume.Config.GetAssetFile(CostumeAssetType.CostumeMesh));
+            this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.CostumeAnim, costume.Config.GetAssetFile(CostumeAssetType.CostumeAnim));
+            this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.FaceMesh, costume.Config.GetAssetFile(CostumeAssetType.FaceMesh));
+            this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.FaceAnim, costume.Config.GetAssetFile(CostumeAssetType.FaceAnim));
+            this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.HairMesh, costume.Config.GetAssetFile(CostumeAssetType.HairMesh));
+            this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.HairAnim, costume.Config.GetAssetFile(CostumeAssetType.HairAnim));
+        }
+        else
+        {
+            ModUtils.IfNotNull(costume.Config.GetAssetFile(CostumeAssetType.BaseMesh), path => this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.BaseMesh, path!));
+            ModUtils.IfNotNull(costume.Config.GetAssetFile(CostumeAssetType.BaseAnim), path => this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.BaseAnim, path!));
+            ModUtils.IfNotNull(costume.Config.GetAssetFile(CostumeAssetType.CostumeMesh), path => this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.CostumeMesh, path!));
+            ModUtils.IfNotNull(costume.Config.GetAssetFile(CostumeAssetType.CostumeAnim), path => this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.CostumeAnim, path!));
+            ModUtils.IfNotNull(costume.Config.GetAssetFile(CostumeAssetType.FaceMesh), path => this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.FaceMesh, path!));
+            ModUtils.IfNotNull(costume.Config.GetAssetFile(CostumeAssetType.FaceAnim), path => this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.FaceAnim, path!));
+            ModUtils.IfNotNull(costume.Config.GetAssetFile(CostumeAssetType.HairMesh), path => this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.HairMesh, path!));
+            ModUtils.IfNotNull(costume.Config.GetAssetFile(CostumeAssetType.HairAnim), path => this.SetCostumeAsset(costumeData, costume.Character, CostumeAssetType.HairAnim, path!));
+        }
     }
 
     private void SetCostumeAsset(FAppCharCostumeData* costumeData, Character character, CostumeAssetType assetType, string? newAssetFile)
