@@ -170,7 +170,7 @@ internal unsafe class CostumeHooks
         foreach (var costume in this.registry.GetActiveCostumes())
         {
             // Skip costumes with existing items.
-            if (costume.CostumeItemId < 357)
+            if (costume.CostumeItemId != default && costume.CostumeItemId < 357)
             {
                 continue;
             }
