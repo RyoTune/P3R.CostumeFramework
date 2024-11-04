@@ -2,7 +2,7 @@
   "ModId": "P3R.CostumeFramework",
   "ModName": "Costume Framework for P3R",
   "ModAuthor": "RyoTune",
-  "ModVersion": "1.7.20",
+  "ModVersion": "1.8.0",
   "ModDescription": "Streamlines and enhances outfit mods!",
   "ModDll": "P3R.CostumeFramework.dll",
   "ModIcon": "Preview.png",
@@ -16,65 +16,35 @@
   "IsLibrary": false,
   "ReleaseMetadataFileName": "P3R.CostumeFramework.ReleaseMetadata.json",
   "PluginData": {
-    "GameBanana": {
-      "ItemType": "Mod",
-      "ItemId": 501833
-    },
-    "GameBananaDependencies": {
+    "GitHubDependencies": {
       "IdToConfigMap": {
         "BGME.BattleThemes": {
           "Config": {
-            "ItemType": "Mod",
-            "ItemId": 488707
+            "UserName": "RyoTune",
+            "RepositoryName": "BGME.BattleThemes",
+            "UseReleaseTag": false,
+            "AssetFileName": "Mod.zip"
           },
           "ReleaseMetadataName": "BGME.BattleThemes.ReleaseMetadata.json"
         },
         "BGME.Framework.API": {
           "Config": {
-            "ItemType": "Mod",
-            "ItemId": 477399
+            "UserName": "RyoTune",
+            "RepositoryName": "BGME",
+            "UseReleaseTag": false,
+            "AssetFileName": "Mod.zip"
           },
           "ReleaseMetadataName": "BGME.Framework.API.ReleaseMetadata.json"
         },
         "BGME.Framework.P3R": {
           "Config": {
-            "ItemType": "Mod",
-            "ItemId": 495456
+            "UserName": "RyoTune",
+            "RepositoryName": "BGME",
+            "UseReleaseTag": false,
+            "AssetFileName": "Mod.zip"
           },
           "ReleaseMetadataName": "BGME.Framework.P3R.ReleaseMetadata.json"
         },
-        "Unreal.AtlusScript.Reloaded": {
-          "Config": {
-            "ItemType": "Mod",
-            "ItemId": 501844
-          },
-          "ReleaseMetadataName": "Unreal.AtlusScript.Reloaded.ReleaseMetadata.json"
-        },
-        "Unreal.ObjectsEmitter.Reloaded": {
-          "Config": {
-            "ItemType": "Mod",
-            "ItemId": 500638
-          },
-          "ReleaseMetadataName": "Unreal.ObjectsEmitter.Reloaded.ReleaseMetadata.json"
-        },
-        "Ryo.Reloaded": {
-          "Config": {
-            "ItemType": "Mod",
-            "ItemId": 495507
-          },
-          "ReleaseMetadataName": "Ryo.Reloaded.ReleaseMetadata.json"
-        },
-        "SharedScans.Reloaded": {
-          "Config": {
-            "ItemType": "Mod",
-            "ItemId": 495507
-          },
-          "ReleaseMetadataName": "SharedScans.Reloaded.ReleaseMetadata.json"
-        }
-      }
-    },
-    "GitHubDependencies": {
-      "IdToConfigMap": {
         "Reloaded.Memory.SigScan.ReloadedII": {
           "Config": {
             "UserName": "Reloaded-Project",
@@ -92,21 +62,81 @@
             "AssetFileName": "reloaded.sharedlib.hooks.zip"
           },
           "ReleaseMetadataName": "Sewer56.Update.ReleaseMetadata.json"
+        },
+        "Unreal.AtlusScript.Reloaded": {
+          "Config": {
+            "UserName": "RyoTune",
+            "RepositoryName": "Unreal.AtlusScript",
+            "UseReleaseTag": false,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "Unreal.AtlusScript.Reloaded.ReleaseMetadata.json"
+        },
+        "Unreal.ObjectsEmitter.Reloaded": {
+          "Config": {
+            "UserName": "RyoTune",
+            "RepositoryName": "Unreal.ObjectsEmitter",
+            "UseReleaseTag": false,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "Unreal.ObjectsEmitter.Reloaded.ReleaseMetadata.json"
+        },
+        "Ryo.Reloaded": {
+          "Config": {
+            "UserName": "RyoTune",
+            "RepositoryName": "Ryo",
+            "UseReleaseTag": false,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "Ryo.Reloaded.ReleaseMetadata.json"
+        },
+        "p3rpc.classconstructor": {
+          "Config": {
+            "UserName": "Rirurin",
+            "RepositoryName": "p3rpc.classconstructor",
+            "UseReleaseTag": true,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "p3rpc.classconstructor.ReleaseMetadata.json"
+        },
+        "SharedScans.Reloaded": {
+          "Config": {
+            "UserName": "RyoTune",
+            "RepositoryName": "SharedScans",
+            "UseReleaseTag": false,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "SharedScans.Reloaded.ReleaseMetadata.json"
+        },
+        "p3rpc.nativetypes": {
+          "Config": {
+            "UserName": "Rirurin",
+            "RepositoryName": "p3rpc.nativetypes",
+            "UseReleaseTag": true,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "p3rpc.nativetypes.ReleaseMetadata.json"
         }
       }
+    },
+    "GitHubRelease": {
+      "UserName": "RyoTune",
+      "RepositoryName": "P3R.CostumeFramework",
+      "UseReleaseTag": false,
+      "AssetFileName": "Mod.zip"
     }
   },
   "IsUniversalMod": false,
   "ModDependencies": [
-    "BGME.BattleThemes",
     "BGME.Framework.API",
     "BGME.Framework.P3R",
+    "p3rpc.classconstructor",
     "Reloaded.Memory.SigScan.ReloadedII",
     "reloaded.sharedlib.hooks",
+    "Ryo.Reloaded",
     "Unreal.AtlusScript.Reloaded",
     "Unreal.ObjectsEmitter.Reloaded",
-    "Ryo.Reloaded",
-    "p3rpc.classconstructor"
+    "BGME.BattleThemes"
   ],
   "OptionalDependencies": [],
   "SupportedAppId": [
