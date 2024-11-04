@@ -46,7 +46,7 @@ internal unsafe class CostumeAnimsService
             {
                 var bone = &skel->BoneTree.AllocatorInstance[i];
                 var name = bones[i];
-                bone->TranslationRetargetingMode = EBoneTranslationRetargetingMode.OrientAndScale;
+
                 if (keywords.Any(x => name.Contains(x, StringComparison.OrdinalIgnoreCase)))
                 {
                     Log.Debug($"SKEL_Human ({name}): Retarget bone animation to {EBoneTranslationRetargetingMode.OrientAndScale}.");
