@@ -46,7 +46,7 @@ internal unsafe class CostumeService
         {
             costumeMusic.Refresh(costume);
             costumeAudio.Refresh(costume);
-            costumeAnims.UpdateCostumeAnims(costume);
+            //costumeAnims.UpdateCostumeAnims(costume);
         };
     }
 
