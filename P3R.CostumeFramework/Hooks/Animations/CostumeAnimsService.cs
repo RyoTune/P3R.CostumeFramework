@@ -18,42 +18,42 @@ internal unsafe class CostumeAnimsService
     {
         this.unreal = unreal;
         this.costumeTable = costumeTable;
-        uobjs.FindObject("SKEL_Human", obj =>
-        {
-            var bones = new GameBones();
-            string[] keywords =
-            [
-                "head",
-                "eye",
-                "brow",
-                "cheek",
-                "nose",
-                "mouth",
-                "jaw",
-                "tongue",
-                "lips",
-                "hair",
-                "face",
-                "mask",
-                "iris",
-                "pupil",
-                "laugh",
-                "tooth"
-            ];
+        //uobjs.FindObject("SKEL_Human", obj =>
+        //{
+        //    var bones = new GameBones();
+        //    string[] keywords =
+        //    [
+        //        "head",
+        //        "eye",
+        //        "brow",
+        //        "cheek",
+        //        "nose",
+        //        "mouth",
+        //        "jaw",
+        //        "tongue",
+        //        "lips",
+        //        "hair",
+        //        "face",
+        //        "mask",
+        //        "iris",
+        //        "pupil",
+        //        "laugh",
+        //        "tooth"
+        //    ];
 
-            var skel = (USkeleton*)obj.Self;
-            for (int i = 0; i < skel->BoneTree.Num; i++)
-            {
-                var bone = &skel->BoneTree.AllocatorInstance[i];
-                var name = bones[i];
+        //    var skel = (USkeleton*)obj.Self;
+        //    for (int i = 0; i < skel->BoneTree.Num; i++)
+        //    {
+        //        var bone = &skel->BoneTree.AllocatorInstance[i];
+        //        var name = bones[i];
 
-                if (keywords.Any(x => name.Contains(x, StringComparison.OrdinalIgnoreCase)))
-                {
-                    Log.Debug($"SKEL_Human ({name}): Retarget bone animation to {EBoneTranslationRetargetingMode.OrientAndScale}.");
-                    bone->TranslationRetargetingMode = EBoneTranslationRetargetingMode.OrientAndScale;
-                }
-            }
-        });
+        //        if (keywords.Any(x => name.Contains(x, StringComparison.OrdinalIgnoreCase)))
+        //        {
+        //            Log.Debug($"SKEL_Human ({name}): Retarget bone animation to {EBoneTranslationRetargetingMode.OrientAndScale}.");
+        //            bone->TranslationRetargetingMode = EBoneTranslationRetargetingMode.OrientAndScale;
+        //        }
+        //    }
+        //});
     }
 
     public void UpdateCostumeAnims(Costume costume)
