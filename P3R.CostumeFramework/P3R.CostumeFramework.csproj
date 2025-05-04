@@ -33,6 +33,7 @@
     <None Remove="Reloaded.Checks.targets" />
     <None Remove="Resources\bones.json" />
     <None Remove="Resources\costumes.json" />
+    <None Remove="Resources\costumes_femc.json" />
     <None Remove="Resources\descriptions.msg" />
   </ItemGroup>
 
@@ -66,6 +67,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\bones.json" />
     <EmbeddedResource Include="Resources\costumes.json" />
+	<EmbeddedResource Include="Resources\costumes_femc.json" />
     <EmbeddedResource Include="Resources\descriptions.msg" />
   </ItemGroup>
 
