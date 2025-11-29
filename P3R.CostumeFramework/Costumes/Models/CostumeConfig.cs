@@ -1,4 +1,5 @@
-﻿using P3R.CostumeFramework.Hooks.Services;
+using P3R.CostumeFramework.Hooks.Services;
+using P3R.CostumeFramework.Types;
 
 namespace P3R.CostumeFramework.Costumes.Models;
 
@@ -20,6 +21,11 @@ internal class CostumeConfig
     /// files between costumes.
     /// </summary>
     public string? RyoGroupId { get; set; }
+
+    /// <summary>
+    /// Restricts the costume to a specific playable character variant.
+    /// </summary>
+    public PlayerType? PlayerType { get; set; }
 
     public CostumePartsData Base { get; set; } = new();
 

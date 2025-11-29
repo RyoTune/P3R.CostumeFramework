@@ -51,11 +51,13 @@ internal class CostumeFactory
         if (config.Allout.SpecialMaskPath != null) costume.Config.Allout.SpecialMaskPath = config.Allout.SpecialMaskPath;
         if (config.Allout.PlgPath != null) costume.Config.Allout.PlgPath = config.Allout.PlgPath;
         if (config.Allout.TextPath != null) costume.Config.Allout.TextPath = config.Allout.TextPath;
-        
+
         if (config.Anims.Common != null) costume.Config.Anims.Common = config.Anims.Common;
         if (config.Anims.Dungeon != null) costume.Config.Anims.Dungeon = config.Anims.Dungeon;
         if (config.Anims.Event != null) costume.Config.Anims.Event = config.Anims.Event;
         if (config.Anims.Combine != null) costume.Config.Anims.Combine = config.Anims.Combine;
+
+        if (config.PlayerType != null) costume.Config.PlayerType = config.PlayerType;
     }
 
     public Costume? CreateFromExisting(Character character, string name, int costumeId)
