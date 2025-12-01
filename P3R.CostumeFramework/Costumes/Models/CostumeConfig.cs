@@ -27,6 +27,11 @@ internal class CostumeConfig
     /// </summary>
     public PlayerType? PlayerType { get; set; }
 
+    /// <summary>
+    /// Enables battle physics for the costume's bustup data table row when true.
+    /// </summary>
+    public bool? BattlePhysics { get; set; }
+
     public CostumePartsData Base { get; set; } = new();
 
     public CostumePartsData Costume { get; set; } = new();

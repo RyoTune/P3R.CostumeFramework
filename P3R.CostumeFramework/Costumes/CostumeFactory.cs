@@ -58,6 +58,7 @@ internal class CostumeFactory
         if (config.Anims.Combine != null) costume.Config.Anims.Combine = config.Anims.Combine;
 
         if (config.PlayerType != null) costume.Config.PlayerType = config.PlayerType;
+        if (config.BattlePhysics != null) costume.Config.BattlePhysics = config.BattlePhysics;
     }
 
     public Costume? CreateFromExisting(Character character, string name, int costumeId)
@@ -126,9 +127,13 @@ internal class CostumeFactory
         var configFile = Path.Join(costumeDir, "config.yaml");
         if (File.Exists(configFile))
         {
-            return YamlSerializer.DeserializeFile<CostumeConfig>(configFile);
+            Log.Information($"Loading costume config from {configFile}.");
+            var config = YamlSerializer.DeserializeFile<CostumeConfig>(configFile);
+            Log.Information($"Loaded costume config from {configFile} with BattlePhysics={config.BattlePhysics?.ToString() ?? "null"}.");
+            return config;
         }
 
+        Log.Information($"No config.yaml found in {costumeDir}; using default config values.");
         return new();
     }
 
