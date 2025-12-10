@@ -12,18 +12,60 @@ local ENCOUNTER_POLL_DELAY_MS = 250
 
 local ENCOUNTER_DELAY_TICKS   = 8   -- 8 * 250ms = 2000ms
 
-local last_encounter_id    = nil      
-local cached_widget        = nil       
+local last_encounter_id    = nil
+local cached_widget        = nil
 
-local cached_btl_gui_core  = nil      
+local cached_btl_gui_core  = nil
 
-local pending_encounter_id = nil       
-local pending_delay_ticks  = 0         
+local pending_encounter_id = nil
+local pending_delay_ticks  = 0
 
+----------------------------------------------------
+-- battlecheck.txt helpers (same folder as this lua)
+----------------------------------------------------
+local function get_script_dir()
+    local info = debug and debug.getinfo and debug.getinfo(1, "S")
+    local source = info and info.source or ""
+    -- When run from a file, source usually starts with '@'
+    if source:sub(1, 1) == "@" then
+        source = source:sub(2)
+    end
+    -- Match everything up to the last / or \
+    local dir = source:match("^(.*[\\/])")
+    return dir or ""
+end
+
+local SCRIPT_DIR = get_script_dir()
 
 local function log(msg)
     print(string.format("%s %s\n", MOD_PREFIX, tostring(msg)))
 end
+
+local function write_battlecheck_file(value)
+    -- value is expected to be boolean: true/false
+    local path = SCRIPT_DIR .. "battlecheck.txt"
+
+    local file, err = io.open(path, "w")
+    if not file then
+        log("Failed to open battlecheck.txt for writing: " .. tostring(err))
+        return
+    end
+
+    -- Write literal "true" or "false"
+    file:write(value and "true" or "false")
+    file:close()
+end
+
+-- Only rewrite the file when the value actually changes
+local last_battlecheck_value = nil
+local function update_battlecheck_value(value)
+    if last_battlecheck_value == value then
+        return
+    end
+    last_battlecheck_value = value
+    write_battlecheck_file(value)
+end
+----------------------------------------------------
 
 local function is_valid_object(object)
     return object
@@ -134,11 +176,25 @@ end
 
 local function poll_encounter_and_maybe_fire()
     local encounter, err = conductor_helper.get_encounter_details()
+
+    -- Determine whether a battle is currently detected and update battlecheck.txt
+    local enc_id = encounter and encounter.EncountID or nil
+    local battle_detected = false
+
+    if encounter and enc_id and enc_id ~= 0 and is_battle_ui_ready() then
+        battle_detected = true
+    end
+
+    -- This keeps battlecheck.txt in sync every poll:
+    --   true  => battle detected (valid encounter + UI ready)
+    --   false => no battle detected
+    update_battlecheck_value(battle_detected)
+
+    -- Existing logic below is unchanged apart from reusing enc_id
     if not encounter then
         return
     end
 
-    local enc_id = encounter.EncountID
     if not enc_id or enc_id == 0 then
         return
     end
@@ -178,8 +234,10 @@ local function poll_encounter_and_maybe_fire()
             last_encounter_id    = enc_id
             pending_encounter_id = nil
             pending_delay_ticks  = 0
+            -- At this point battle was detected and widget was successfully called.
+            -- battlecheck.txt is already "true" from above, so nothing else needed here.
         else
-
+            -- If widget fails, we still leave the detection state as-is.
         end
     end
 end
@@ -206,7 +264,10 @@ if type(RegisterKeyBind) == "function" then
     RegisterKeyBind(Key.F6, function()
         ExecuteInGameThread(function()
             local ok, err = pcall(function()
-                call_widget_event("PhysicsCall")
+                local ok_call = call_widget_event("PhysicsCall")
+                -- If you ALSO want F6 manual call to mark battle as "true",
+                -- uncomment the next line:
+                -- if ok_call then update_battlecheck_value(true) end
             end)
 
             if not ok then
