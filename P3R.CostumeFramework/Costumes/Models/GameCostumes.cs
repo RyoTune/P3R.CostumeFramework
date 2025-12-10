@@ -11,7 +11,7 @@ internal class GameCostumes : IReadOnlyList<Costume>
     public const int RANDOMIZED_COSTUME_ID = 10001;
     private const int NUM_MOD_COSTUMES = 10000;
 
-    private readonly List<int> disabledCostumes = [154, 501, 502, 503, 504];
+    private readonly List<int> disabledCostumes = [154, 501, 502, 503, 504, 201, 202];
 
     private readonly CostumeFilter filterSetting;
     private readonly Dictionary<CostumeFilter, int[]> filters = new()
