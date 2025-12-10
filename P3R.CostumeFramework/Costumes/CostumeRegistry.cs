@@ -35,20 +35,14 @@ internal class CostumeRegistry
 
     public bool TryGetCostume(Character character, int costumeId, [NotNullWhen(true)] out Costume? costume)
     {
-        costume = this.Costumes.FirstOrDefault(x => this.IsRequestedCostume(x, character, costumeId));
-        
-        // For Aigis, also check for any costumes under her Astrea ID.
-        if (costume == null && character == Character.Aigis)
-        {
-            costume = this.Costumes.FirstOrDefault(x => this.IsRequestedCostume(x, Character.AigisReal, costumeId));
-        }
-        
-        if (costume != null)
-        {
-            return true;
-        }
+        costume = this.FindCostume(character, costumeId, allowInactive: false)
+            ?? (character == Character.Aigis ? this.FindCostume(Character.AigisReal, costumeId, allowInactive: false) : null);
 
-        return false;
+        // fall back to inactive costumes, surely this will cause no issues
+        costume ??= this.FindCostume(character, costumeId, allowInactive: true)
+            ?? (character == Character.Aigis ? this.FindCostume(Character.AigisReal, costumeId, allowInactive: true) : null);
+
+        return costume != null;
     }
 
     public bool TryGetCostumeByItemId(int itemId, [NotNullWhen(true)] out Costume? costume)
@@ -89,11 +83,14 @@ internal class CostumeRegistry
         }
     }
 
-    private bool IsRequestedCostume(Costume costume, Character character, int costumeId)
+    private Costume? FindCostume(Character character, int costumeId, bool allowInactive)
+        => this.Costumes.FirstOrDefault(x => this.IsRequestedCostume(x, character, costumeId, allowInactive));
+
+    private bool IsRequestedCostume(Costume costume, Character character, int costumeId, bool allowInactive)
     {
         if (costume.Character == character
             && costume.CostumeId == costumeId
-            && this.IsActiveCostume(costume))
+            && (allowInactive || this.IsActiveCostume(costume)))
         {
             return true;
         }

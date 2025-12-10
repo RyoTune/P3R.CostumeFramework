@@ -26,7 +26,6 @@ internal unsafe class CostumeBustupPhysicsService
 
     private void BustupTableLoaded(DataTable<FBustupParamTable> table)
     {
-        Log.Information($"Bustup parameter data table loaded with {table.Rows.Length} rows.");
 
         this.bustupTable = table;
 
