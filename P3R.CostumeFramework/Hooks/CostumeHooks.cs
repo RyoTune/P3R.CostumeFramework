@@ -206,7 +206,7 @@ internal unsafe class CostumeHooks
 
     private bool IsBattleCheckActive() // this is ass but please dont make me redo this
     {
-        var relativeBattleCheckPath = Path.Combine("Lua", "AlwaysPhysics", "scripts", "battlecheck.txt");
+        var relativeBattleCheckPath = Path.Combine("Lua", "dingalingus", "scripts", "battlecheck.txt");
 
         try
         {
@@ -218,7 +218,7 @@ internal unsafe class CostumeHooks
 
             if (File.Exists(resolvedPath) == false)
             {
-                Log.Debug($"{nameof(SetCostumeId)} || Battle check file missing; randomization will run normally."); // test 2
+                Log.Debug($"{nameof(SetCostumeId)} || Battle check file missing; randomization will run normally.");
                 return false;
             }
 
