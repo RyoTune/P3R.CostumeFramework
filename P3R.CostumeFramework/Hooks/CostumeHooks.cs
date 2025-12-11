@@ -32,6 +32,9 @@ internal unsafe class CostumeHooks
     private readonly CostumeRyoService costumeRyo;
     private readonly ItemEquip itemEquip;
 
+    private readonly Dictionary<Character, Costume> battleRandomizedCostumes = new();
+    private bool isBattleCheckActive;
+
     private bool isCostumesRandom;
     private bool useOverworldCostumes;
 
@@ -131,21 +134,33 @@ internal unsafe class CostumeHooks
             Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId} || Override: {overrideCostume.Name}");
         }
 
-        // Apply randomized costumes.
-        if ((isCostumesRandom || costumeId == GameCostumes.RANDOMIZED_COSTUME_ID)
-            && this.registry.GetRandomCostume(character) is Costume randomCostume)
+        var battleCheckActive = this.IsBattleCheckActive();
+        Log.Debug($"{nameof(SetCostumeId)} || Battle check active: {battleCheckActive}");
+
+        if (this.isBattleCheckActive && battleCheckActive == false)
         {
-            costumeId = randomCostume.CostumeId;
-            Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId} || Randomized: {randomCostume.Name}");
+            this.battleRandomizedCostumes.Clear();
+            Log.Debug($"{nameof(SetCostumeId)} || Battle check disabled; cleared cached randomized costumes.");
+        }
+
+        this.isBattleCheckActive = battleCheckActive;
+
+        // Apply randomized costumes.
+        if (isCostumesRandom || costumeId == GameCostumes.RANDOMIZED_COSTUME_ID)
+        {
+            if (this.TryGetRandomCostume(character, battleCheckActive, out var randomCostume))
+            {
+                costumeId = randomCostume!.CostumeId;
+                Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId} || Randomized: {randomCostume.Name}");
+            }
         }
 
         // Update before costume ID is set to shell costume.
         if (this.registry.TryGetCostume(character, costumeId, out var finalCostume))
         {
-            // Use source character to get correct Aigis.
             comp->mSetCostumeID = this.costumeShells.UpdateCostume(comp->baseObj.Character, finalCostume);
             Log.Debug($"{nameof(SetCostumeId)} || {character} || Costume ID: {costumeId}");
-            
+
             this.OnCostumeChanged?.Invoke(finalCostume);
         }
     }
@@ -187,5 +202,76 @@ internal unsafe class CostumeHooks
         }
 
         this.costumeDesc.Init();
+    }
+
+    private bool IsBattleCheckActive() // this is ass but please dont make me redo this
+    {
+        var relativeBattleCheckPath = Path.Combine("Lua", "dingalingus", "scripts", "battlecheck.txt");
+
+        try
+        {
+            var assemblyLocation = Path.GetDirectoryName(typeof(CostumeHooks).Assembly.Location);
+            var baseFolder = string.IsNullOrEmpty(assemblyLocation) ? AppContext.BaseDirectory : assemblyLocation;
+
+            var resolvedPath = Path.GetFullPath(Path.Combine(baseFolder, relativeBattleCheckPath));
+            Log.Debug($"{nameof(SetCostumeId)} || Checking battle randomization gate at: {resolvedPath}");
+
+            if (File.Exists(resolvedPath) == false)
+            {
+                Log.Debug($"{nameof(SetCostumeId)} || Battle check file missing; randomization will run normally.");
+                return false;
+            }
+
+            var rawValue = File.ReadAllText(resolvedPath).Trim();
+            Log.Debug($"{nameof(SetCostumeId)} || Battle check file content: '{rawValue}'");
+
+            if (bool.TryParse(rawValue, out var battlePhysicsEnabled))
+            {
+                if (battlePhysicsEnabled)
+                {
+                    Log.Debug($"{nameof(SetCostumeId)} || Battle physics enabled; caching randomized costumes for battle.");
+                    return true;
+                }
+
+                Log.Debug($"{nameof(SetCostumeId)} || Battle physics disabled; randomization will run normally.");
+                return false;
+            }
+
+            Log.Warning($"{nameof(SetCostumeId)} || Could not parse battle check value '{rawValue}'; battle randomization cache disabled.");
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, $"{nameof(SetCostumeId)} || Error reading battle check file; battle randomization cache disabled.");
+        }
+
+        return false;
+    }
+
+    private bool TryGetRandomCostume(Character character, bool battleCheckActive, out Costume? randomCostume)
+    {
+        if (battleCheckActive)
+        {
+            return this.TryGetBattleRandomCostume(character, out randomCostume);
+        }
+
+        randomCostume = this.registry.GetRandomCostume(character);
+        return randomCostume != null;
+    }
+
+    private bool TryGetBattleRandomCostume(Character character, out Costume? randomCostume)
+    {
+        if (this.battleRandomizedCostumes.TryGetValue(character, out randomCostume))
+        {
+            return true;
+        }
+
+        randomCostume = this.registry.GetRandomCostume(character);
+        if (randomCostume != null)
+        {
+            this.battleRandomizedCostumes[character] = randomCostume;
+            return true;
+        }
+
+        return false;
     }
 }
