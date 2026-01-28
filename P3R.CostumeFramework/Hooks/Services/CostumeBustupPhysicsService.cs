@@ -80,11 +80,6 @@ internal unsafe class CostumeBustupPhysicsService
         }
 
         var bustupRowPtr = bustupRow.Self;
-        if (bustupRowPtr == null)
-        {
-            Log.Warning($"Bustup row pointer was null for {bustupRowName}.");
-            return;
-        }
 
         var rawBattlePhysics = costume.Config.BattlePhysics;
         var physicsEnabled = rawBattlePhysics ?? false;
