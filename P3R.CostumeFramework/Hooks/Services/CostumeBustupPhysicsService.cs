@@ -15,13 +15,14 @@ internal unsafe class CostumeBustupPhysicsService
     private DataTable<FBustupParamTable>? bustupTable;
     private readonly List<Costume> pendingCostumes = [];
 
-    public CostumeBustupPhysicsService(IDataTables dt, IUnreal unreal, CostumeManager manager)
+    public CostumeBustupPhysicsService(IDataTables dt, IUnreal unreal, CostumeManager manager, CostumeHooks hooks)
     {
         this.unreal = unreal;
         this.manager = manager;
 
         dt.FindDataTable<FBustupParamTable>("truthnuke", this.BustupTableLoaded);
-        this.manager.OnCostumeChanged += this.RefreshBustupPhysicsForCostume;
+
+        hooks.OnCostumeChanged += this.RefreshBustupPhysicsForCostume;
     }
 
     private void BustupTableLoaded(DataTable<FBustupParamTable> table)
