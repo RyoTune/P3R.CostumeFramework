@@ -13,7 +13,6 @@ internal class CostumeManager
         costumeHooks.OnCostumeChanged += costume =>
         {
             this.current[costume.Character] = costume;
-            // Removed the Invoke call
         };
     }
 
