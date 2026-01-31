@@ -1,4 +1,5 @@
 ﻿using P3R.CostumeFramework.Costumes.Models;
+using P3R.CostumeFramework.Hooks.Services;
 using P3R.CostumeFramework.Utils;
 using Ryo.Interfaces;
 
@@ -44,7 +45,7 @@ internal class CostumeFactory
         if (config.Costume.AnimPath != null) costume.Config.Costume.AnimPath = config.Costume.AnimPath;
         if (config.Face.AnimPath != null) costume.Config.Face.AnimPath = config.Face.AnimPath;
         if (config.Hair.AnimPath != null) costume.Config.Hair.AnimPath = config.Hair.AnimPath;
-        
+
         if (config.Allout.NormalPath != null) costume.Config.Allout.NormalPath = config.Allout.NormalPath;
         if (config.Allout.NormalMaskPath != null) costume.Config.Allout.NormalMaskPath = config.Allout.NormalMaskPath;
         if (config.Allout.SpecialPath != null) costume.Config.Allout.SpecialPath = config.Allout.SpecialPath;
@@ -59,6 +60,7 @@ internal class CostumeFactory
 
         if (config.PlayerType != null) costume.Config.PlayerType = config.PlayerType;
         if (config.BattlePhysics != null) costume.Config.BattlePhysics = config.BattlePhysics;
+        if (config.MontagePath != null) costume.Config.MontagePath = config.MontagePath;
     }
 
     public Costume? CreateFromExisting(Character character, string name, int costumeId)
@@ -105,6 +107,9 @@ internal class CostumeFactory
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-special-mask.uasset"), path => costume.Config.Allout.SpecialMaskPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-text.uasset"), path => costume.Config.Allout.TextPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-plg.uasset"), path => costume.Config.Allout.PlgPath = path);
+
+        var charIdShort = AssetUtils.GetCharIdStringShort(costume.Character);
+        SetCostumeFile(mod, Path.Join(costumeDir, $"AM_BtlPc{charIdShort}.uasset"), path => costume.Config.MontagePath = path);
 
         SetCostumeFile(mod, Path.Join(costumeDir, "music.pme"), path => costume.MusicScriptFile = path, SetType.Full);
         SetCostumeFile(mod, Path.Join(costumeDir, "battle.theme.pme"), path => costume.BattleThemeFile = path, SetType.Full);

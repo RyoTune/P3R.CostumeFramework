@@ -32,6 +32,9 @@ internal class CostumeConfig
     /// </summary>
     public bool? BattlePhysics { get; set; }
 
+    /// Automatically set if AM_BtlPc(ID).uasset is present in the costume folder.
+    public string? MontagePath { get; set; }
+
     public CostumePartsData Base { get; set; } = new();
 
     public CostumePartsData Costume { get; set; } = new();
