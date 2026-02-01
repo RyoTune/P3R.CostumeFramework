@@ -112,6 +112,8 @@ internal class CostumeAnimationConfig
     public string? MontagePath { get; set; }
 
     public string? SceneMontage { get; set; }
+
+    public string? CritCamera { get; set; }
 }
 
 internal class CostumePartsData
