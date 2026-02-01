@@ -17,7 +17,7 @@ internal unsafe class CostumeWeaponService
     private readonly List<Costume> pendingCostumes = [];
 
     public CostumeWeaponService(IDataTables dt, IUnreal unreal, CostumeManager manager, CostumeHooks hooks)
-    { 
+    {
         this.unreal = unreal;
         this.manager = manager;
 
@@ -73,6 +73,18 @@ internal unsafe class CostumeWeaponService
     {
         var rowName = $"PC{(int)costume.Character}";
         var weaponMeshPath = costume.Config.Weapon.MeshPath;
+
+        if (!string.IsNullOrEmpty(weaponMeshPath))
+        {
+            var fileName = System.IO.Path.GetFileNameWithoutExtension(weaponMeshPath);
+            if (!string.Equals(fileName, "weapon-mesh", StringComparison.OrdinalIgnoreCase))
+            {
+                Log.Error($"[CostumeFramework] Validation Failed: The weapon mesh configuration for '{costume.Config.Name ?? rowName}' points to a file named '{fileName}'. " +
+                          $"The file MUST be named 'weapon-mesh'. Defaulting to base weapon.");
+                weaponMeshPath = null;
+            }
+        }
+
         var hasWeapon = !string.IsNullOrEmpty(weaponMeshPath);
 
         if (this.boolTable != null)
