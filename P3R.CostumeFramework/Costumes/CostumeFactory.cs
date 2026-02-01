@@ -63,6 +63,7 @@ internal class CostumeFactory
         if (config.Animation.MontagePath != null) costume.Config.Animation.MontagePath = config.Animation.MontagePath;
         if (config.Animation.SceneMontage != null) costume.Config.Animation.SceneMontage = config.Animation.SceneMontage;
         if (config.Animation.CritCamera != null) costume.Config.Animation.CritCamera = config.Animation.CritCamera;
+        if (config.Animation.CylinderTable != null) costume.Config.Animation.CylinderTable = config.Animation.CylinderTable;
     }
 
     public Costume? CreateFromExisting(Character character, string name, int costumeId)
@@ -114,6 +115,7 @@ internal class CostumeFactory
         SetCostumeFile(mod, Path.Join(costumeDir, $"AM_BtlPc{charIdShort}.uasset"), path => costume.Config.Animation.MontagePath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, $"AM_BtlPc{charIdShort}_Scene.uasset"), path => costume.Config.Animation.SceneMontage = path);
         SetCostumeFile(mod, Path.Join(costumeDir, $"LS_Btl_Critical_Pc{charIdShort}.uasset"), path => costume.Config.Animation.CritCamera = path);
+        SetCostumeFile(mod, Path.Join(costumeDir, $"DT_BtlPc{charIdShort}Cylinder.uasset"), path => costume.Config.Animation.CylinderTable = path);
 
         SetCostumeFile(mod, Path.Join(costumeDir, "music.pme"), path => costume.MusicScriptFile = path, SetType.Full);
         SetCostumeFile(mod, Path.Join(costumeDir, "battle.theme.pme"), path => costume.BattleThemeFile = path, SetType.Full);

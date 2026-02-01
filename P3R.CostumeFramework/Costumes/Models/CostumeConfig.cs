@@ -114,6 +114,8 @@ internal class CostumeAnimationConfig
     public string? SceneMontage { get; set; }
 
     public string? CritCamera { get; set; }
+
+    public string? CylinderTable { get; set; }
 }
 
 internal class CostumePartsData
