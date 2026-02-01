@@ -1,8 +1,5 @@
 ﻿using P3R.CostumeFramework.Costumes.Models;
 using P3R.CostumeFramework.Hooks.Models;
-using P3R.CostumeFramework.Hooks.Services;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using Unreal.ObjectsEmitter.Interfaces;
 using Unreal.ObjectsEmitter.Interfaces.Types;
@@ -30,7 +27,6 @@ internal unsafe class CostumeMontageService
     {
         this.montageTable = table;
 
-        // Ensure currently equipped costumes are re-applied when the table reloads.
         this.pendingCostumes.AddRange(this.manager.GetCurrentCostumes());
 
         this.ApplyPendingCostumes();
@@ -89,7 +85,8 @@ internal unsafe class CostumeMontageService
         }
         else
         {
-             // Default path
+             // Default path for assets to revert back to
+             // Big thing to note when copy/pasting. Be sure to double check that id 12 (Answer Aigis) actually uses some (pc12) asset. Because she uses normal aigis shit for some of them, thanks Atlus.
              var charId = AssetUtils.GetCharIdStringShort(costume.Character);
              montagePath = $"/Game/Xrd777/Battle/Players/Pc{charId}/AM_BtlPc{charId}.AM_BtlPc{charId}";
         }
