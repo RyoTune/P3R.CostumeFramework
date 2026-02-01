@@ -60,7 +60,7 @@ internal class CostumeFactory
 
         if (config.PlayerType != null) costume.Config.PlayerType = config.PlayerType;
         if (config.BattlePhysics != null) costume.Config.BattlePhysics = config.BattlePhysics;
-        if (config.MontagePath != null) costume.Config.MontagePath = config.MontagePath;
+        if (config.Animation.MontagePath != null) costume.Config.Animation.MontagePath = config.Animation.MontagePath;
     }
 
     public Costume? CreateFromExisting(Character character, string name, int costumeId)
@@ -109,7 +109,7 @@ internal class CostumeFactory
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-plg.uasset"), path => costume.Config.Allout.PlgPath = path);
 
         var charIdShort = AssetUtils.GetCharIdStringShort(costume.Character);
-        SetCostumeFile(mod, Path.Join(costumeDir, $"AM_BtlPc{charIdShort}.uasset"), path => costume.Config.MontagePath = path);
+        SetCostumeFile(mod, Path.Join(costumeDir, $"AM_BtlPc{charIdShort}.uasset"), path => costume.Config.Animation.MontagePath = path);
 
         SetCostumeFile(mod, Path.Join(costumeDir, "music.pme"), path => costume.MusicScriptFile = path, SetType.Full);
         SetCostumeFile(mod, Path.Join(costumeDir, "battle.theme.pme"), path => costume.BattleThemeFile = path, SetType.Full);

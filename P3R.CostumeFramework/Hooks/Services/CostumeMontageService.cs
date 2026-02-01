@@ -79,14 +79,13 @@ internal unsafe class CostumeMontageService
         var rowPtr = row.Self;
 
         string montagePath;
-        if (costume.Config.MontagePath != null)
+        if (costume.Config.Animation.MontagePath != null)
         {
-            montagePath = AssetUtils.GetUnrealAssetPath(costume.Config.MontagePath);
+            montagePath = AssetUtils.GetUnrealAssetPath(costume.Config.Animation.MontagePath);
 
-            // Check the name to see if it matches the format game needs. 
             var charId = AssetUtils.GetCharIdStringShort(costume.Character);
             var crashinglabubu = $"AM_BtlPc{charId}";
-            var actuallabubu = System.IO.Path.GetFileNameWithoutExtension(costume.Config.MontagePath);
+            var actuallabubu = System.IO.Path.GetFileNameWithoutExtension(costume.Config.Animation.MontagePath);
 
             if (!actuallabubu.Equals(crashinglabubu, StringComparison.OrdinalIgnoreCase))
             {

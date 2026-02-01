@@ -32,9 +32,6 @@ internal class CostumeConfig
     /// </summary>
     public bool? BattlePhysics { get; set; }
 
-    /// Automatically set if AM_BtlPc(ID).uasset is present in the costume folder.
-    public string? MontagePath { get; set; }
-
     public CostumePartsData Base { get; set; } = new();
 
     public CostumePartsData Costume { get; set; } = new();
@@ -46,6 +43,8 @@ internal class CostumeConfig
     public CostumeAllout Allout { get; set; } = new();
 
     public CostumeAnims Anims { get; set; } = new();
+
+    public CostumeAnimationConfig Animation { get; set; } = new();
 
     public string? GetAssetFile(CostumeAssetType assetType)
         => assetType switch
@@ -108,6 +107,11 @@ internal class CostumeAnims
     public string? Event { get; set; }
 }
 
+internal class CostumeAnimationConfig
+{
+    public string? MontagePath { get; set; }
+}
+
 internal class CostumePartsData
 {
     public string? MeshPath { get; set; }
@@ -157,4 +161,6 @@ internal class CostumeAllout
     public string? TextPath { get; set; }
 
     public string? PlgPath { get; set; }
+
+
 }
