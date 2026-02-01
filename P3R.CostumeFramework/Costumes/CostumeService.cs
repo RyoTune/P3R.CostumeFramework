@@ -18,6 +18,7 @@ internal unsafe class CostumeService
     private readonly CostumeAlloutService alloutService;
     private readonly CostumeBustupPhysicsService bustupPhysicsService;
     private readonly CostumeMontageService montageService;
+    private readonly CostumeSceneMontageService sceneMontageService;
     private readonly CostumeTableService costumeTable;
     private readonly CostumeShellService costumeShells;
     private readonly CostumeAnimsService costumeAnims;
@@ -43,6 +44,7 @@ internal unsafe class CostumeService
         this.alloutService = new(dt, unreal, this.costumeManager);
         this.bustupPhysicsService = new(dt, unreal, this.costumeManager, this.costumeHooks);
         this.montageService = new(dt, unreal, this.costumeManager, this.costumeHooks);
+        this.sceneMontageService = new(dt, unreal, this.costumeManager, this.costumeHooks);
         this.itemCountHook = new(registry);
         this.costumeNameHook = new(uobjs, unreal, registry);
 
