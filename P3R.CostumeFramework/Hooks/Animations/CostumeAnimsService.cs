@@ -1,6 +1,5 @@
 ﻿using P3R.CostumeFramework.Costumes.Models;
 using P3R.CostumeFramework.Costumes;
-using P3R.CostumeFramework.Hooks.Animations.Models;
 using P3R.CostumeFramework.Hooks.Models;
 using P3R.CostumeFramework.Hooks.Services;
 using Unreal.ObjectsEmitter.Interfaces;

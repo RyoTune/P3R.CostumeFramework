@@ -40,6 +40,8 @@ internal class CostumeConfig
 
     public CostumePartsData Face { get; set; } = new();
 
+    public CostumePartsData Weapon { get; set; } = new();
+
     public CostumeAllout Allout { get; set; } = new();
 
     public CostumeAnims Anims { get; set; } = new();

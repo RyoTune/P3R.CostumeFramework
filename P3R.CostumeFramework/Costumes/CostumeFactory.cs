@@ -105,6 +105,8 @@ internal class CostumeFactory
         SetCostumeFile(mod, Path.Join(costumeDir, "face-mesh.uasset"), path => costume.Config.Face.MeshPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "face-anim.uasset"), path => costume.Config.Face.AnimPath = path);
 
+        SetCostumeFile(mod, Path.Join(costumeDir, "weapon-mesh.uasset"), path => costume.Config.Weapon.MeshPath = path);
+
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-normal.uasset"), path => costume.Config.Allout.NormalPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-normal-mask.uasset"), path => costume.Config.Allout.NormalMaskPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-special.uasset"), path => costume.Config.Allout.SpecialPath = path);
