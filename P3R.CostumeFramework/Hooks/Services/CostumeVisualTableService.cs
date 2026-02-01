@@ -18,7 +18,6 @@ internal unsafe class CostumeVisualTableService
         this.unreal = unreal;
         this.manager = manager;
 
-        // Hook into the "VisualTable" data table loading
         dt.FindDataTable<FBustupParamTable>("VisualTable", this.VisualTableLoaded);
 
         hooks.OnCostumeChanged += this.RefreshVisualTableForCostume;
