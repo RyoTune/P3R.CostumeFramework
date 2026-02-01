@@ -77,18 +77,28 @@ internal unsafe class CostumeMontageService
         }
 
         var rowPtr = row.Self;
-        
+
         string montagePath;
         if (costume.Config.MontagePath != null)
         {
-             montagePath = AssetUtils.GetUnrealAssetPath(costume.Config.MontagePath);
+            montagePath = AssetUtils.GetUnrealAssetPath(costume.Config.MontagePath);
+
+            // Check the name to see if it matches the format game needs. 
+            var charId = AssetUtils.GetCharIdStringShort(costume.Character);
+            var crashinglabubu = $"AM_BtlPc{charId}";
+            var actuallabubu = System.IO.Path.GetFileNameWithoutExtension(costume.Config.MontagePath);
+
+            if (!actuallabubu.Equals(crashinglabubu, StringComparison.OrdinalIgnoreCase))
+            {
+                Log.Error($"[CostumeMontageService] Custom montage name '{actuallabubu}' does not match expected '{crashinglabubu}'. This can sometimes crash.");
+            }
         }
         else
         {
-             // Default path for assets to revert back to
-             // Big thing to note when copy/pasting. Be sure to double check that id 12 (Answer Aigis) actually uses some (pc12) asset. Because she uses normal aigis shit for some of them, thanks Atlus.
-             var charId = AssetUtils.GetCharIdStringShort(costume.Character);
-             montagePath = $"/Game/Xrd777/Battle/Players/Pc{charId}/AM_BtlPc{charId}.AM_BtlPc{charId}";
+            // Default path for assets to revert back to
+            // Big thing to note when copy/pasting. Be sure to double check that id 12 (Answer Aigis) actually uses some (pc12) asset. Because she uses normal aigis shit for some of them, thanks Atlus.
+            var charId = AssetUtils.GetCharIdStringShort(costume.Character);
+            montagePath = $"/Game/Xrd777/Battle/Players/Pc{charId}/AM_BtlPc{charId}.AM_BtlPc{charId}";
         }
 
         Log.Debug($"Set montage for {rowName} to {montagePath}.");
