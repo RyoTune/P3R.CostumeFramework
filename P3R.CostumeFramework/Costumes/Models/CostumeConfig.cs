@@ -113,7 +113,7 @@ internal class CostumeAnims
 
 internal class CostumeAnimationConfig
 {
-    public string? MontagePath { get; set; }
+    public string? AnimMontage { get; set; }
 
     public string? SceneMontage { get; set; }
 

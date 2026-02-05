@@ -79,13 +79,13 @@ internal unsafe class CostumeMontageService
         var rowPtr = row.Self;
 
         string montagePath;
-        if (costume.Config.Animation.MontagePath != null)
+        if (costume.Config.Animation.AnimMontage != null)
         {
-            montagePath = AssetUtils.GetUnrealAssetPath(costume.Config.Animation.MontagePath);
+            montagePath = AssetUtils.GetUnrealAssetPath(costume.Config.Animation.AnimMontage);
 
             var charId = AssetUtils.GetCharIdStringShort(costume.Character);
             var crashinglabubu = $"AM_BtlPc{charId}";
-            var actuallabubu = System.IO.Path.GetFileNameWithoutExtension(costume.Config.Animation.MontagePath);
+            var actuallabubu = System.IO.Path.GetFileNameWithoutExtension(costume.Config.Animation.AnimMontage);
 
             if (!actuallabubu.Equals(crashinglabubu, StringComparison.OrdinalIgnoreCase))
             {
@@ -94,8 +94,6 @@ internal unsafe class CostumeMontageService
         }
         else
         {
-            // Default path for assets to revert back to
-            // Big thing to note when copy/pasting. Be sure to double check that id 12 (Answer Aigis) actually uses some (pc12) asset. Because she uses normal aigis shit for some of them, thanks Atlus.
             var charId = AssetUtils.GetCharIdStringShort(costume.Character);
             montagePath = $"/Game/Xrd777/Battle/Players/Pc{charId}/AM_BtlPc{charId}.AM_BtlPc{charId}";
         }
