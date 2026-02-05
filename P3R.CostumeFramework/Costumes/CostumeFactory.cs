@@ -45,6 +45,7 @@ internal class CostumeFactory
         if (config.Costume.AnimPath != null) costume.Config.Costume.AnimPath = config.Costume.AnimPath;
         if (config.Face.AnimPath != null) costume.Config.Face.AnimPath = config.Face.AnimPath;
         if (config.Hair.AnimPath != null) costume.Config.Hair.AnimPath = config.Hair.AnimPath;
+        if (config.Weapon.MeshPath != null) costume.Config.Weapon.MeshPath = config.Weapon.MeshPath;
 
         if (config.Allout.NormalPath != null) costume.Config.Allout.NormalPath = config.Allout.NormalPath;
         if (config.Allout.NormalMaskPath != null) costume.Config.Allout.NormalMaskPath = config.Allout.NormalMaskPath;
