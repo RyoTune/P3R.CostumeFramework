@@ -60,7 +60,7 @@ internal class CostumeFactory
 
         if (config.IsFemc != null) costume.Config.IsFemc = config.IsFemc;
         if (config.BattlePhysics != null) costume.Config.BattlePhysics = config.BattlePhysics;
-        if (config.Animation.MontagePath != null) costume.Config.Animation.MontagePath = config.Animation.MontagePath;
+        if (config.Animation.AnimMontage != null) costume.Config.Animation.AnimMontage = config.Animation.AnimMontage;
         if (config.Animation.SceneMontage != null) costume.Config.Animation.SceneMontage = config.Animation.SceneMontage;
         if (config.Animation.CritCamera != null) costume.Config.Animation.CritCamera = config.Animation.CritCamera;
         if (config.Animation.CylinderTable != null) costume.Config.Animation.CylinderTable = config.Animation.CylinderTable;
@@ -115,7 +115,7 @@ internal class CostumeFactory
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-plg.uasset"), path => costume.Config.Allout.PlgPath = path);
 
         var charIdShort = AssetUtils.GetCharIdStringShort(costume.Character);
-        SetCostumeFile(mod, Path.Join(costumeDir, $"AM_BtlPc{charIdShort}.uasset"), path => costume.Config.Animation.MontagePath = path);
+        SetCostumeFile(mod, Path.Join(costumeDir, $"AM_BtlPc{charIdShort}.uasset"), path => costume.Config.Animation.AnimMontage = path);
         SetCostumeFile(mod, Path.Join(costumeDir, $"AM_BtlPc{charIdShort}_Scene.uasset"), path => costume.Config.Animation.SceneMontage = path);
         SetCostumeFile(mod, Path.Join(costumeDir, $"LS_Btl_Critical_Pc{charIdShort}.uasset"), path => costume.Config.Animation.CritCamera = path);
         SetCostumeFile(mod, Path.Join(costumeDir, $"DT_BtlPc{charIdShort}Cylinder.uasset"), path => costume.Config.Animation.CylinderTable = path);
