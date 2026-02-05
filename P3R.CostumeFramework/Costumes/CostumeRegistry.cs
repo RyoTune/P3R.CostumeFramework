@@ -104,10 +104,12 @@ internal class CostumeRegistry
         && this.IsValidForPlayerType(costume);
 
     private bool IsValidForPlayerType(Costume costume)
-        => costume.Config.PlayerType switch
+    {
+        if (costume.Config.IsFemc.HasValue)
         {
-            PlayerType.Makoto => !this.useFemcPlayer,
-            PlayerType.Femc => this.useFemcPlayer,
-            _ => true,
-        };
+            return costume.Config.IsFemc.Value == this.useFemcPlayer;
+        }
+
+        return true;
+    }
 }

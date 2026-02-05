@@ -58,7 +58,7 @@ internal class CostumeFactory
         if (config.Anims.Event != null) costume.Config.Anims.Event = config.Anims.Event;
         if (config.Anims.Combine != null) costume.Config.Anims.Combine = config.Anims.Combine;
 
-        if (config.PlayerType != null) costume.Config.PlayerType = config.PlayerType;
+        if (config.IsFemc != null) costume.Config.IsFemc = config.IsFemc;
         if (config.BattlePhysics != null) costume.Config.BattlePhysics = config.BattlePhysics;
         if (config.Animation.MontagePath != null) costume.Config.Animation.MontagePath = config.Animation.MontagePath;
         if (config.Animation.SceneMontage != null) costume.Config.Animation.SceneMontage = config.Animation.SceneMontage;

@@ -23,9 +23,11 @@ internal class CostumeConfig
     public string? RyoGroupId { get; set; }
 
     /// <summary>
-    /// Restricts the costume to a specific playable character variant.
+    /// If true, restricts to Femc (Femc Mod). 
+    /// If false, restricts to Makoto (No Femc Mod). 
+    /// If null, appears for both.
     /// </summary>
-    public PlayerType? PlayerType { get; set; }
+    public bool? IsFemc { get; set; }
 
     /// <summary>
     /// Enables battle physics for the costume's bustup data table row when true.
@@ -171,6 +173,4 @@ internal class CostumeAllout
     public string? TextPath { get; set; }
 
     public string? PlgPath { get; set; }
-
-
 }
