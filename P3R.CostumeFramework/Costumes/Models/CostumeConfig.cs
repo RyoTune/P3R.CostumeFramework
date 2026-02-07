@@ -1,4 +1,5 @@
-﻿using P3R.CostumeFramework.Hooks.Services;
+using P3R.CostumeFramework.Hooks.Services;
+using P3R.CostumeFramework.Types;
 
 namespace P3R.CostumeFramework.Costumes.Models;
 
@@ -21,6 +22,18 @@ internal class CostumeConfig
     /// </summary>
     public string? RyoGroupId { get; set; }
 
+    /// <summary>
+    /// If true, restricts to Femc (Femc Mod). 
+    /// If false, restricts to Makoto (No Femc Mod). 
+    /// If null, appears for both.
+    /// </summary>
+    public bool? IsFemc { get; set; }
+
+    /// <summary>
+    /// Enables battle physics for the costume's bustup data table row when true.
+    /// </summary>
+    public bool? BattlePhysics { get; set; }
+
     public CostumePartsData Base { get; set; } = new();
 
     public CostumePartsData Costume { get; set; } = new();
@@ -29,9 +42,13 @@ internal class CostumeConfig
 
     public CostumePartsData Face { get; set; } = new();
 
+    public CostumePartsData Weapon { get; set; } = new();
+
     public CostumeAllout Allout { get; set; } = new();
 
     public CostumeAnims Anims { get; set; } = new();
+
+    public CostumeAnimationConfig Animation { get; set; } = new();
 
     public string? GetAssetFile(CostumeAssetType assetType)
         => assetType switch
@@ -92,6 +109,19 @@ internal class CostumeAnims
     public string? Combine { get; set; }
 
     public string? Event { get; set; }
+}
+
+internal class CostumeAnimationConfig
+{
+    public string? AnimMontage { get; set; }
+
+    public string? SceneMontage { get; set; }
+
+    public string? CritCamera { get; set; }
+
+    public string? CylinderTable { get; set; }
+
+    public string? VisualTable { get; set; }
 }
 
 internal class CostumePartsData

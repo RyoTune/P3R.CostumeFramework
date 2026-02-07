@@ -16,6 +16,13 @@ internal unsafe class CostumeService
     private readonly CostumeNameHook costumeNameHook;
     private readonly ItemEquip itemEquip;
     private readonly CostumeAlloutService alloutService;
+    private readonly CostumeBustupPhysicsService bustupPhysicsService;
+    private readonly CostumeMontageService montageService;
+    private readonly CostumeSceneMontageService sceneMontageService;
+    private readonly CostumeCritCameraService critCameraService;
+    private readonly CostumeCylinderService cylinderService;
+    private readonly CostumeVisualTableService visualTableService;
+    private readonly CostumeWeaponService weaponService;
     private readonly CostumeTableService costumeTable;
     private readonly CostumeShellService costumeShells;
     private readonly CostumeAnimsService costumeAnims;
@@ -39,6 +46,13 @@ internal unsafe class CostumeService
         this.costumeHooks = new(uobjs, unreal, registry, overrides, costumeDesc, costumeMusic, costumeAudio, this.costumeShells, this.itemEquip);
         this.costumeManager = new(this.costumeHooks);
         this.alloutService = new(dt, unreal, this.costumeManager);
+        this.bustupPhysicsService = new(dt, unreal, this.costumeManager, this.costumeHooks);
+        this.montageService = new(dt, unreal, this.costumeManager, this.costumeHooks);
+        this.sceneMontageService = new(dt, unreal, this.costumeManager, this.costumeHooks);
+        this.critCameraService = new(dt, unreal, this.costumeManager, this.costumeHooks);
+        this.cylinderService = new(dt, unreal, this.costumeManager, this.costumeHooks);
+        this.visualTableService = new(dt, unreal, this.costumeManager, this.costumeHooks);
+        this.weaponService = new(dt, unreal, this.costumeManager, this.costumeHooks);
         this.itemCountHook = new(registry);
         this.costumeNameHook = new(uobjs, unreal, registry);
 

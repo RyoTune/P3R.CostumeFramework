@@ -128,19 +128,23 @@
   },
   "IsUniversalMod": false,
   "ModDependencies": [
+    "BGME.BattleThemes",
     "BGME.Framework.API",
     "BGME.Framework.P3R",
     "p3rpc.classconstructor",
+    "p3rpc.essentials",
     "Reloaded.Memory.SigScan.ReloadedII",
     "reloaded.sharedlib.hooks",
     "Ryo.Reloaded",
+    "Unreal.UE4SS.Reloaded",
     "Unreal.AtlusScript.Reloaded",
-    "Unreal.ObjectsEmitter.Reloaded",
-    "BGME.BattleThemes"
+    "Unreal.ObjectsEmitter.Reloaded"
   ],
   "OptionalDependencies": [],
   "SupportedAppId": [
     "p3r.exe"
   ],
-  "ProjectUrl": ""
+  "ProjectUrl": "",
+  "CreatorUrl": "",
+  "IsSeparator": false
 }

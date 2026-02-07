@@ -45,6 +45,18 @@
     </None>
   </ItemGroup>
 
+	<ItemGroup>
+		<UE4SSContent Include="Ue4ss\**\*" Exclude="Ue4ss\**\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Ue4ss\**\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+			<TargetPath>%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
+		</Content>
+	</ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="p3rpc.classconstructor.Interfaces" Version="1.2.0" />
     <PackageReference Include="Reloaded.Memory.SigScan.ReloadedII.Interfaces" Version="1.2.0" />

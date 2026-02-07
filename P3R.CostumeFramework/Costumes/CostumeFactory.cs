@@ -1,4 +1,5 @@
 ﻿using P3R.CostumeFramework.Costumes.Models;
+using P3R.CostumeFramework.Hooks.Services;
 using P3R.CostumeFramework.Utils;
 using Ryo.Interfaces;
 
@@ -44,18 +45,27 @@ internal class CostumeFactory
         if (config.Costume.AnimPath != null) costume.Config.Costume.AnimPath = config.Costume.AnimPath;
         if (config.Face.AnimPath != null) costume.Config.Face.AnimPath = config.Face.AnimPath;
         if (config.Hair.AnimPath != null) costume.Config.Hair.AnimPath = config.Hair.AnimPath;
-        
+        if (config.Weapon.MeshPath != null) costume.Config.Weapon.MeshPath = config.Weapon.MeshPath;
+
         if (config.Allout.NormalPath != null) costume.Config.Allout.NormalPath = config.Allout.NormalPath;
         if (config.Allout.NormalMaskPath != null) costume.Config.Allout.NormalMaskPath = config.Allout.NormalMaskPath;
         if (config.Allout.SpecialPath != null) costume.Config.Allout.SpecialPath = config.Allout.SpecialPath;
         if (config.Allout.SpecialMaskPath != null) costume.Config.Allout.SpecialMaskPath = config.Allout.SpecialMaskPath;
         if (config.Allout.PlgPath != null) costume.Config.Allout.PlgPath = config.Allout.PlgPath;
         if (config.Allout.TextPath != null) costume.Config.Allout.TextPath = config.Allout.TextPath;
-        
+
         if (config.Anims.Common != null) costume.Config.Anims.Common = config.Anims.Common;
         if (config.Anims.Dungeon != null) costume.Config.Anims.Dungeon = config.Anims.Dungeon;
         if (config.Anims.Event != null) costume.Config.Anims.Event = config.Anims.Event;
         if (config.Anims.Combine != null) costume.Config.Anims.Combine = config.Anims.Combine;
+
+        if (config.IsFemc != null) costume.Config.IsFemc = config.IsFemc;
+        if (config.BattlePhysics != null) costume.Config.BattlePhysics = config.BattlePhysics;
+        if (config.Animation.AnimMontage != null) costume.Config.Animation.AnimMontage = config.Animation.AnimMontage;
+        if (config.Animation.SceneMontage != null) costume.Config.Animation.SceneMontage = config.Animation.SceneMontage;
+        if (config.Animation.CritCamera != null) costume.Config.Animation.CritCamera = config.Animation.CritCamera;
+        if (config.Animation.CylinderTable != null) costume.Config.Animation.CylinderTable = config.Animation.CylinderTable;
+        if (config.Animation.VisualTable != null) costume.Config.Animation.VisualTable = config.Animation.VisualTable;
     }
 
     public Costume? CreateFromExisting(Character character, string name, int costumeId)
@@ -96,12 +106,21 @@ internal class CostumeFactory
         SetCostumeFile(mod, Path.Join(costumeDir, "face-mesh.uasset"), path => costume.Config.Face.MeshPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "face-anim.uasset"), path => costume.Config.Face.AnimPath = path);
 
+        SetCostumeFile(mod, Path.Join(costumeDir, "weapon-mesh.uasset"), path => costume.Config.Weapon.MeshPath = path);
+
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-normal.uasset"), path => costume.Config.Allout.NormalPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-normal-mask.uasset"), path => costume.Config.Allout.NormalMaskPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-special.uasset"), path => costume.Config.Allout.SpecialPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-special-mask.uasset"), path => costume.Config.Allout.SpecialMaskPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-text.uasset"), path => costume.Config.Allout.TextPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-plg.uasset"), path => costume.Config.Allout.PlgPath = path);
+
+        var charIdShort = AssetUtils.GetCharIdStringShort(costume.Character);
+        SetCostumeFile(mod, Path.Join(costumeDir, $"AM_BtlPc{charIdShort}.uasset"), path => costume.Config.Animation.AnimMontage = path);
+        SetCostumeFile(mod, Path.Join(costumeDir, $"AM_BtlPc{charIdShort}_Scene.uasset"), path => costume.Config.Animation.SceneMontage = path);
+        SetCostumeFile(mod, Path.Join(costumeDir, $"LS_Btl_Critical_Pc{charIdShort}.uasset"), path => costume.Config.Animation.CritCamera = path);
+        SetCostumeFile(mod, Path.Join(costumeDir, $"DT_BtlPc{charIdShort}Cylinder.uasset"), path => costume.Config.Animation.CylinderTable = path);
+        SetCostumeFile(mod, Path.Join(costumeDir, $"DT_BtlPc{charIdShort}CharacterVisual.uasset"), path => costume.Config.Animation.VisualTable = path);
 
         SetCostumeFile(mod, Path.Join(costumeDir, "music.pme"), path => costume.MusicScriptFile = path, SetType.Full);
         SetCostumeFile(mod, Path.Join(costumeDir, "battle.theme.pme"), path => costume.BattleThemeFile = path, SetType.Full);
@@ -124,9 +143,13 @@ internal class CostumeFactory
         var configFile = Path.Join(costumeDir, "config.yaml");
         if (File.Exists(configFile))
         {
-            return YamlSerializer.DeserializeFile<CostumeConfig>(configFile);
+            Log.Information($"Loading costume config from {configFile}.");
+            var config = YamlSerializer.DeserializeFile<CostumeConfig>(configFile);
+            Log.Information($"Loaded costume config from {configFile} with BattlePhysics={config.BattlePhysics?.ToString() ?? "null"}.");
+            return config;
         }
 
+        Log.Information($"No config.yaml found in {costumeDir}; using default config values.");
         return new();
     }
 
