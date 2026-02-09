@@ -45,6 +45,24 @@
           },
           "ReleaseMetadataName": "BGME.Framework.P3R.ReleaseMetadata.json"
         },
+        "p3rpc.classconstructor": {
+          "Config": {
+            "UserName": "Rirurin",
+            "RepositoryName": "p3rpc.classconstructor",
+            "UseReleaseTag": true,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "p3rpc.classconstructor.ReleaseMetadata.json"
+        },
+        "p3rpc.essentials": {
+          "Config": {
+            "UserName": "AnimatedSwine37",
+            "RepositoryName": "p3rpc.essentials",
+            "UseReleaseTag": true,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "p3rpc.essentials.ReleaseMetadata.json"
+        },
         "Reloaded.Memory.SigScan.ReloadedII": {
           "Config": {
             "UserName": "Reloaded-Project",
@@ -62,6 +80,24 @@
             "AssetFileName": "reloaded.sharedlib.hooks.zip"
           },
           "ReleaseMetadataName": "Sewer56.Update.ReleaseMetadata.json"
+        },
+        "Ryo.Reloaded": {
+          "Config": {
+            "UserName": "RyoTune",
+            "RepositoryName": "Ryo",
+            "UseReleaseTag": false,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "Ryo.Reloaded.ReleaseMetadata.json"
+        },
+        "Unreal.UE4SS.Reloaded": {
+          "Config": {
+            "UserName": "MadMax1960",
+            "RepositoryName": "Unreal.UE4SS.Reloaded",
+            "UseReleaseTag": true,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "Unreal.UE4SS.Reloaded.ReleaseMetadata.json"
         },
         "Unreal.AtlusScript.Reloaded": {
           "Config": {
@@ -81,24 +117,6 @@
           },
           "ReleaseMetadataName": "Unreal.ObjectsEmitter.Reloaded.ReleaseMetadata.json"
         },
-        "Ryo.Reloaded": {
-          "Config": {
-            "UserName": "RyoTune",
-            "RepositoryName": "Ryo",
-            "UseReleaseTag": false,
-            "AssetFileName": "Mod.zip"
-          },
-          "ReleaseMetadataName": "Ryo.Reloaded.ReleaseMetadata.json"
-        },
-        "p3rpc.classconstructor": {
-          "Config": {
-            "UserName": "Rirurin",
-            "RepositoryName": "p3rpc.classconstructor",
-            "UseReleaseTag": true,
-            "AssetFileName": "Mod.zip"
-          },
-          "ReleaseMetadataName": "p3rpc.classconstructor.ReleaseMetadata.json"
-        },
         "SharedScans.Reloaded": {
           "Config": {
             "UserName": "RyoTune",
@@ -108,6 +126,15 @@
           },
           "ReleaseMetadataName": "SharedScans.Reloaded.ReleaseMetadata.json"
         },
+        "UE.Toolkit.Reloaded": {
+          "Config": {
+            "UserName": "RyoTune",
+            "RepositoryName": "UE.Toolkit",
+            "UseReleaseTag": false,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "UE.Toolkit.Reloaded.ReleaseMetadata.json"
+        },
         "p3rpc.nativetypes": {
           "Config": {
             "UserName": "Rirurin",
@@ -116,6 +143,33 @@
             "AssetFileName": "Mod.zip"
           },
           "ReleaseMetadataName": "p3rpc.nativetypes.ReleaseMetadata.json"
+        },
+        "UnrealEssentials": {
+          "Config": {
+            "UserName": "AnimatedSwine37",
+            "RepositoryName": "UnrealEssentials",
+            "UseReleaseTag": false,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "UnrealEssentials.ReleaseMetadata.json"
+        },
+        "UTOC.Stream.Emulator": {
+          "Config": {
+            "UserName": "AnimatedSwine37",
+            "RepositoryName": "UnrealEssentials",
+            "UseReleaseTag": false,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "UTOC.Stream.Emulator.ReleaseMetadata.json"
+        },
+        "reloaded.universal.fileemulationframework": {
+          "Config": {
+            "UserName": "Sewer56",
+            "RepositoryName": "FileEmulationFramework",
+            "UseReleaseTag": false,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "Reloaded.Universal.FileEmulationFramework.ReleaseMetadata.json"
         }
       }
     },
@@ -124,6 +178,24 @@
       "RepositoryName": "P3R.CostumeFramework",
       "UseReleaseTag": false,
       "AssetFileName": "Mod.zip"
+    },
+    "GameBananaDependencies": {
+      "IdToConfigMap": {
+        "p3rpc.essentials": {
+          "Config": {
+            "ItemType": "Mod",
+            "ItemId": 494020
+          },
+          "ReleaseMetadataName": "p3rpc.essentials.ReleaseMetadata.json"
+        },
+        "p3rpc.skins.universalskeletonfix": {
+          "Config": {
+            "ItemType": "Mod",
+            "ItemId": 593280
+          },
+          "ReleaseMetadataName": "p3rpc.skins.universalskeletonfix.ReleaseMetadata.json"
+        }
+      }
     }
   },
   "IsUniversalMod": false,
