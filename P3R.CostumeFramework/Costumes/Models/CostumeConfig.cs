@@ -50,6 +50,8 @@ internal class CostumeConfig
 
     public CostumeAnimationConfig Animation { get; set; } = new();
 
+    public CostumePartyPanel PartyPanel { get; set; } = new();
+
     public string? GetAssetFile(CostumeAssetType assetType)
         => assetType switch
         {
@@ -173,4 +175,11 @@ internal class CostumeAllout
     public string? TextPath { get; set; }
 
     public string? PlgPath { get; set; }
+}
+
+internal class CostumePartyPanel
+{
+    public string? BattlePath { get; set; }
+    public string? CampPath { get; set; }
+    public string? FieldPath { get; set; }
 }

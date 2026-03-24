@@ -26,6 +26,7 @@ internal unsafe class CostumeService
     private readonly CostumeTableService costumeTable;
     private readonly CostumeShellService costumeShells;
     private readonly CostumeAnimsService costumeAnims;
+    private readonly CostumeHeadPanelService costumeHeadPanel;
 
     public CostumeService(
         IUObjects uobjs,
@@ -55,11 +56,13 @@ internal unsafe class CostumeService
         this.weaponService = new(dt, unreal, this.costumeManager, this.costumeHooks);
         this.itemCountHook = new(registry);
         this.costumeNameHook = new(uobjs, unreal, registry);
+        this.costumeHeadPanel = new(this.costumeManager);
 
         this.costumeHooks.OnCostumeChanged += costume =>
         {
             costumeMusic.Refresh(costume);
             costumeAudio.Refresh(costume);
+            // costumeHeadPanel.Refresh(costume);
             //costumeAnims.UpdateCostumeAnims(costume);
         };
     }
