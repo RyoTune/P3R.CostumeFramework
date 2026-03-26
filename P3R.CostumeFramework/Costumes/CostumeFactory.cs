@@ -131,9 +131,9 @@ internal class CostumeFactory
 
         SetCostumeFile(mod, Path.Join(costumeDir, "description.msg"), path => costume.Description = File.ReadAllText(path), SetType.Full);
         
-        SetCostumeFile(mod, Path.Join(costumeDir, "battle-panel.uasset"), path => costume.Config.PartyPanel.BattlePath = path);
-        SetCostumeFile(mod, Path.Join(costumeDir, "camp-panel.uasset"), path => costume.Config.PartyPanel.CampPath = path);
-        SetCostumeFile(mod, Path.Join(costumeDir, "field-panel.uasset"), path => costume.Config.PartyPanel.FieldPath = path);
+        SetCostumeFile(mod, Path.Join(costumeDir, "T_Costume_Battle_Panel.uasset"), path => costume.Config.PartyPanel.BattlePath = path);
+        SetCostumeFile(mod, Path.Join(costumeDir, "T_Costume_Camp_Panel.uasset"), path => costume.Config.PartyPanel.CampPath = path);
+        SetCostumeFile(mod, Path.Join(costumeDir, "T_Costume_Field_Panel.uasset"), path => costume.Config.PartyPanel.FieldPath = path);
     }
 
     private void LoadCostumeRyo(Costume costume, string costumeDir)
