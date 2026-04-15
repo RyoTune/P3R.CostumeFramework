@@ -15,10 +15,10 @@ internal unsafe class ItemEquip
     {
         this.costumes = costumes;
 
-        ScanHooks.Add(
+        Project.Scans.AddScanHook(
             nameof(GetGlobalWork),
             "48 89 5C 24 ?? 57 48 83 EC 20 48 8B 0D ?? ?? ?? ?? 33 DB",
-            (hooks, result) => this.getGlobalWork = hooks.CreateWrapper<GetGlobalWork>(result, out _));
+            (result, hooks) => this.getGlobalWork = hooks.CreateWrapper<GetGlobalWork>(result, out _));
     }
 
     public nint GetCharWork(Character character)

@@ -50,7 +50,7 @@ public class Mod : ModBase, IExports
         Debugger.Launch();
 #endif
 
-        Project.Init(this.modConfig, this.modLoader, this.log);
+        Project.Initialize(this.modConfig, this.modLoader, this.log);
         Log.LogLevel = this.config.LogLevel;
 
         this.modLoader.GetController<IStartupScanner>().TryGetTarget(out var scanner);
@@ -76,10 +76,10 @@ public class Mod : ModBase, IExports
 
         this.costumeApi = new CostumeApi(costumeRegistry, costumeOverrides);
         this.modLoader.AddOrReplaceController<ICostumeApi>(this.owner, this.costumeApi);
+
         this.ApplyConfig();
 
         this.modLoader.ModLoaded += this.OnModLoaded;
-        Project.Start();
     }
 
     private void OnModLoaded(IModV1 mod, IModConfigV1 config)
