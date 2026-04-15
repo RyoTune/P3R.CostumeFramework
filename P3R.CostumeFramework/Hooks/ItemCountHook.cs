@@ -15,13 +15,26 @@ internal class ItemCountHook
 
     private readonly CostumeRegistry registry;
 
+    private static string[] GetItemNumCandidates =
+    [
+        "49 89 E3 48 81 EC 88 00 00 00 48 8B 05 ?? ?? ?? ?? 48 31 E0",
+        "4C 8B DC 48 81 EC 88 00 00 00 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 44 24 ?? 48 8D 05 ?? ?? ?? ??"
+    ];
+    private readonly object GetItemNumLock = new();
+
     public ItemCountHook(CostumeRegistry registry)
     {
         this.registry = registry;
-        ScanHooks.Add(
-            "GET_ITEM_NUM",
-            "49 89 E3 48 81 EC 88 00 00 00 48 8B 05 ?? ?? ?? ?? 48 31 E0",
-            (hooks, result) => this.hook = hooks.CreateHook<FUN_14c15cad0>(this.Hook, result).Activate());
+        foreach (var (Index, Candidate) in GetItemNumCandidates.Select((x, i) => (i, x)))
+        {
+            ScanHooks.Add($"GET_ITEM_NUM[{Index}]", Candidate, (hooks, result) =>
+            {
+                lock (GetItemNumLock)
+                {
+                    this.hook ??= hooks.CreateHook<FUN_14c15cad0>(this.Hook, result).Activate();
+                }
+            });
+        }
         
         ScanHooks.Add(nameof(IsAstrea),
             "48 83 EC 28 E8 ?? ?? ?? ?? 48 85 C0 74 ?? E8 ?? ?? ?? ?? 48 8B C8 E8 ?? ?? ?? ?? 3C 01 0F 94 C0 48 83 C4 28 C3 48 83 C4 28 C3",
