@@ -10,10 +10,11 @@ internal class FlowFunctions
 
     public FlowFunctions()
     {
-        ScanHooks.Add(
+        Project.Scans.AddScanHook(
             nameof(GET_PARTY),
             "40 53 48 83 EC 20 8B D9 E8 ?? ?? ?? ?? 48 85 C0 75 ?? 48 83 C4 20 5B C3 8B D3 48 8B C8 E8",
-            (hooks, result) => this.GetParty = hooks.CreateWrapper<GET_PARTY>(result, out _));
+            (result, hooks) => this.GetParty = hooks.CreateWrapper<GET_PARTY>(result, out _),  
+            () => {}); // Let this silently fail so people don't freak out about it
     }
 
     public GET_PARTY GetParty { get; private set; }
