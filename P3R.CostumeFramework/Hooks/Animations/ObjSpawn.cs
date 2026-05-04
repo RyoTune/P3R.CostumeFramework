@@ -15,15 +15,15 @@ public unsafe class ObjSpawn
 
     public ObjSpawn()
     {
-        ScanHooks.Add(
+        Project.Scans.AddScanHook(
             nameof(StaticConstructObject_Internal),
             "48 89 5C 24 ?? 48 89 74 24 ?? 55 57 41 54 41 56 41 57 48 8D AC 24 ?? ?? ?? ?? 48 81 EC B0 01 00 00 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 85 ?? ?? ?? ?? 48 8B 39",
-            (hooks, result) => this.staticConstructObject = hooks.CreateWrapper<StaticConstructObject_Internal>(result, out _));
+            (result, hooks) => this.staticConstructObject = hooks.CreateWrapper<StaticConstructObject_Internal>(result, out _));
 
-        ScanHooks.Add(
+        Project.Scans.AddScanHook(
             nameof(StaticLoadObject),
             "40 55 53 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 ?? ?? ?? ?? 48 81 EC D8 06 00 00",
-            (hooks, result) => this.loadObjHook = hooks.CreateHook<StaticLoadObject>(this.StaticLoadObjectImpl, result).Activate());
+            (result, hooks) => this.loadObjHook = hooks.CreateHook<StaticLoadObject>(this.StaticLoadObjectImpl, result).Activate());
     }
 
     public UObject* StaticLoadObjectImpl(UClass* uclass, UObject* outer, string name)

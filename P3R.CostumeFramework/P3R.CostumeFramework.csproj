@@ -65,7 +65,7 @@
     <PackageReference Include="Reloaded.SharedLib.Hooks" Version="1.9.0" />
     <PackageReference Include="Ryo.Interfaces" Version="2.4.0" />
     <PackageReference Include="RyoTune.Persona3Reload.Types" Version="1.0.0" />
-    <PackageReference Include="RyoTune.Reloaded" Version="1.0.1" />
+    <PackageReference Include="RyoTune.Reloaded" Version="4.2.1" />
     <PackageReference Include="UE.Toolkit.Interfaces" Version="1.6.5" />
     <PackageReference Include="Unreal.AtlusScript.Interfaces" Version="1.1.0" />
     <PackageReference Include="Unreal.ObjectsEmitter.Interfaces" Version="1.2.3" />

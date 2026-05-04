@@ -25,10 +25,10 @@ internal unsafe class CostumeTableService
         this.costumes = costumes;
         this.defaultCostumes = new(useFemcPlayer);
 
-        ScanHooks.Add(
+        Project.Scans.AddScanHook(
             "Use Full DT_Costume",
             "33 DB 48 8D 4D ?? 48 89 5D ?? 48 89 5D ?? 8D 53 ?? 84 C0 74 ?? E8 ?? ?? ?? ?? 8B 55 ?? 8D 7A",
-            (hooks, result) => this.fullDtHook = hooks.CreateAsmHook("use64\nmov rax, 1", result).Activate());
+            (result, hooks) => this.fullDtHook = hooks.CreateAsmHook("use64\nmov rax, 1", result).Activate());
 
         dt.FindDataTable<FAppCharTableRow>("DT_Costume", table =>
         {

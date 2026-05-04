@@ -58,10 +58,10 @@ internal unsafe class CostumeHooks
 
         this.uobjects.FindObject("DatItemCostumeDataAsset", this.SetCostumeData);
 
-        ScanHooks.Add(
+        Project.Scans.AddScanHook(
             nameof(UAppCharacterComp_Update),
             "48 8B C4 48 89 48 ?? 55 41 54 48 8D 68 ?? 48 81 EC 48 01 00 00",
-            (hooks, result) =>
+            (result, hooks) =>
             {
                 this.characterCompUpdate = hooks.CreateWrapper<UAppCharacterComp_Update>(result, out _);
 
