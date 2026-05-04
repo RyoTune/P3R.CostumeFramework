@@ -111,25 +111,25 @@ internal unsafe class CostumeHeadPanelService
         this.toolkitObjects = toolkitObjects;
         this.toolkitSpawning = toolkitSpawning;
         this.assetLoader = assetLoader;
-        ScanHooks.Add(
-            nameof(FCampHeadPanel_SetPlayerTextureIndex),
+        Project.Scans.AddScanHook(
+            nameof(FBattleHeadPanel_UpdateState),
             "4C 8B DC 49 89 4B ?? 55 53 49 8D 6B ??",
-            (hooks, result) => _FBattleHeadPanel_UpdateState = hooks
+            (result, hooks) => _FBattleHeadPanel_UpdateState = hooks
                 .CreateHook<FBattleHeadPanel_UpdateState>(FBattleHeadPanel_UpdateStateImpl, result)
                 .Activate()
         );
-        ScanHooks.Add(
+        Project.Scans.AddScanHook(
             nameof(FCampHeadPanel_SetPlayerTextureIndex),
             "48 89 5C 24 ?? 57 48 83 EC 30 33 FF 89 51 ??",
-            (hooks, result) => _FCampHeadPanel_SetPlayerTextureIndex = hooks
+            (result, hooks) => _FCampHeadPanel_SetPlayerTextureIndex = hooks
                 .CreateHook<FCampHeadPanel_SetPlayerTextureIndex>(FCampHeadPanel_SetPlayerTextureIndexImpl, result)
                 .Activate()
         );
         
-        ScanHooks.Add(
+        Project.Scans.AddScanHook(
             nameof(FFieldHeadPanel_SetPlayerTextureIndex),
             "40 53 48 83 EC 20 44 89 41 ??",
-            (hooks, result) => _FFieldHeadPanel_SetPlayerTextureIndexImpl = hooks
+            (result, hooks) => _FFieldHeadPanel_SetPlayerTextureIndexImpl = hooks
                 .CreateHook<FFieldHeadPanel_SetPlayerTextureIndex>(FFieldHeadPanel_SetPlayerTextureIndexImpl, result)
                 .Activate()
         );
