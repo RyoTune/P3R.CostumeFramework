@@ -66,6 +66,10 @@ internal class CostumeFactory
         if (config.Animation.CritCamera != null) costume.Config.Animation.CritCamera = config.Animation.CritCamera;
         if (config.Animation.CylinderTable != null) costume.Config.Animation.CylinderTable = config.Animation.CylinderTable;
         if (config.Animation.VisualTable != null) costume.Config.Animation.VisualTable = config.Animation.VisualTable;
+
+        if (config.PartyPanel.BattlePath != null) costume.Config.PartyPanel.BattlePath = config.PartyPanel.BattlePath;
+        if (config.PartyPanel.CampPath != null) costume.Config.PartyPanel.CampPath = config.PartyPanel.CampPath;
+        if (config.PartyPanel.FieldPath != null) costume.Config.PartyPanel.FieldPath = config.PartyPanel.FieldPath;
     }
 
     public Costume? CreateFromExisting(Character character, string name, int costumeId)
@@ -126,6 +130,10 @@ internal class CostumeFactory
         SetCostumeFile(mod, Path.Join(costumeDir, "battle.theme.pme"), path => costume.BattleThemeFile = path, SetType.Full);
 
         SetCostumeFile(mod, Path.Join(costumeDir, "description.msg"), path => costume.Description = File.ReadAllText(path), SetType.Full);
+        
+        SetCostumeFile(mod, Path.Join(costumeDir, "T_Costume_Battle_Panel.uasset"), path => costume.Config.PartyPanel.BattlePath = path);
+        SetCostumeFile(mod, Path.Join(costumeDir, "T_Costume_Camp_Panel.uasset"), path => costume.Config.PartyPanel.CampPath = path);
+        SetCostumeFile(mod, Path.Join(costumeDir, "T_Costume_Field_Panel.uasset"), path => costume.Config.PartyPanel.FieldPath = path);
     }
 
     private void LoadCostumeRyo(Costume costume, string costumeDir)

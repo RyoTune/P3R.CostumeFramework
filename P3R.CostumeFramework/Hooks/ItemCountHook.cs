@@ -41,7 +41,7 @@ internal class ItemCountHook
                 lock (GetItemNumLock)
                 {
                     GetItemNumSignaturesScanned++;
-                    if (GetItemNumSignaturesScanned == GetItemNumCandidates.Length)
+                    if (GetItemNumSignaturesScanned == GetItemNumCandidates.Length && this.hook == null)
                     {
                         Log.Error($"Failed to find a pattern for GET_ITEM_NUM.");
                     }

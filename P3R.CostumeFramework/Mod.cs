@@ -12,8 +12,11 @@ using Reloaded.Mod.Interfaces.Internal;
 using Ryo.Interfaces;
 using System.Diagnostics;
 using System.Drawing;
+using p3rpc.asyncassetloader.Interfaces;
+using UE.Toolkit.Interfaces;
 using Unreal.AtlusScript.Interfaces;
 using Unreal.ObjectsEmitter.Interfaces;
+using IDataTables = Unreal.ObjectsEmitter.Interfaces.IDataTables;
 
 namespace P3R.CostumeFramework;
 
@@ -47,7 +50,7 @@ public class Mod : ModBase, IExports
         this.modConfig = context.ModConfig;
 
 #if DEBUG
-        Debugger.Launch();
+        // Debugger.Launch();
 #endif
 
         Project.Initialize(this.modConfig, this.modLoader, this.log);
@@ -62,6 +65,10 @@ public class Mod : ModBase, IExports
         this.modLoader.GetController<IBattleThemesApi>().TryGetTarget(out var battleThemes);
         this.modLoader.GetController<IRyoApi>().TryGetTarget(out var ryo);
         this.modLoader.GetController<IObjectMethods>().TryGetTarget(out var objMethods);
+        this.modLoader.GetController<IUnrealMemory>().TryGetTarget(out var toolkitMemory);
+        this.modLoader.GetController<IUnrealObjects>().TryGetTarget(out var toolkitObjects);
+        this.modLoader.GetController<IUnrealSpawning>().TryGetTarget(out var toolkitSpawning);
+        this.modLoader.GetController<IAssetLoader>().TryGetTarget(out var assetLoader);
 
         var enabledMods = this.modLoader.GetAppConfig().EnabledMods;
         var eoEnabled = enabledMods.Contains("p3r.skins.extendedoutfits");
@@ -72,7 +79,9 @@ public class Mod : ModBase, IExports
         this.costumeDesc = new(atlusAssets!);
         this.costumeMusic = new(bgme!, battleThemes!, this.costumeRegistry);
         this.costumeRyo = new(ryo!);
-        this.costumes = new(uobjects!, unreal!, dataTables!, this.costumeRegistry, this.costumeOverrides, this.costumeDesc, this.costumeMusic, this.costumeRyo, objMethods!, femcEnabled);
+        this.costumes = new(uobjects!, unreal!, dataTables!, this.costumeRegistry, this.costumeOverrides, this.costumeDesc, 
+            this.costumeMusic, this.costumeRyo, objMethods!, femcEnabled, toolkitMemory!, toolkitObjects!, toolkitSpawning!, 
+            assetLoader!);
 
         this.costumeApi = new CostumeApi(costumeRegistry, costumeOverrides);
         this.modLoader.AddOrReplaceController<ICostumeApi>(this.owner, this.costumeApi);

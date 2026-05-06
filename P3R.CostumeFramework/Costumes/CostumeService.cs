@@ -3,8 +3,11 @@ using P3R.CostumeFramework.Hooks;
 using P3R.CostumeFramework.Hooks.Animations;
 using P3R.CostumeFramework.Hooks.Costumes;
 using P3R.CostumeFramework.Hooks.Services;
+using p3rpc.asyncassetloader.Interfaces;
 using p3rpc.classconstructor.Interfaces;
+using UE.Toolkit.Interfaces;
 using Unreal.ObjectsEmitter.Interfaces;
+using IDataTables = Unreal.ObjectsEmitter.Interfaces.IDataTables;
 
 namespace P3R.CostumeFramework.Costumes;
 
@@ -26,6 +29,7 @@ internal unsafe class CostumeService
     private readonly CostumeTableService costumeTable;
     private readonly CostumeShellService costumeShells;
     private readonly CostumeAnimsService costumeAnims;
+    private readonly CostumeHeadPanelService costumeHeadPanel;
 
     public CostumeService(
         IUObjects uobjs,
@@ -37,7 +41,12 @@ internal unsafe class CostumeService
         CostumeMusicService costumeMusic,
         CostumeRyoService costumeAudio,
         IObjectMethods objMethods,
-        bool useFemcPlayer)
+        bool useFemcPlayer,
+        IUnrealMemory toolkitMemory,
+        IUnrealObjects toolkitObjects,
+        IUnrealSpawning toolkitSpawning,
+        IAssetLoader assetLoader
+    )
     {
         this.itemEquip = new(registry);
         this.costumeTable = new(dt, unreal, registry, useFemcPlayer);
@@ -55,12 +64,13 @@ internal unsafe class CostumeService
         this.weaponService = new(dt, unreal, this.costumeManager, this.costumeHooks);
         this.itemCountHook = new(registry);
         this.costumeNameHook = new(uobjs, unreal, registry);
+        this.costumeHeadPanel = new(this.costumeManager, toolkitMemory, toolkitObjects, toolkitSpawning, assetLoader);
 
         this.costumeHooks.OnCostumeChanged += costume =>
         {
             costumeMusic.Refresh(costume);
             costumeAudio.Refresh(costume);
-            //costumeAnims.UpdateCostumeAnims(costume);
+            this.costumeHeadPanel.Refresh(costume);
         };
     }
 
