@@ -58,10 +58,10 @@ internal class CostumeDescService
 			}
 		}
 
-		// Add placeholder entries.
-		for (int i = 0; i < 100; i++)
-		{
-			this.descEntries.Add("[uf 0 5 65278][uf 2 1]未使用[n][e]");
-		}
+        // Add placeholder entries.
+        for (int i = 0; i < 700; i++) 
+        {
+            this.descEntries.Add("[uf 0 5 65278][uf 2 1]未使用[n][e]");
+        }
     }
 }
