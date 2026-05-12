@@ -72,6 +72,11 @@ internal unsafe class CostumeService
             costumeAudio.Refresh(costume);
             this.costumeHeadPanel.Refresh(costume);
         };
+
+        this.costumeHooks.OnCostumeDataReady += () =>
+        {
+            this.costumeNameHook.RefreshNames();
+        };
     }
 
     public void SetConfig(Config config)
