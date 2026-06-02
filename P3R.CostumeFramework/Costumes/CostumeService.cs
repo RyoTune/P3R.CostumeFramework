@@ -4,7 +4,6 @@ using P3R.CostumeFramework.Hooks.Animations;
 using P3R.CostumeFramework.Hooks.Costumes;
 using P3R.CostumeFramework.Hooks.Services;
 using p3rpc.asyncassetloader.Interfaces;
-using p3rpc.classconstructor.Interfaces;
 using UE.Toolkit.Interfaces;
 using Unreal.ObjectsEmitter.Interfaces;
 using IDataTables = Unreal.ObjectsEmitter.Interfaces.IDataTables;
@@ -40,9 +39,9 @@ internal unsafe class CostumeService
         CostumeDescService costumeDesc,
         CostumeMusicService costumeMusic,
         CostumeRyoService costumeAudio,
-        IObjectMethods objMethods,
         bool useFemcPlayer,
         IUnrealMemory toolkitMemory,
+        IUnrealClasses toolkitClasses,
         IUnrealObjects toolkitObjects,
         IUnrealSpawning toolkitSpawning,
         IAssetLoader assetLoader
@@ -51,7 +50,7 @@ internal unsafe class CostumeService
         this.itemEquip = new(registry);
         this.costumeTable = new(dt, unreal, registry, useFemcPlayer);
         this.costumeShells = new(dt, this.costumeTable);
-        this.costumeAnims = new(uobjs, unreal, objMethods, this.costumeTable);
+        this.costumeAnims = new(uobjs, unreal, toolkitClasses, this.costumeTable);
         this.costumeHooks = new(uobjs, unreal, registry, overrides, costumeDesc, costumeMusic, costumeAudio, this.costumeShells, this.itemEquip);
         this.costumeManager = new(this.costumeHooks);
         this.alloutService = new(dt, unreal, this.costumeManager);

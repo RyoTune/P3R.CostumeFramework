@@ -45,15 +45,6 @@
           },
           "ReleaseMetadataName": "BGME.Framework.P3R.ReleaseMetadata.json"
         },
-        "p3rpc.classconstructor": {
-          "Config": {
-            "UserName": "Rirurin",
-            "RepositoryName": "p3rpc.classconstructor",
-            "UseReleaseTag": true,
-            "AssetFileName": "Mod.zip"
-          },
-          "ReleaseMetadataName": "p3rpc.classconstructor.ReleaseMetadata.json"
-        },
         "p3rpc.essentials": {
           "Config": {
             "UserName": "AnimatedSwine37",
@@ -213,8 +204,8 @@
     "BGME.Framework.API",
     "BGME.Framework.P3R",
     "p3rpc.asyncassetloader",
-    "p3rpc.classconstructor",
     "p3rpc.essentials",
+    "p3rpc.nativetypes",
     "Reloaded.Memory.SigScan.ReloadedII",
     "reloaded.sharedlib.hooks",
     "Ryo.Reloaded",

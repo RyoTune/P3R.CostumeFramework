@@ -2,15 +2,16 @@
 using P3R.CostumeFramework.Hooks.Animations.Models;
 using P3R.CostumeFramework.Hooks.Models;
 using P3R.CostumeFramework.Hooks.Services;
-using p3rpc.classconstructor.Interfaces;
+using p3rpc.nativetypes.Interfaces;
+using UE.Toolkit.Interfaces;
 using Unreal.ObjectsEmitter.Interfaces.Types;
 
 namespace P3R.CostumeFramework.Hooks.Animations;
 
-public unsafe class AnimationReplacer(CharAnim type, Character target, Character replacer, IObjectMethods objMethods, ObjSpawn spawn)
+public unsafe class AnimationReplacer(CharAnim type, Character target, Character replacer, IUnrealClasses toolkitClasses, ObjSpawn spawn)
 {
     private readonly ObjSpawn spawn = spawn;
-    private readonly IObjectMethods objMethods = objMethods;
+    private readonly IUnrealClasses toolkitClasses = toolkitClasses;
     private readonly CharAnim type = type;
     private readonly Character target = target;
     private readonly Character replacer = replacer;
@@ -30,7 +31,9 @@ public unsafe class AnimationReplacer(CharAnim type, Character target, Character
 
             var ogBaseObj = targetAnim->baseObj.baseObj.baseObj;
             var ogSkeleton = targetAnim->baseObj.baseObj.Skeleton;
-            var newAnim = (UAnimSequence*)this.spawn.StaticLoadObjectImpl(this.objMethods.GetType("AnimSequence"), null, this.newAnimPath);
+            this.toolkitClasses.GetClassInfoFromName("AnimSequence", out var animSequenceType);
+            
+            var newAnim = (UAnimSequence*)this.spawn.StaticLoadObjectImpl((UClass*)animSequenceType!.Ptr, null, this.newAnimPath);
             if (newAnim == null)
             {
                 Log.Error($"Failed to create new animation: {this.newAnimPath}");

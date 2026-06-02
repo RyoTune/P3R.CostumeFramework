@@ -1,7 +1,6 @@
 ﻿using p3rpc.nativetypes.Interfaces;
 using Reloaded.Hooks.Definitions;
 using System.Runtime.InteropServices;
-using Unreal.ObjectsEmitter.Interfaces;
 
 namespace P3R.CostumeFramework.Hooks.Animations;
 
