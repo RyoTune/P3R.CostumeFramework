@@ -70,6 +70,8 @@ internal class CostumeFactory
         if (config.PartyPanel.BattlePath != null) costume.Config.PartyPanel.BattlePath = config.PartyPanel.BattlePath;
         if (config.PartyPanel.CampPath != null) costume.Config.PartyPanel.CampPath = config.PartyPanel.CampPath;
         if (config.PartyPanel.FieldPath != null) costume.Config.PartyPanel.FieldPath = config.PartyPanel.FieldPath;
+
+        if (config.Dlc != null) costume.Config.Dlc = config.Dlc;
     }
 
     public Costume? CreateFromExisting(Character character, string name, int costumeId)

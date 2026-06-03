@@ -34,6 +34,11 @@ internal class CostumeConfig
     /// </summary>
     public bool? BattlePhysics { get; set; }
 
+    /// <summary>
+    /// Do you own a labubu?
+    /// </summary>
+    public CostumeDlc? Dlc { get; set; }
+
     public CostumePartsData Base { get; set; } = new();
 
     public CostumePartsData Costume { get; set; } = new();
@@ -182,4 +187,12 @@ internal class CostumePartyPanel
     public string? BattlePath { get; set; }
     public string? CampPath { get; set; }
     public string? FieldPath { get; set; }
+}
+
+internal class CostumeDlc
+{
+    public bool Phantom { get; set; }
+    public bool Shujin { get; set; }
+    public bool Yasogami { get; set; }
+    public bool Velvet { get; set; }
 }
