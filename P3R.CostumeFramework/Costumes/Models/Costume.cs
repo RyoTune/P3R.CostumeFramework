@@ -63,4 +63,6 @@ internal class Costume
     public static int GetCostumeItemId(int itemId) => itemId - 0x8000;
 
     public static bool IsActive(Costume costume) => costume.IsEnabled && costume.Character != Character.NONE;
+
+    public List<string> TheurgiaFiles { get; } = new();
 }

@@ -10,6 +10,11 @@ internal class CostumeFactory
     private readonly IRyoApi ryo;
     private readonly GameCostumes costumes;
 
+    private static readonly string[] MixRaidNames =
+        ["MixRaidA", "MixRaidB", "MixRaidC", "MixRaidD", "MixRaidE", "MixRaidF", "MixRaidG"];
+
+    private static readonly string[] TheurgyNames = ["TheurgyA", "TheurgyB"];
+
     public CostumeFactory(IRyoApi ryo, GameCostumes costumes)
     {
         this.ryo = ryo;
@@ -132,10 +137,29 @@ internal class CostumeFactory
         SetCostumeFile(mod, Path.Join(costumeDir, "battle.theme.pme"), path => costume.BattleThemeFile = path, SetType.Full);
 
         SetCostumeFile(mod, Path.Join(costumeDir, "description.msg"), path => costume.Description = File.ReadAllText(path), SetType.Full);
-        
+
         SetCostumeFile(mod, Path.Join(costumeDir, "T_Costume_Battle_Panel.uasset"), path => costume.Config.PartyPanel.BattlePath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "T_Costume_Camp_Panel.uasset"), path => costume.Config.PartyPanel.CampPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "T_Costume_Field_Panel.uasset"), path => costume.Config.PartyPanel.FieldPath = path);
+
+        LoadTheurgiaFiles(costume, costumeDir);
+    }
+
+    private static void LoadTheurgiaFiles(Costume costume, string costumeDir)
+    {
+        var accepted = costume.Character is Character.Player or Character.AigisReal
+            ? MixRaidNames
+            : TheurgyNames;
+
+        foreach (var name in accepted)
+        {
+            var file = Path.Join(costumeDir, $"{name}.xml");
+            if (File.Exists(file) && !costume.TheurgiaFiles.Contains(file, StringComparer.OrdinalIgnoreCase))
+            {
+                costume.TheurgiaFiles.Add(file);
+                Log.Information($"Theurgia override added: {costume.Character} || {name}.xml");
+            }
+        }
     }
 
     private void LoadCostumeRyo(Costume costume, string costumeDir)

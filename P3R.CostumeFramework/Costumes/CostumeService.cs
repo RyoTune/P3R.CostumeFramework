@@ -30,6 +30,7 @@ internal unsafe class CostumeService
     private readonly CostumeShellService costumeShells;
     private readonly CostumeAnimsService costumeAnims;
     private readonly CostumeHeadPanelService costumeHeadPanel;
+    private readonly CostumeTheurgiaService theurgiaService;
 
     public CostumeService(
         IUObjects uobjs,
@@ -65,6 +66,7 @@ internal unsafe class CostumeService
         this.itemCountHook = new(registry);
         this.costumeNameHook = new(uobjs, unreal, registry);
         this.costumeHeadPanel = new(this.costumeManager, toolkitMemory, toolkitObjects, toolkitSpawning, assetLoader);
+        this.theurgiaService = new(dt, unreal, this.costumeManager, this.costumeHooks);
 
         this.costumeHooks.OnCostumeChanged += costume =>
         {
