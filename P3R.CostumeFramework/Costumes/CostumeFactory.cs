@@ -77,6 +77,14 @@ internal class CostumeFactory
         if (config.PartyPanel.FieldPath != null) costume.Config.PartyPanel.FieldPath = config.PartyPanel.FieldPath;
 
         if (config.Dlc != null) costume.Config.Dlc = config.Dlc;
+
+        if (config.FacialAnimation != null)
+        {
+            foreach (var entry in config.FacialAnimation)
+            {
+                costume.Config.FacialAnimation[entry.Key] = entry.Value;
+            }
+        }
     }
 
     public Costume? CreateFromExisting(Character character, string name, int costumeId)
@@ -143,6 +151,12 @@ internal class CostumeFactory
         SetCostumeFile(mod, Path.Join(costumeDir, "T_Costume_Field_Panel.uasset"), path => costume.Config.PartyPanel.FieldPath = path);
 
         LoadTheurgiaFiles(costume, costumeDir);
+
+        foreach (var faceAnim in Enum.GetValues<Hooks.Animations.Models.FaceAnimId>())
+        {
+            SetCostumeFile(mod, Path.Join(costumeDir, $"Face_{faceAnim}.uasset"),
+                path => costume.Config.FacialAnimation[faceAnim.ToString()] = path);
+        }
     }
 
     private static void LoadTheurgiaFiles(Costume costume, string costumeDir)

@@ -39,6 +39,11 @@ internal class CostumeConfig
     /// </summary>
     public CostumeDlc? Dlc { get; set; }
 
+    /// <summary>
+    /// I still think facial: would have been the best config option but that's ok. 
+    /// </summary>
+    public Dictionary<string, string> FacialAnimation { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+
     public CostumePartsData Base { get; set; } = new();
 
     public CostumePartsData Costume { get; set; } = new();
