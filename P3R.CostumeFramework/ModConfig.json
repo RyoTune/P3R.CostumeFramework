@@ -2,7 +2,7 @@
   "ModId": "P3R.CostumeFramework",
   "ModName": "Costume Framework for P3R",
   "ModAuthor": "RyoTune",
-  "ModVersion": "1.11.0",
+  "ModVersion": "1.11.1",
   "ModDescription": "Streamlines and enhances outfit mods!",
   "ModDll": "P3R.CostumeFramework.dll",
   "ModIcon": "Preview.png",
@@ -44,15 +44,6 @@
             "AssetFileName": "Mod.zip"
           },
           "ReleaseMetadataName": "BGME.Framework.P3R.ReleaseMetadata.json"
-        },
-        "p3rpc.classconstructor": {
-          "Config": {
-            "UserName": "Rirurin",
-            "RepositoryName": "p3rpc.classconstructor",
-            "UseReleaseTag": true,
-            "AssetFileName": "Mod.zip"
-          },
-          "ReleaseMetadataName": "p3rpc.classconstructor.ReleaseMetadata.json"
         },
         "p3rpc.essentials": {
           "Config": {
@@ -213,8 +204,8 @@
     "BGME.Framework.API",
     "BGME.Framework.P3R",
     "p3rpc.asyncassetloader",
-    "p3rpc.classconstructor",
     "p3rpc.essentials",
+    "p3rpc.nativetypes",
     "Reloaded.Memory.SigScan.ReloadedII",
     "reloaded.sharedlib.hooks",
     "Ryo.Reloaded",

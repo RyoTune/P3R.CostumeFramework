@@ -4,14 +4,11 @@ using P3R.CostumeFramework.Configuration;
 using P3R.CostumeFramework.Costumes;
 using P3R.CostumeFramework.Interfaces;
 using P3R.CostumeFramework.Template;
-using p3rpc.classconstructor.Interfaces;
 using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Memory.SigScan.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
 using Reloaded.Mod.Interfaces.Internal;
 using Ryo.Interfaces;
-using System.Diagnostics;
-using System.Drawing;
 using p3rpc.asyncassetloader.Interfaces;
 using UE.Toolkit.Interfaces;
 using Unreal.AtlusScript.Interfaces;
@@ -64,9 +61,9 @@ public class Mod : ModBase, IExports
         this.modLoader.GetController<IBgmeApi>().TryGetTarget(out var bgme);
         this.modLoader.GetController<IBattleThemesApi>().TryGetTarget(out var battleThemes);
         this.modLoader.GetController<IRyoApi>().TryGetTarget(out var ryo);
-        this.modLoader.GetController<IObjectMethods>().TryGetTarget(out var objMethods);
         this.modLoader.GetController<IUnrealMemory>().TryGetTarget(out var toolkitMemory);
         this.modLoader.GetController<IUnrealObjects>().TryGetTarget(out var toolkitObjects);
+        this.modLoader.GetController<IUnrealClasses>().TryGetTarget(out var toolkitClasses);
         this.modLoader.GetController<IUnrealSpawning>().TryGetTarget(out var toolkitSpawning);
         this.modLoader.GetController<IAssetLoader>().TryGetTarget(out var assetLoader);
 
@@ -79,8 +76,8 @@ public class Mod : ModBase, IExports
         this.costumeDesc = new(atlusAssets!);
         this.costumeMusic = new(bgme!, battleThemes!, this.costumeRegistry);
         this.costumeRyo = new(ryo!);
-        this.costumes = new(uobjects!, unreal!, dataTables!, this.costumeRegistry, this.costumeOverrides, this.costumeDesc, 
-            this.costumeMusic, this.costumeRyo, objMethods!, femcEnabled, toolkitMemory!, toolkitObjects!, toolkitSpawning!, 
+        this.costumes = new(uobjects!, unreal!, dataTables!, this.costumeRegistry, this.costumeOverrides, this.costumeDesc,
+            this.costumeMusic, this.costumeRyo, femcEnabled, toolkitMemory!, toolkitClasses!, toolkitObjects!, toolkitSpawning!,
             assetLoader!);
 
         this.costumeApi = new CostumeApi(costumeRegistry, costumeOverrides);

@@ -8,6 +8,7 @@ public struct FBaseHeadPanel
     [FieldOffset(0x0)] public nint Vtable;
     [FieldOffset(0x10)] public ushort PlayerId;
     [FieldOffset(0x30)] public FSpriteDrawInstance Portrait;
+    [FieldOffset(0x98)] public FSpriteDrawInstance OutlineHigh;
 }
 
 // FSprDefStruct, SprDefStruct1

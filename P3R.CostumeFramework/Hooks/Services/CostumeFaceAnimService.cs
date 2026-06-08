@@ -4,7 +4,6 @@ using P3R.CostumeFramework.Costumes.Models;
 using P3R.CostumeFramework.Hooks.Animations;
 using P3R.CostumeFramework.Hooks.Animations.Models;
 using P3R.CostumeFramework.Hooks.Models;
-using p3rpc.classconstructor.Interfaces;
 using Unreal.ObjectsEmitter.Interfaces;
 using Unreal.ObjectsEmitter.Interfaces.Types;
 using UObject = p3rpc.nativetypes.Interfaces.UObject;
@@ -14,13 +13,15 @@ namespace P3R.CostumeFramework.Hooks.Services;
 
 internal unsafe class CostumeFaceAnimService
 {
+    // UE 4.27 UObjectBase: ClassPrivate (UClass*) lives at offset 0x10.
+    private const int ClassPrivateOffset = 0x10;
+
     // So I don't omega spam log
     private delegate UObject* StaticLoadObject(
         UClass* uclass, UObject* outer, nint name, void* fileName,
         ELoadFlags loadFlags, void* uPackageMap, bool bAllowObjectReconciliation, void* instancingContext);
     private StaticLoadObject? staticLoadObject;
 
-    private readonly IObjectMethods objMethods;
     private readonly CostumeManager manager;
 
     private readonly Dictionary<Character, nint> assets = new();
@@ -31,9 +32,11 @@ internal unsafe class CostumeFaceAnimService
     // Hi cache!!!!
     private readonly Dictionary<string, nint> loadedAnims = new(StringComparer.OrdinalIgnoreCase);
 
-    public CostumeFaceAnimService(IUObjects uobjs, IObjectMethods objMethods, CostumeManager manager, CostumeHooks hooks)
+    // Cached AnimSequence UClass, derived from a live vanilla anim object.
+    private nint animSequenceClass;
+
+    public CostumeFaceAnimService(IUObjects uobjs, CostumeManager manager, CostumeHooks hooks)
     {
-        this.objMethods = objMethods;
         this.manager = manager;
 
         Project.Scans.AddScanHook(
@@ -153,6 +156,38 @@ internal unsafe class CostumeFaceAnimService
         }
     }
 
+    /// <summary>
+    /// Resolves the AnimSequence UClass by reading ClassPrivate off any already-loaded
+    /// vanilla face animation object. Cached after the first successful lookup.
+    /// </summary>
+    private nint GetAnimSequenceClass()
+    {
+        if (this.animSequenceClass != nint.Zero)
+        {
+            return this.animSequenceClass;
+        }
+
+        foreach (var snapshot in this.vanilla.Values)
+        {
+            foreach (var ptr in snapshot.Values)
+            {
+                if (ptr == nint.Zero)
+                {
+                    continue;
+                }
+
+                var classPtr = *(nint*)(ptr + ClassPrivateOffset);
+                if (classPtr != nint.Zero)
+                {
+                    this.animSequenceClass = classPtr;
+                    return this.animSequenceClass;
+                }
+            }
+        }
+
+        return nint.Zero;
+    }
+
     private nint LoadAnim(string unrealPath)
     {
         if (this.loadedAnims.TryGetValue(unrealPath, out var cached))
@@ -166,7 +201,14 @@ internal unsafe class CostumeFaceAnimService
             return nint.Zero;
         }
 
-        var animClass = this.objMethods.GetType("AnimSequence");
+        var animClassPtr = this.GetAnimSequenceClass();
+        if (animClassPtr == nint.Zero)
+        {
+            Log.Error("Cannot load face animation: failed to resolve AnimSequence class.");
+            return nint.Zero;
+        }
+
+        var animClass = (UClass*)animClassPtr;
         var namePtr = Marshal.StringToHGlobalUni(unrealPath);
         try
         {

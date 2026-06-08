@@ -164,7 +164,10 @@ internal unsafe class CostumeHeadPanelService
         {
             if (CostumeAssets.TryGetValue(costume.CostumeId, out var CurrentCostume) 
                 && CurrentCostume.BattleSprIndex != -1)
+            {
                 self->PortraitBaseId = CurrentCostume.BattleSprIndex;
+                self->PortraitOutlineHigh = CurrentCostume.BattleSprIndex + 12;
+            }
         }
         _FBattleHeadPanel_UpdateState!.OriginalFunction(self, a2, a3, a4, a5);
     }
