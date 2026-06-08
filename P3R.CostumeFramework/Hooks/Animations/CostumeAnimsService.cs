@@ -4,7 +4,7 @@ using P3R.CostumeFramework.Hooks.Models;
 using P3R.CostumeFramework.Hooks.Services;
 using Unreal.ObjectsEmitter.Interfaces;
 using P3R.CostumeFramework.Hooks.Costumes;
-using p3rpc.classconstructor.Interfaces;
+using UE.Toolkit.Interfaces;
 
 namespace P3R.CostumeFramework.Hooks.Animations;
 
@@ -13,7 +13,7 @@ internal unsafe class CostumeAnimsService
     private readonly IUnreal unreal;
     private readonly CostumeTableService costumeTable;
 
-    public CostumeAnimsService(IUObjects uobjs, IUnreal unreal, IObjectMethods objMethods, CostumeTableService costumeTable)
+    public CostumeAnimsService(IUObjects uobjs, IUnreal unreal, IUnrealClasses toolkitClasses, CostumeTableService costumeTable)
     {
         this.unreal = unreal;
         this.costumeTable = costumeTable;
