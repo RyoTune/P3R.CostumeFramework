@@ -185,6 +185,8 @@ internal class CostumeAllout
     public string? TextPath { get; set; }
 
     public string? PlgPath { get; set; }
+
+    public string? LsPath { get; set; }
 }
 
 internal class CostumePartyPanel

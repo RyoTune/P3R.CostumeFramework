@@ -58,6 +58,7 @@ internal class CostumeFactory
         if (config.Allout.SpecialMaskPath != null) costume.Config.Allout.SpecialMaskPath = config.Allout.SpecialMaskPath;
         if (config.Allout.PlgPath != null) costume.Config.Allout.PlgPath = config.Allout.PlgPath;
         if (config.Allout.TextPath != null) costume.Config.Allout.TextPath = config.Allout.TextPath;
+        if (config.Allout.LsPath != null) costume.Config.Allout.LsPath = config.Allout.LsPath;
 
         if (config.Anims.Common != null) costume.Config.Anims.Common = config.Anims.Common;
         if (config.Anims.Dungeon != null) costume.Config.Anims.Dungeon = config.Anims.Dungeon;
@@ -133,6 +134,7 @@ internal class CostumeFactory
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-special-mask.uasset"), path => costume.Config.Allout.SpecialMaskPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-text.uasset"), path => costume.Config.Allout.TextPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-plg.uasset"), path => costume.Config.Allout.PlgPath = path);
+        SetCostumeFile(mod, Path.Join(costumeDir, "LS_AOA.uasset"), path => costume.Config.Allout.LsPath = path);
 
         var charIdShort = AssetUtils.GetCharIdStringShort(costume.Character);
         SetCostumeFile(mod, Path.Join(costumeDir, $"AM_BtlPc{charIdShort}.uasset"), path => costume.Config.Animation.AnimMontage = path);
