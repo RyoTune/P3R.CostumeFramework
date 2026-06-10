@@ -12,9 +12,10 @@ internal sealed unsafe class CostumeResultService
     private readonly IUnreal unreal;
     private readonly CostumeManager manager;
 
-    private DataTable<FBtlResultSequence>? table;
+    private readonly List<DataTable<FBtlResultSequence>> tables = new();
+    private readonly Dictionary<DataTable<FBtlResultSequence>, Dictionary<string, FBtlResultSequence>> vanilla = new();
 
-    private readonly Dictionary<string, FBtlResultSequence> vanilla = new();
+    private int loadCount;
 
     public CostumeResultService(IDataTables dt, IUnreal unreal, CostumeManager manager, CostumeHooks hooks)
     {
@@ -27,39 +28,48 @@ internal sealed unsafe class CostumeResultService
 
     private void OnTableLoaded(DataTable<FBtlResultSequence> loaded)
     {
-        this.table = loaded;
-
-        this.vanilla.Clear();
-        foreach (var row in loaded.Rows)
+        if (!this.tables.Contains(loaded))
         {
-            this.vanilla[row.Name] = *row.Self;
+            this.tables.Add(loaded);
         }
 
-        Log.Information($"Result LS table loaded: snapshotted {this.vanilla.Count} vanilla rows.");
-        Log.Information($"Result LS rows: {string.Join(", ", loaded.Rows.Select(r => r.Name))}");
+        var snapshot = new Dictionary<string, FBtlResultSequence>();
+        foreach (var row in loaded.Rows)
+        {
+            snapshot[row.Name] = *row.Self;
+        }
+        this.vanilla[loaded] = snapshot;
+
+        Log.Information(
+            $"Result LS table loaded #{++this.loadCount}: {snapshot.Count} rows " +
+            $"[{string.Join(", ", loaded.Rows.Select(r => r.Name))}]");
+
         this.ApplyAll();
     }
 
     private void ApplyAll()
     {
-        if (this.table == null)
+        foreach (var table in this.tables)
+        {
+            this.RestoreVanilla(table);
+
+            foreach (var costume in this.manager.GetCurrentCostumes())
+            {
+                this.Apply(table, costume);
+            }
+        }
+    }
+
+    private void RestoreVanilla(DataTable<FBtlResultSequence> table)
+    {
+        if (!this.vanilla.TryGetValue(table, out var snapshot))
         {
             return;
         }
 
-        this.RestoreVanilla();
-
-        foreach (var costume in this.manager.GetCurrentCostumes())
+        foreach (var row in table.Rows)
         {
-            this.Apply(costume);
-        }
-    }
-
-    private void RestoreVanilla()
-    {
-        foreach (var row in this.table!.Rows)
-        {
-            if (this.vanilla.TryGetValue(row.Name, out var original))
+            if (snapshot.TryGetValue(row.Name, out var original))
             {
                 *row.Self = original;
                 row.Self->Sequencer.baseObj.baseObj.WeakPtr = new();
@@ -67,7 +77,7 @@ internal sealed unsafe class CostumeResultService
         }
     }
 
-    private void Apply(Costume costume)
+    private void Apply(DataTable<FBtlResultSequence> table, Costume costume)
     {
         var lsPath = costume.Config.Result.LsPath;
         if (string.IsNullOrEmpty(lsPath))
@@ -76,10 +86,9 @@ internal sealed unsafe class CostumeResultService
         }
 
         var rowName = $"pc_{(int)costume.Character}";
-        var row = this.table!.Rows.FirstOrDefault(x => x.Name.Equals(rowName, StringComparison.OrdinalIgnoreCase));
+        var row = table.Rows.FirstOrDefault(x => x.Name.Equals(rowName, StringComparison.OrdinalIgnoreCase));
         if (row == null)
         {
-            Log.Debug($"Result LS row not found: {rowName} (from {costume.Character} || {costume.Name}).");
             return;
         }
 
@@ -88,6 +97,6 @@ internal sealed unsafe class CostumeResultService
         ptr->Sequencer.baseObj.baseObj.ObjectId.AssetPathName = *this.unreal.FName(unrealPath);
         ptr->Sequencer.baseObj.baseObj.WeakPtr = new();
 
-        Log.Debug($"Result LS row {rowName} overridden by {costume.Character} || {costume.Name} -> {unrealPath}.");
+        Log.Debug($"Result LS [{rowName}] set to {unrealPath} ({costume.Character} || {costume.Name}).");
     }
 }
