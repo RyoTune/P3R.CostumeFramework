@@ -6,7 +6,7 @@ namespace P3R.CostumeFramework.Hooks.Services;
 internal sealed class CostumeBustupPhysicsService : PoseTableServiceBase
 {
     public CostumeBustupPhysicsService(IDataTables dt, IUnreal unreal, CostumeManager manager, CostumeHooks hooks)
-        : base(dt, unreal, manager, hooks, "truthnuke", "battle physics") { } // rip labubu, gomenasorry.....
+        : base(dt, unreal, manager, hooks, "LabubuJigglePhysics", "battle physics") { } // rip labubu, gomenasorry.....
 
     protected override string GetPoseValue(Costume costume, string rowName)
     {
