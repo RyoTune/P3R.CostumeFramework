@@ -62,6 +62,8 @@ internal class CostumeConfig
 
     public CostumePartyPanel PartyPanel { get; set; } = new();
 
+    public CostumeResult Result { get; set; } = new();
+
     public string? GetAssetFile(CostumeAssetType assetType)
         => assetType switch
         {
@@ -202,4 +204,9 @@ internal class CostumeDlc
     public bool Shujin { get; set; }
     public bool Yasogami { get; set; }
     public bool Velvet { get; set; }
+}
+
+internal class CostumeResult
+{
+    public string? LsPath { get; set; }
 }

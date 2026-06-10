@@ -5,13 +5,6 @@ using Unreal.ObjectsEmitter.Interfaces.Types;
 
 namespace P3R.CostumeFramework.Hooks.Services;
 
-/// <summary>
-/// Overrides the battle result level sequence (DT_BtlResultLS) per costume.
-/// Rows are named pc_{id} where id matches the Character enum value
-/// (pc_1 = Player, pc_2 = Yukari, ... pc_11 = Metis, pc_12 = AigisReal).
-/// pc_11/pc_12 actually live in a separate table layered over this one, so
-/// they may simply not be present here; missing rows are skipped gracefully.
-/// </summary>
 internal sealed unsafe class CostumeResultService
 {
     private const string TableName = "DT_BtlResultLS";
@@ -21,7 +14,6 @@ internal sealed unsafe class CostumeResultService
 
     private DataTable<FBtlResultSequence>? table;
 
-    // Snapshot of the vanilla rows so we can restore before re-applying.
     private readonly Dictionary<string, FBtlResultSequence> vanilla = new();
 
     public CostumeResultService(IDataTables dt, IUnreal unreal, CostumeManager manager, CostumeHooks hooks)
@@ -44,6 +36,7 @@ internal sealed unsafe class CostumeResultService
         }
 
         Log.Information($"Result LS table loaded: snapshotted {this.vanilla.Count} vanilla rows.");
+        Log.Information($"Result LS rows: {string.Join(", ", loaded.Rows.Select(r => r.Name))}");
         this.ApplyAll();
     }
 
@@ -69,7 +62,6 @@ internal sealed unsafe class CostumeResultService
             if (this.vanilla.TryGetValue(row.Name, out var original))
             {
                 *row.Self = original;
-                // Reset the weak ptr so the engine re-resolves the soft object reference.
                 row.Self->Sequencer.baseObj.baseObj.WeakPtr = new();
             }
         }
@@ -77,17 +69,16 @@ internal sealed unsafe class CostumeResultService
 
     private void Apply(Costume costume)
     {
-        var lsPath = costume.Config.Allout.LsPath;
+        var lsPath = costume.Config.Result.LsPath;
         if (string.IsNullOrEmpty(lsPath))
         {
             return;
         }
 
         var rowName = $"pc_{(int)costume.Character}";
-        var row = this.table!.Rows.FirstOrDefault(x => x.Name == rowName);
+        var row = this.table!.Rows.FirstOrDefault(x => x.Name.Equals(rowName, StringComparison.OrdinalIgnoreCase));
         if (row == null)
         {
-            // Expected for pc_11/pc_12 if their rows live in the other table.
             Log.Debug($"Result LS row not found: {rowName} (from {costume.Character} || {costume.Name}).");
             return;
         }
