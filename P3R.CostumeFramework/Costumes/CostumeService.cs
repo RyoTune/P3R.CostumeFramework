@@ -32,6 +32,7 @@ internal unsafe class CostumeService
     private readonly CostumeTheurgiaService theurgiaService;
     private readonly CostumeFaceAnimService faceAnimService;
     private readonly CostumeResultService resultService;
+    private readonly CostumeAlloutSequencerService alloutSequencerService;
 
     public CostumeService(
         IUObjects uobjs,
@@ -71,6 +72,7 @@ internal unsafe class CostumeService
         this.theurgiaService = new(dt, unreal, this.costumeManager, this.costumeHooks);
         this.resultService = new(dt, unreal, this.costumeManager, this.costumeHooks);
         this.faceAnimService = new(uobjs, this.costumeManager, this.costumeHooks);
+        this.alloutSequencerService = new(dt, unreal, this.costumeManager, this.costumeHooks);
 
         this.costumeHooks.OnCostumeChanged += costume =>
         {

@@ -189,6 +189,10 @@ internal class CostumeAllout
     public string? PlgPath { get; set; }
 
     public string? LsPath { get; set; }
+
+    public string? AoalsA { get; set; }
+
+    public string? AoalsB { get; set; }
 }
 
 internal class CostumePartyPanel
