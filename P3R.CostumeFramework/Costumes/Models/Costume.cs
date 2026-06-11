@@ -65,4 +65,6 @@ internal class Costume
     public static bool IsActive(Costume costume) => costume.IsEnabled && costume.Character != Character.NONE;
 
     public List<string> TheurgiaFiles { get; } = new();
+
+    public string? CameraFile { get; set; }
 }

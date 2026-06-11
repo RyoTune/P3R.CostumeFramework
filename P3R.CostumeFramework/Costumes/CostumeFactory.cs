@@ -158,6 +158,8 @@ internal class CostumeFactory
 
         LoadTheurgiaFiles(costume, costumeDir);
 
+        SetCostumeFile(mod, Path.Join(costumeDir, "camera.xml"), path => costume.CameraFile = path, SetType.Full);
+
         foreach (var faceAnim in Enum.GetValues<Hooks.Animations.Models.FaceAnimId>())
         {
             SetCostumeFile(mod, Path.Join(costumeDir, $"Face_{faceAnim}.uasset"),
