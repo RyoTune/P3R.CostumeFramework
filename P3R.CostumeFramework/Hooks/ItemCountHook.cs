@@ -1,4 +1,5 @@
 ﻿using P3R.CostumeFramework.Costumes;
+using P3R.CostumeFramework.Costumes.Models;
 using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.X64;
 
@@ -14,6 +15,13 @@ internal class ItemCountHook
     private IsAstrea? isAstrea;
 
     private readonly CostumeRegistry registry;
+
+    private const int COSTUME_ITEM_BASE = 0x8000;
+
+    private const int DLC_ITEM_PHANTOM = 110;
+    private const int DLC_ITEM_SHUJIN = 100;
+    private const int DLC_ITEM_YASOGAMI = 90;
+    private const int DLC_ITEM_VELVET = 212;
 
     private static string[] GetItemNumCandidates =
     [
@@ -52,7 +60,7 @@ internal class ItemCountHook
                 }
             });
         }
-        
+
         Project.Scans.AddScanHook(nameof(IsAstrea),
             "48 83 EC 28 E8 ?? ?? ?? ?? 48 85 C0 74 ?? E8 ?? ?? ?? ?? 48 8B C8 E8 ?? ?? ?? ?? 3C 01 0F 94 C0 48 83 C4 28 C3 48 83 C4 28 C3",
             (result, hooks) => isAstrea = hooks.CreateWrapper<IsAstrea>(result, out _));
@@ -66,10 +74,39 @@ internal class ItemCountHook
             {
                 return 0;
             }
-            
+
+            // Hypothetically this will hide the costume correctly
+            if (!this.OwnsRequiredDlc(costume))
+            {
+                return 0;
+            }
+
             return 1;
         }
 
         return this.hook!.OriginalFunction(itemId);
+    }
+
+    private bool OwnsRequiredDlc(Costume costume)
+    {
+        var dlc = costume.Config.Dlc;
+        if (dlc == null)
+        {
+            return true;
+        }
+
+        if (dlc.Phantom && !this.OwnsDlc(DLC_ITEM_PHANTOM)) return false;
+        if (dlc.Shujin && !this.OwnsDlc(DLC_ITEM_SHUJIN)) return false;
+        if (dlc.Yasogami && !this.OwnsDlc(DLC_ITEM_YASOGAMI)) return false;
+        if (dlc.Velvet && !this.OwnsDlc(DLC_ITEM_VELVET)) return false;
+
+        return true;
+    }
+
+    private bool OwnsDlc(int costumeIndex)
+    {
+        var count = this.hook!.OriginalFunction(COSTUME_ITEM_BASE + costumeIndex);
+        Log.Information($"[DLC] GET_ITEM_NUM(0x{COSTUME_ITEM_BASE + costumeIndex:X}) = {count}"); // remember to remove count
+        return count > 0;
     }
 }

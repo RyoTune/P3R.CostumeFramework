@@ -20,10 +20,11 @@ public class Config : Configurable<Config>
     [DefaultValue(true)]
     public bool Integration_BattleThemes { get; set; } = true;
 
-    [DisplayName("Current Party BGM Only")]
-    [Description("Whether to limit costume BGM to only members in the current party.\nPlayer and Fuuka's costume BGM is always enabled.")]
-    [DefaultValue(true)]
-    public bool CurrentPartyBgmOnly { get; set; } = true;
+    //[DisplayName("Current Party BGM Only")]
+    //[Description("Whether to limit costume BGM to only members in the current party.\nPlayer and Fuuka's costume BGM is always enabled.")]
+    //[DefaultValue(true)]
+   // public bool CurrentPartyBgmOnly { get; set; } = true;  
+   // This is dummied out in the code?
 
     [DisplayName("Randomize Costumes")]
     [Description("This enables randomization globally, including the overworld.")]

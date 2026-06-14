@@ -85,11 +85,11 @@ internal unsafe class CostumeAnimsService
 
         if (Enum.TryParse<Character>(costume.Config.Anims.Combine, true, out var combineChar))
         {
-            this.SetAnim(combineAnim, CostumeAssetType.CombineAnim, dungeonChar);
+            this.SetAnim(combineAnim, CostumeAssetType.CombineAnim, combineChar);
         }
         else
         {
-            this.SetAnim(combineAnim, CostumeAssetType.DungeonAnim, costume.Character);
+            this.SetAnim(combineAnim, CostumeAssetType.CombineAnim, costume.Character);
         }
 
         if (Enum.TryParse<Character>(costume.Config.Anims.Event, true, out var eventChar))

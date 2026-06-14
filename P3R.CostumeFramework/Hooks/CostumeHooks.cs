@@ -82,6 +82,8 @@ internal unsafe class CostumeHooks
 
     public Action<Costume>? OnCostumeChanged { get; set; }
 
+    public Action? OnCostumeDataReady { get; set; }
+
     public void SetRandomizeCostumes(bool isCostumesRandom) => this.isCostumesRandom = isCostumesRandom;
 
     public void SetOverworldCostumes(bool useOverworldCostumes) => this.useOverworldCostumes = useOverworldCostumes;
@@ -187,5 +189,6 @@ internal unsafe class CostumeHooks
         }
 
         this.costumeDesc.Init();
+        this.OnCostumeDataReady?.Invoke();
     }
 }

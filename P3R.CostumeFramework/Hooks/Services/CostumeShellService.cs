@@ -10,13 +10,14 @@ internal unsafe class CostumeShellService
 {
     private const int SHELL_COSTUME_ID = 51;
     private readonly Dictionary<Character, int> prevCostumeIds = [];
-    private readonly DefaultCostumes defaultCostumes = new();
+    private readonly DefaultCostumes defaultCostumes;
 
     private readonly CostumeTableService costumeTable;
 
-    public CostumeShellService(IDataTables dt, CostumeTableService costumeTable)
+    public CostumeShellService(IDataTables dt, CostumeTableService costumeTable, bool useFemcPlayer)
     {
         this.costumeTable = costumeTable;
+        this.defaultCostumes = new DefaultCostumes(useFemcPlayer);
 
         // Reset data on DT_Costume load.
         dt.FindDataTable("DT_Costume", _ =>
@@ -31,7 +32,7 @@ internal unsafe class CostumeShellService
     public int UpdateCostume(Character character, Costume costume)
     {
         var costumeId = costume.CostumeId;
-        
+
         if (costumeId == SHELL_COSTUME_ID)
         {
             this.prevCostumeIds[character] = costumeId;

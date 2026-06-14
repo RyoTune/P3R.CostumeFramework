@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+  camera.xml goes in a costume folder, e.g.
+      Costumes/Player/<YourCostume>/camera.xml
+
+  Every section is optional. 
+
+  Sections:
+    ItemCamera = DT_BtlCommandItemCameraTable
+    SkillCamera = DT_BtlCommandSkillCameraTable
+    TheurgiaCamera = DT_BtlCommandTheurgiaCameraTable
+    TheurgiaNoUseCamera = DT_BtlCommandTheurgiaNoUseCameraTable
+    KiraOffset = DT_BtlTheurgiaKiraOffset
+    Lookat = DT_BtlTheurgiaLookat
+    LookatNoUse = DT_BtlTheurgiaLookatNoUse
+-->
+
+<Camera>
+
+	<ItemCamera>
+		<CameraHeight value="-24.612396" />
+		<CameraRoll   value="-4.872607" />
+		<CameraYaw    value="182.0" />
+		<CranePitch   value="0.440474" />
+		<CraneYaw     value="38.127304" />
+		<CraneLength  value="124.0" />
+	</ItemCamera>
+
+	<SkillCamera>
+		<CameraHeight value="-117.049126" />
+		<CameraRoll   value="3.160234" />
+		<CameraYaw    value="193.5" />
+		<CranePitch   value="3.979669" />
+		<CraneYaw     value="-10.311583" />
+		<CraneLength  value="236.12119" />
+	</SkillCamera>
+
+	<TheurgiaCamera>
+		<CameraHeight value="-138.0" />
+		<CameraRoll   value="3.583794" />
+		<CameraYaw    value="192.0" />
+		<CranePitch   value="9.54335" />
+		<CraneYaw     value="46.87968" />
+		<CraneLength  value="150.0" />
+	</TheurgiaCamera>
+
+	<TheurgiaNoUseCamera>
+		<CameraHeight value="-101.72921" />
+		<CameraRoll   value="1.807526" />
+		<CameraYaw    value="193.0" />
+		<CranePitch   value="-17.1745" />
+		<CraneYaw     value="28.077713" />
+		<CraneLength  value="149.0" />
+	</TheurgiaNoUseCamera>
+
+	<KiraOffset>
+		<X value="0.0" />
+		<Y value="0.0" />
+		<Z value="0.0" />
+	</KiraOffset>
+
+	<Lookat>
+		<X value="100.0" />
+		<Y value="0.0" />
+		<Z value="0.0" />
+	</Lookat>
+
+	<LookatNoUse>
+		<X value="1.0" />
+		<Y value="1.0" />
+		<Z value="1.0" />
+	</LookatNoUse>
+
+</Camera>

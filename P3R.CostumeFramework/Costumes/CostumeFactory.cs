@@ -10,6 +10,11 @@ internal class CostumeFactory
     private readonly IRyoApi ryo;
     private readonly GameCostumes costumes;
 
+    private static readonly string[] MixRaidNames =
+        ["MixRaidA", "MixRaidB", "MixRaidC", "MixRaidD", "MixRaidE", "MixRaidF", "MixRaidG"];
+
+    private static readonly string[] TheurgyNames = ["TheurgyA", "TheurgyB"];
+
     public CostumeFactory(IRyoApi ryo, GameCostumes costumes)
     {
         this.ryo = ryo;
@@ -53,6 +58,9 @@ internal class CostumeFactory
         if (config.Allout.SpecialMaskPath != null) costume.Config.Allout.SpecialMaskPath = config.Allout.SpecialMaskPath;
         if (config.Allout.PlgPath != null) costume.Config.Allout.PlgPath = config.Allout.PlgPath;
         if (config.Allout.TextPath != null) costume.Config.Allout.TextPath = config.Allout.TextPath;
+        if (config.Result.LsPath != null) costume.Config.Result.LsPath = config.Result.LsPath;
+        if (config.Allout.AoalsA != null) costume.Config.Allout.AoalsA = config.Allout.AoalsA;
+        if (config.Allout.AoalsB != null) costume.Config.Allout.AoalsB = config.Allout.AoalsB;
 
         if (config.Anims.Common != null) costume.Config.Anims.Common = config.Anims.Common;
         if (config.Anims.Dungeon != null) costume.Config.Anims.Dungeon = config.Anims.Dungeon;
@@ -70,6 +78,16 @@ internal class CostumeFactory
         if (config.PartyPanel.BattlePath != null) costume.Config.PartyPanel.BattlePath = config.PartyPanel.BattlePath;
         if (config.PartyPanel.CampPath != null) costume.Config.PartyPanel.CampPath = config.PartyPanel.CampPath;
         if (config.PartyPanel.FieldPath != null) costume.Config.PartyPanel.FieldPath = config.PartyPanel.FieldPath;
+
+        if (config.Dlc != null) costume.Config.Dlc = config.Dlc;
+
+        if (config.FacialAnimation != null)
+        {
+            foreach (var entry in config.FacialAnimation)
+            {
+                costume.Config.FacialAnimation[entry.Key] = entry.Value;
+            }
+        }
     }
 
     public Costume? CreateFromExisting(Character character, string name, int costumeId)
@@ -118,6 +136,9 @@ internal class CostumeFactory
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-special-mask.uasset"), path => costume.Config.Allout.SpecialMaskPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-text.uasset"), path => costume.Config.Allout.TextPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "allout-plg.uasset"), path => costume.Config.Allout.PlgPath = path);
+        SetCostumeFile(mod, Path.Join(costumeDir, "result-ls.uasset"), path => costume.Config.Result.LsPath = path);
+        SetCostumeFile(mod, Path.Join(costumeDir, "allout-aoa-a.uasset"), path => costume.Config.Allout.AoalsA = path);
+        SetCostumeFile(mod, Path.Join(costumeDir, "allout-aoa-b.uasset"), path => costume.Config.Allout.AoalsB = path);
 
         var charIdShort = AssetUtils.GetCharIdStringShort(costume.Character);
         SetCostumeFile(mod, Path.Join(costumeDir, $"AM_BtlPc{charIdShort}.uasset"), path => costume.Config.Animation.AnimMontage = path);
@@ -130,10 +151,37 @@ internal class CostumeFactory
         SetCostumeFile(mod, Path.Join(costumeDir, "battle.theme.pme"), path => costume.BattleThemeFile = path, SetType.Full);
 
         SetCostumeFile(mod, Path.Join(costumeDir, "description.msg"), path => costume.Description = File.ReadAllText(path), SetType.Full);
-        
+
         SetCostumeFile(mod, Path.Join(costumeDir, "T_Costume_Battle_Panel.uasset"), path => costume.Config.PartyPanel.BattlePath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "T_Costume_Camp_Panel.uasset"), path => costume.Config.PartyPanel.CampPath = path);
         SetCostumeFile(mod, Path.Join(costumeDir, "T_Costume_Field_Panel.uasset"), path => costume.Config.PartyPanel.FieldPath = path);
+
+        LoadTheurgiaFiles(costume, costumeDir);
+
+        SetCostumeFile(mod, Path.Join(costumeDir, "camera.xml"), path => costume.CameraFile = path, SetType.Full);
+
+        foreach (var faceAnim in Enum.GetValues<Hooks.Animations.Models.FaceAnimId>())
+        {
+            SetCostumeFile(mod, Path.Join(costumeDir, $"Face_{faceAnim}.uasset"),
+                path => costume.Config.FacialAnimation[faceAnim.ToString()] = path);
+        }
+    }
+
+    private static void LoadTheurgiaFiles(Costume costume, string costumeDir)
+    {
+        var accepted = costume.Character is Character.Player or Character.AigisReal
+            ? MixRaidNames
+            : TheurgyNames;
+
+        foreach (var name in accepted)
+        {
+            var file = Path.Join(costumeDir, $"{name}.xml");
+            if (File.Exists(file) && !costume.TheurgiaFiles.Contains(file, StringComparer.OrdinalIgnoreCase))
+            {
+                costume.TheurgiaFiles.Add(file);
+                Log.Information($"Theurgia override added: {costume.Character} || {name}.xml");
+            }
+        }
     }
 
     private void LoadCostumeRyo(Costume costume, string costumeDir)
