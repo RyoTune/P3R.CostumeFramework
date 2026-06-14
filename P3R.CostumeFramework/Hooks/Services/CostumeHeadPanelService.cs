@@ -162,7 +162,7 @@ internal unsafe class CostumeHeadPanelService
         foreach (var costume in manager.GetCurrentCostumes()
                      .Where(x => x.Character == (Character)self->Super.PlayerId))
         {
-            if (CostumeAssets.TryGetValue(costume.CostumeId, out var CurrentCostume) 
+            if (CostumeAssets.TryGetValue(costume.CostumeId, out var CurrentCostume)
                 && CurrentCostume.BattleSprIndex != -1)
             {
                 self->PortraitBaseId = CurrentCostume.BattleSprIndex;
