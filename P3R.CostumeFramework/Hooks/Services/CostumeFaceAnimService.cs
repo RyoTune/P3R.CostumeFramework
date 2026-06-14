@@ -56,7 +56,19 @@ internal unsafe class CostumeFaceAnimService
     private void OnAssetLoaded(Character character, UnrealObject obj)
     {
         var asset = (UAppCharFaceAnimDataAsset*)obj.Self;
-        this.assets[character] = (nint)asset;
+        var newPtr = (nint)asset;
+
+        // Journey -> Ep. Aigis reloads this asset as a new instance. Drop the old
+        // snapshot so we capture the pristine Astrea state instead of restoring
+        // Journey pointers into it.
+        if (this.assets.TryGetValue(character, out var oldPtr) && oldPtr != newPtr)
+        {
+            this.vanilla.Remove(character);
+            this.loadedAnims.Clear();        // cached UAnimSequence* may now be freed
+            this.animSequenceClass = nint.Zero; // re-derive from a live Astrea object
+        }
+
+        this.assets[character] = newPtr;
 
         if (!this.vanilla.ContainsKey(character))
         {
@@ -66,9 +78,7 @@ internal unsafe class CostumeFaceAnimService
                 var element = &asset->Anims.elements[i];
                 snapshot[element->Key] = element->Value;
             }
-
             this.vanilla[character] = snapshot;
-            Log.Debug($"FaceAnim asset loaded: {character} || {obj.Name} || {snapshot.Count} expressions.");
         }
 
         this.ApplyAll();
