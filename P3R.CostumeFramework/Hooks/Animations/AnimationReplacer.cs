@@ -32,7 +32,7 @@ public unsafe class AnimationReplacer(CharAnim type, Character target, Character
             var ogBaseObj = targetAnim->baseObj.baseObj.baseObj;
             var ogSkeleton = targetAnim->baseObj.baseObj.Skeleton;
             this.toolkitClasses.GetClassInfoFromName("AnimSequence", out var animSequenceType);
-            
+
             var newAnim = (UAnimSequence*)this.spawn.StaticLoadObjectImpl((UClass*)animSequenceType!.Ptr, null, this.newAnimPath);
             if (newAnim == null)
             {

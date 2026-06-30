@@ -29,6 +29,11 @@ internal unsafe class CostumeService
     private readonly CostumeShellService costumeShells;
     private readonly CostumeAnimsService costumeAnims;
     private readonly CostumeHeadPanelService costumeHeadPanel;
+    private readonly CostumeTheurgiaService theurgiaService;
+    private readonly CostumeFaceAnimService faceAnimService;
+    private readonly CostumeResultService resultService;
+    private readonly CostumeAlloutSequencerService alloutSequencerService;
+    private readonly CostumeCameraService cameraService;
 
     public CostumeService(
         IUObjects uobjs,
@@ -49,7 +54,7 @@ internal unsafe class CostumeService
     {
         this.itemEquip = new(registry);
         this.costumeTable = new(dt, unreal, registry, useFemcPlayer);
-        this.costumeShells = new(dt, this.costumeTable);
+        this.costumeShells = new(dt, this.costumeTable, useFemcPlayer);
         this.costumeAnims = new(uobjs, unreal, toolkitClasses, this.costumeTable);
         this.costumeHooks = new(uobjs, unreal, registry, overrides, costumeDesc, costumeMusic, costumeAudio, this.costumeShells, this.itemEquip);
         this.costumeManager = new(this.costumeHooks);
@@ -64,12 +69,23 @@ internal unsafe class CostumeService
         this.itemCountHook = new(registry);
         this.costumeNameHook = new(uobjs, unreal, registry);
         this.costumeHeadPanel = new(this.costumeManager, toolkitMemory, toolkitObjects, toolkitSpawning, assetLoader);
+        this.theurgiaService = new(dt, unreal, this.costumeManager, this.costumeHooks);
+        this.theurgiaService = new(dt, unreal, this.costumeManager, this.costumeHooks);
+        this.resultService = new(dt, unreal, this.costumeManager, this.costumeHooks);
+        this.faceAnimService = new(uobjs, this.costumeManager, this.costumeHooks);
+        this.alloutSequencerService = new(dt, unreal, this.costumeManager, this.costumeHooks);
+        this.cameraService = new(dt, this.costumeManager, this.costumeHooks);
 
         this.costumeHooks.OnCostumeChanged += costume =>
         {
             costumeMusic.Refresh(costume);
             costumeAudio.Refresh(costume);
             this.costumeHeadPanel.Refresh(costume);
+        };
+
+        this.costumeHooks.OnCostumeDataReady += () =>
+        {
+            this.costumeNameHook.RefreshNames();
         };
     }
 
